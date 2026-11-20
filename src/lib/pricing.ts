@@ -422,8 +422,8 @@ export function addressLegPrice(v: DeliveryCar, miles: number | null, raw: unkno
 }
 export const DEFAULT_DELIVERY: DeliveryConfig = {
   bases: {
-    orlando: { address: "789 Sua Rua, Orlando, FL — Level 4 (parking garage)", lat: 28.538336, lng: -81.61771 },
-    miami: { address: "1000 Lincoln Rd, Miami Beach, FL — Level 3", lat: 25.761680, lng: -80.191790 },
+    orlando: { address: "5461 Hazeltine National Dr, Orlando, FL 32812", lat: 28.46466, lng: -81.3133 },
+    miami: { address: "1000 Lincoln Rd, Miami Beach, FL 33139", lat: 25.79017, lng: -80.13906 },
   },
   airports: {
     orlando: { code: "MCO", terminal: "Orlando International Airport (MCO)", lat: 28.4312, lng: -81.3081 },

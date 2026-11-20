@@ -4,7 +4,7 @@ import { BLOCKED_BOOKING_ID, buildIntakePayload, postIntake } from "./sistemages
 const booking = {
   id: "11111111-1111-4111-8111-111111111111", first_name: "TestFirst", last_name: "TestLast", email: "testfirst@example.com", phone: "+1 555-500-1111",
   whatsapp_opt_in: false, vehicle_id: "0e95b79c-d664-4d13-9d56-44df0284f826", vehicle_name: "Ford New Mustang", service_city: "miami", base_city: "miami",
-  pickup_at: "2026-11-20T15:00:00.000Z", return_at: "2026-11-24T15:00:00.000Z", pickup_location: "321 Sua Avenida", return_location: "321 Sua Avenida",
+  pickup_at: "2026-11-20T15:00:00.000Z", return_at: "2026-11-24T15:00:00.000Z", pickup_location: "1000 Lincoln Rd, Miami Beach, FL 33139", return_location: "1000 Lincoln Rd, Miami Beach, FL 33139",
   payment_provider: "stripe", stripe_session_id: "TEST-NO-CHARGE", captured_at: "2026-11-12T16:00:00+00:00",
   price_breakdown: { base: 518.4, dailyRate: 129.6, days: 4, basicInsurance: 40, tolls: 20, prepaidFuel: 65, discount: 0, subtotal: 643.4, tax: 41.82, total: 685.22, taxRate: 6.5, customFees: [],
     delivery: { legs: [{ direction: "pickup", fee: 0 }, { direction: "return", fee: 0 }] } },

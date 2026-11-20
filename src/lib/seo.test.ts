@@ -7,8 +7,8 @@ describe("owner-approved discovery schemas", () => {
     expect(schema["@type"]).toEqual(["AutoRental", "Organization"]);
     expect(schema.aggregateRating).toEqual({ "@type": "AggregateRating", ratingValue: 5, reviewCount: 53 });
     expect(schema.sameAs).toEqual(["https://www.instagram.com/oniccarrentals", "https://search.google.com/local/writereview?placeid=ChIJNyybg_oR00wRh4n0-LvkXoU"]);
-    expect(schema.location[0]?.address).not.toHaveProperty("postalCode");
-    expect(schema.location[1]?.address.postalCode).toBe("33139");
+    expect(schema.location[0]?.address).toEqual({ "@type": "PostalAddress", streetAddress: "5461 Hazeltine National Dr", addressLocality: "Orlando", addressRegion: "FL", postalCode: "32812", addressCountry: "US" });
+    expect(schema.location[1]?.address).toEqual({ "@type": "PostalAddress", streetAddress: "1000 Lincoln Rd", addressLocality: "Miami Beach", addressRegion: "FL", postalCode: "33139", addressCountry: "US" });
   });
   it("uses only supplied car data and an absolute canonical and images", () => {
     expect(productJsonLd("Land Rover Defender", ["/photo.jpg"], "https://oniccarrentals.com/en/cars/orlando/land-rover-defender", 250)).toEqual({

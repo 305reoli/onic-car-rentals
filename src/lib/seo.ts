@@ -62,7 +62,7 @@ export function orgJsonLd(_addresses: Postal[], _description?: string, _googleUr
     sameAs: ["https://www.instagram.com/oniccarrentals", "https://search.google.com/local/writereview?placeid=ChIJNyybg_oR00wRh4n0-LvkXoU"],
     areaServed: ["Orlando", "Miami", "Tampa", "Fort Lauderdale"].map((name) => ({ "@type": "City", name, addressRegion: "FL", addressCountry: "US" })),
     location: [
-      { "@type": "Place", address: { "@type": "PostalAddress", streetAddress: "789 Sua Rua", addressLocality: "Winter Garden", addressRegion: "FL", addressCountry: "US" } },
+      { "@type": "Place", address: { "@type": "PostalAddress", streetAddress: "5461 Hazeltine National Dr", addressLocality: "Orlando", addressRegion: "FL", postalCode: "32812", addressCountry: "US" } },
       { "@type": "Place", address: { "@type": "PostalAddress", streetAddress: "1000 Lincoln Rd", addressLocality: "Miami Beach", addressRegion: "FL", postalCode: "33139", addressCountry: "US" } },
     ],
     aggregateRating: { "@type": "AggregateRating", ratingValue: 5.0, reviewCount: 53 },
