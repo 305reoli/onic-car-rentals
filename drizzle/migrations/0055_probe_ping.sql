@@ -1,0 +1,1 @@
+create table public.probe_ping (id int primary key);

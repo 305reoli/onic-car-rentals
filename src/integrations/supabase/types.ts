@@ -621,7 +621,6 @@ export type Database = {
           distance_mi: number | null
           document_ai: Json | null
           documents: Json
-          documents_status: string | null
           email: string
           expires_at: string
           fee_amount: number | null
@@ -667,17 +666,17 @@ export type Database = {
           provider_order_id: string | null
           refund_note: string | null
           refunded_at: string | null
+          return_at: string
+          return_location: string
+          review_reason: string | null
+          service_city: string | null
+          settled_at: string | null
           sistemagestao_error: string | null
           sistemagestao_link: string | null
           sistemagestao_rental_id: string | null
           sistemagestao_rental_number: string | null
           sistemagestao_status: string | null
           sistemagestao_synced_at: string | null
-          return_at: string
-          return_location: string
-          review_reason: string | null
-          service_city: string | null
-          settled_at: string | null
           status: string
           stripe_payment_intent_id: string | null
           stripe_refund_id: string | null
@@ -726,7 +725,6 @@ export type Database = {
           distance_mi?: number | null
           document_ai?: Json | null
           documents?: Json
-          documents_status?: string | null
           email: string
           expires_at: string
           fee_amount?: number | null
@@ -772,17 +770,17 @@ export type Database = {
           provider_order_id?: string | null
           refund_note?: string | null
           refunded_at?: string | null
+          return_at: string
+          return_location: string
+          review_reason?: string | null
+          service_city?: string | null
+          settled_at?: string | null
           sistemagestao_error?: string | null
           sistemagestao_link?: string | null
           sistemagestao_rental_id?: string | null
           sistemagestao_rental_number?: string | null
           sistemagestao_status?: string | null
           sistemagestao_synced_at?: string | null
-          return_at: string
-          return_location: string
-          review_reason?: string | null
-          service_city?: string | null
-          settled_at?: string | null
           status?: string
           stripe_payment_intent_id?: string | null
           stripe_refund_id?: string | null
@@ -831,7 +829,6 @@ export type Database = {
           distance_mi?: number | null
           document_ai?: Json | null
           documents?: Json
-          documents_status?: string | null
           email?: string
           expires_at?: string
           fee_amount?: number | null
@@ -877,17 +874,17 @@ export type Database = {
           provider_order_id?: string | null
           refund_note?: string | null
           refunded_at?: string | null
+          return_at?: string
+          return_location?: string
+          review_reason?: string | null
+          service_city?: string | null
+          settled_at?: string | null
           sistemagestao_error?: string | null
           sistemagestao_link?: string | null
           sistemagestao_rental_id?: string | null
           sistemagestao_rental_number?: string | null
           sistemagestao_status?: string | null
           sistemagestao_synced_at?: string | null
-          return_at?: string
-          return_location?: string
-          review_reason?: string | null
-          service_city?: string | null
-          settled_at?: string | null
           status?: string
           stripe_payment_intent_id?: string | null
           stripe_refund_id?: string | null
@@ -918,46 +915,17 @@ export type Database = {
           },
         ]
       }
-      sistemagestao_outbox: {
+      probe_ping: {
         Row: {
-          attempts: number
-          booking_id: string
-          created_at: string
-          id: string
-          last_error: string | null
-          payload: Json
-          status: string
-          updated_at: string
+          id: number
         }
         Insert: {
-          attempts?: number
-          booking_id: string
-          created_at?: string
-          id?: string
-          last_error?: string | null
-          payload: Json
-          status?: string
-          updated_at?: string
+          id: number
         }
         Update: {
-          attempts?: number
-          booking_id?: string
-          created_at?: string
-          id?: string
-          last_error?: string | null
-          payload?: Json
-          status?: string
-          updated_at?: string
+          id?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "sistemagestao_outbox_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "prereservations"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       settings: {
         Row: {
@@ -1003,8 +971,8 @@ export type Database = {
           payment_modes: Json
           prereservation_days: number
           prereservation_min_usd: number
-          sistemagestao_integration_enabled: boolean
           rentalcover_affiliate_link: string
+          sistemagestao_integration_enabled: boolean
           substitute_reminder_hours: number
           substitute_window_hours: number
           support_email: string
@@ -1068,8 +1036,8 @@ export type Database = {
           payment_modes?: Json
           prereservation_days?: number
           prereservation_min_usd?: number
-          sistemagestao_integration_enabled?: boolean
           rentalcover_affiliate_link?: string
+          sistemagestao_integration_enabled?: boolean
           substitute_reminder_hours?: number
           substitute_window_hours?: number
           support_email?: string
@@ -1133,8 +1101,8 @@ export type Database = {
           payment_modes?: Json
           prereservation_days?: number
           prereservation_min_usd?: number
-          sistemagestao_integration_enabled?: boolean
           rentalcover_affiliate_link?: string
+          sistemagestao_integration_enabled?: boolean
           substitute_reminder_hours?: number
           substitute_window_hours?: number
           support_email?: string
@@ -1156,6 +1124,47 @@ export type Database = {
           whatsapp_provider?: string
         }
         Relationships: []
+      }
+      sistemagestao_outbox: {
+        Row: {
+          attempts: number
+          booking_id: string
+          created_at: string
+          id: string
+          last_error: string | null
+          payload: Json
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          booking_id: string
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          payload: Json
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          booking_id?: string
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          payload?: Json
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sistemagestao_outbox_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "prereservations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
