@@ -1,5 +1,7 @@
 // Shared HTML shell for every booking/confirmation email (EN/PT/ES): official seal (72px, hosted
 // transparent PNG at 2x) centered on the light header, so no white square appears behind it.
+import { CALL_PHONE, CALL_PHONE_DISPLAY } from "./i18n";
+
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 export function emailHtml(o: { siteUrl: string; lang: "en" | "pt" | "es"; subject: string; lines: string[]; link?: string | undefined; linkLabel?: string | undefined; footer?: string | undefined; photo?: string | undefined; gallery?: string[] | undefined; actions?: { label: string; href: string }[] | undefined }) {
@@ -16,5 +18,5 @@ export function emailHtml(o: { siteUrl: string; lang: "en" | "pt" | "es"; subjec
 <tr><td align="center" style="padding:32px 24px 8px"><img src="${seal}" width="72" height="72" alt="Onic Car Rentals" style="display:block;width:72px;height:72px;border:0"></td></tr>
 <tr><td style="padding:16px 32px 32px"><h1 style="margin:0 0 18px;font-family:Archivo,Arial,sans-serif;font-weight:700;font-size:26px;color:#1A1A1A">${esc(o.subject)}</h1>${photo}${gallery}${body}${actions}${btn}
 ${o.footer ? `<p style="margin:24px 0 0;font-size:13px;color:#6E6E6E">${esc(o.footer)}</p>` : ""}</td></tr></table>
-<p style="margin:16px 0 0;font-size:12px;color:#6E6E6E">Onic Car Rentals · Reoli LLC</p></td></tr></table></body></html>`;
+<p style="margin:16px 0 0;font-size:12px;color:#6E6E6E">Onic Car Rentals · Reoli LLC<br><a href="tel:${CALL_PHONE}" style="color:#F15B26">${CALL_PHONE_DISPLAY}</a> · <a href="https://wa.me/5565984046666" style="color:#F15B26">WhatsApp +55 (65) 98404-6666</a></p></td></tr></table></body></html>`;
 }

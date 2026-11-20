@@ -2,7 +2,7 @@
 import { t, currentPaymentMessage, globalPaysLabel, bookingNextStepsText, type Lang } from "@/lib/i18n";
 import { emailHtml } from "@/lib/emailLayout";
 import { usd2 } from "@/lib/pricing";
-import { bookingNotificationEmail, emailPerkAllowed, ownerBookingSubject } from "@/lib/bookingEmail";
+import { bookingNotificationEmail, ownerBookingSubject } from "@/lib/bookingEmail";
 import { emailConfigured, OWNER_EMAIL, sendResendEmail } from "./resend-email.server";
 
 type Kind = "owner_new" | "owner_approved" | "owner_declined" | "owner_expired" | "owner_hold_failed" | "owner_sistemagestao_pending" | "customer_received" | "customer_approved" | "customer_declined" | "customer_expired" | "customer_link" | "owner_confirmed" | "owner_paid_conflict" | "owner_amount_review" | "owner_refunded" | "customer_confirmed" | "owner_delivery_quote" | "customer_substitute" | "customer_substitute_reminder" | "customer_substitute_declined";
@@ -48,7 +48,6 @@ export async function notify(kind: Kind, to: string, lang: Lang, vars: Record<st
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { logNotification } = await import("./whatsapp.server");
   let paymentLine = "";
-  let perkLine = "";
   let summaryLine = "";
   let photo: string | undefined;
   let gallery: string[] | undefined;
@@ -65,12 +64,6 @@ export async function notify(kind: Kind, to: string, lang: Lang, vars: Record<st
     }
     const { data: booking } = await supabaseAdmin.from("prereservations").select("status, captured_at, paid_amount_usd, balance_paid_at, balance_amount_usd, refunded_at, payment_provider, payment_mode, prereservation_amount_usd, price_breakdown, first_name, last_name, email, phone, vehicle_name, service_city, base_city, pickup_at, return_at").eq("id", vars["id"]).maybeSingle();
     if (booking) {
-      const { checkoutPackageText } = await import("@/lib/i18n");
-      if (emailPerkAllowed(kind, booking)) {
-        const copy = checkoutPackageText[lang];
-        perkLine = `${copy.perk}: ONIC10 — ${copy.perkText}`;
-        actions = [...(actions ?? []), { label: copy.visit, href: "https://lojaparceira.com" }];
-      }
       const { data: st } = await supabaseAdmin.from("settings").select("gp_interest_free_installments").eq("id", 1).maybeSingle();
       const total = (booking.price_breakdown as { total?: number } | null)?.total;
       const { fmtDateTime } = await import("@/lib/messages");
@@ -88,7 +81,7 @@ export async function notify(kind: Kind, to: string, lang: Lang, vars: Record<st
   }
   const link = vars["link"] ? new URL(vars["link"], SITE_URL()).toString() : undefined;
   const next = bookingNextStepsText[lang];
-  const html = emailHtml({ siteUrl: SITE_URL(), lang, subject, lines: [summaryLine, vars["message"] ?? "", vars["detail"] ?? "", paymentLine, ...(kind === "customer_received" ? [next.title, ...next.lines] : []), perkLine], photo, gallery, actions, link, footer });
+  const html = emailHtml({ siteUrl: SITE_URL(), lang, subject, lines: [summaryLine, vars["message"] ?? "", vars["detail"] ?? "", paymentLine, ...(kind === "customer_received" ? [next.title, ...next.lines] : [])], photo, gallery, actions, link, footer });
   const base = { prereservation_id: vars["id"] ?? null, channel: "email", kind, recipient: recipient || "(not set)" };
   if (!emailConfigured() || !recipient) {
     await logNotification(supabaseAdmin, { ...base, status: "skipped", detail: "Resend connection or recipient missing" });

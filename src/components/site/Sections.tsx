@@ -69,6 +69,13 @@ export function HowItWorks({ h1 = false }: { h1?: boolean }) {
             </div>
           ))}
         </div>
+        <div className="mt-8 border-t border-border pt-6">
+          <h3 className="mb-2 font-semibold">{tr.how.usageTitle}</h3>
+          <p className="max-w-5xl text-sm leading-relaxed text-muted-foreground">
+            {tr.how.usageNote}{" "}
+            <a href="https://oniccarrentals.com/english/faq.aspx" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">{tr.how.usageLink}</a>
+          </p>
+        </div>
       </Container>
     </section>
   );

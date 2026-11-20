@@ -18,7 +18,6 @@ import { usd, usd2 } from "@/lib/pricing";
 import { Container, PageError } from "@/components/site/Sections";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { BookingPerk } from "@/components/site/BookingPerk";
 import { BookingNextSteps } from "@/components/site/BookingNextSteps";
 import { RentalCoverCard } from "@/components/site/RentalCoverCard";
 import { MeasureOneCard } from "@/components/site/MeasureOneCard";
@@ -89,7 +88,6 @@ function BookingStatus() {
       {["declined", "expired"].includes(status) && b.refunded_at && <p className="mt-6 text-sm text-muted-foreground">{tr.booking.refundedNote}</p>}
       {status === "substitute_offered" && <SubstituteOffer token={token} b={b} />}
       {status === "substitute_declined" && <p className="mt-6 text-sm text-muted-foreground">{tr.subst.declined}</p>}
-      <BookingPerk booking={b} />
       {b.substitute_status === "substitute_accepted" && <SubstituteAccepted b={b} />}
       {["approved", "confirmed"].includes(status) && b.payment_mode === "full" && b.captured_at && !(paymentDifference(pb.total, Number(b.prereservation_amount_usd)) ?? 0) && <p className="surface mt-6 p-6 text-sm font-semibold text-success" data-testid="paid-in-full">{tr.car.paidInFull}</p>}
       {["approved", "confirmed"].includes(status) && b.substitute_status === "substitute_accepted" && <SubstituteDifferencePay token={token} b={b} />}
@@ -171,7 +169,6 @@ function InstantBooking({ token, b }: { token: string; b: B }) {
         <Item k={tr.car.fullDue} v={pb.total != null ? `${usd2(pb.total)} USD` : "—"} />
         {b.payment_provider === "globalpays" && <Item k={globalPaysLabel(lang, b.gpInterestFree)} v={pb.total != null ? `${usd2(pb.total)} USD` : "—"} />}
       </dl>
-      <BookingPerk booking={b} />
       <MeasureOneCard lang={lang} link={b.measureone_static_link} booking={b} />
       <RentalCoverCard lang={lang} link={b.rentalcover_affiliate_link} car={b.rentalcover_car} booking={b} />
     </Container>

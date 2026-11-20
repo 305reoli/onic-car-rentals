@@ -18,7 +18,7 @@ We do not own or rent out vehicles. Vehicles are owned and supplied by independe
 **Business address:** 1000 Lincoln Rd, Miami Beach, FL 33139
 **Email:** info@oniccarrentals.com
 **Phone:** +1 (954) 248-0903
-**WhatsApp:** +1 (954) 248-0903
+**WhatsApp:** +55 (65) 98404-6666
 
 ---
 
