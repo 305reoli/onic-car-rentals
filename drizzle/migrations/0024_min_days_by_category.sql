@@ -1,0 +1,1 @@
+ALTER TABLE public.settings ADD COLUMN IF NOT EXISTS min_days_by_category jsonb NOT NULL DEFAULT '{"suv":3,"sedan":3,"luxury":3,"convertible":3,"sports":3,"exotics":1}'::jsonb;

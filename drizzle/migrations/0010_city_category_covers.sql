@@ -1,0 +1,2 @@
+ALTER TABLE public.cities ADD COLUMN IF NOT EXISTS category_covers jsonb NOT NULL DEFAULT '{}'::jsonb;
+COMMENT ON COLUMN public.cities.category_covers IS 'Owner override: category -> photo path for city category tiles; empty = most expensive car photo';

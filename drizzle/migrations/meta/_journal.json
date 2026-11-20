@@ -1,0 +1,391 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793932467254,
+      "tag": "0000_booking_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793933712806,
+      "tag": "0001_cities_and_portofino",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793934508213,
+      "tag": "0002_owner_type_reviews_signup_lock",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793934821315,
+      "tag": "0003_hide_internal_vehicle_columns",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793935271189,
+      "tag": "0004_catalog_categories_and_optional_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793935776607,
+      "tag": "0005_company_and_legal_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793935925856,
+      "tag": "0006_city_fleet_mapping",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793936241553,
+      "tag": "0007_public_body_categories",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793937807819,
+      "tag": "0008_vehicle_highlights_translations",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793938459746,
+      "tag": "0009_owner_email_only_signup",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793938779050,
+      "tag": "0010_city_category_covers",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793939130262,
+      "tag": "0011_booking_flow_on_site",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1793940235133,
+      "tag": "0012_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1793941536413,
+      "tag": "0013_globalpays_instant_booking",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1793942290249,
+      "tag": "0014_instant_statuses",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1793942734311,
+      "tag": "0015_delivery_and_addons",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1793942898309,
+      "tag": "0016_cross_city_logistics",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1793944033942,
+      "tag": "0017_fleet_base_changes",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1793979917573,
+      "tag": "0018_settings_google_business_url",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1793988343976,
+      "tag": "0019_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1793990127929,
+      "tag": "0020_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1793990148488,
+      "tag": "0021_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1793991028016,
+      "tag": "0022_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1793992253918,
+      "tag": "0023_gp_client_routing",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1794006883295,
+      "tag": "0024_min_days_by_category",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1794006996015,
+      "tag": "0025_grant_min_days_public",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1794102259886,
+      "tag": "0026_booking_document_ai",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1794112148214,
+      "tag": "0027_vehicle_address_delivery_controls",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1794195296526,
+      "tag": "0028_abandoned_checkout_capture",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1794321531175,
+      "tag": "0029_vehicle_extra_mile_price",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1794354911932,
+      "tag": "0030_gp_payment_brl",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1794457368174,
+      "tag": "0031_unique_admin_vehicle_internal_labels",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1794498497650,
+      "tag": "0032_sistemagestao_rental_number",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1794514691220,
+      "tag": "0033_payment_orphans",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1794520798139,
+      "tag": "0034_fleet_sync",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1794520987386,
+      "tag": "0035_fleet_sync_unmapped_revision_guard",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1794521015761,
+      "tag": "0036_fleet_sync_revision_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1794523069531,
+      "tag": "0037_fleet_sync_provisional_notes",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1794526985449,
+      "tag": "0038_fleet_sync_v2",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1794527274471,
+      "tag": "0039_fleet_sync_v2_fix_changed_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1794527306850,
+      "tag": "0040_fleet_sync_v2_fix_availability",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1794584445022,
+      "tag": "0041_promotions_and_duration_tiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1794586394504,
+      "tag": "0042_fleet_sync_photos_and_verified_delete",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1794587139397,
+      "tag": "0043_fleet_sync_price_freeze",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1794587221806,
+      "tag": "0044_fleet_sync_inbound_price_freeze",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1794666670408,
+      "tag": "0045_identity_verifications",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1794669620913,
+      "tag": "0046_identity_owner_notified",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1794669967599,
+      "tag": "0047_identity_owner_failure_notified",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1794764282398,
+      "tag": "0048_booking_client_insurance",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1794767495918,
+      "tag": "0049_identity_client_failure_notified",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1794769431687,
+      "tag": "0050_measureone_link_and_us_insurance_flow",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "7",
+      "when": 1794769481610,
+      "tag": "0051_us_insurance_flow_not_provided",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "7",
+      "when": 1794884935066,
+      "tag": "0052_rentalcover_affiliate_link",
+      "breakpoints": true
+    },
+    {
+      "idx": 53,
+      "version": "7",
+      "when": 1794918718235,
+      "tag": "0053_measureone_after_payment",
+      "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "7",
+      "when": 1795188811281,
+      "tag": "0054_restrict_public_settings_columns",
+      "breakpoints": true
+    }
+  ]
+}

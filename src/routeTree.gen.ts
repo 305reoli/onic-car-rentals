@@ -10,33 +10,704 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LangRouteImport } from './routes/$lang'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as LangIndexRouteImport } from './routes/$lang.index'
+import { Route as LangCityRouteImport } from './routes/$lang.$city'
+import { Route as LangAboutRouteImport } from './routes/$lang.about'
+import { Route as LangCancellationRouteImport } from './routes/$lang.cancellation'
+import { Route as LangFaqRouteImport } from './routes/$lang.faq'
+import { Route as LangFleetRouteImport } from './routes/$lang.fleet'
+import { Route as LangHowItWorksRouteImport } from './routes/$lang.how-it-works'
+import { Route as LangLegalRouteImport } from './routes/$lang.legal'
+import { Route as LangMyBookingRouteImport } from './routes/$lang.my-booking'
+import { Route as LangPrivacyRouteImport } from './routes/$lang.privacy'
+import { Route as LangReviewsRouteImport } from './routes/$lang.reviews'
+import { Route as LangSearchRouteImport } from './routes/$lang.search'
+import { Route as LangTermsRouteImport } from './routes/$lang.terms'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as LangCityCategoryRouteImport } from './routes/$lang.$city_.$category'
+import { Route as LangBlogIndexRouteImport } from './routes/$lang.blog.index'
+import { Route as LangBlogSlugRouteImport } from './routes/$lang.blog.$slug'
+import { Route as LangBookingIndexRouteImport } from './routes/$lang.booking.index'
+import { Route as LangBookingTokenRouteImport } from './routes/$lang.booking.$token'
+import { Route as LangCatalogIndexRouteImport } from './routes/$lang.catalog.index'
+import { Route as LangCatalogCityRouteImport } from './routes/$lang.catalog.$city'
+import { Route as LangGuidesIndexRouteImport } from './routes/$lang.guides.index'
+import { Route as LangGuidesSlugRouteImport } from './routes/$lang.guides.$slug'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAbandonedRouteImport } from './routes/_authenticated/admin.abandoned'
+import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
+import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminPromotionsRouteImport } from './routes/_authenticated/admin.promotions'
+import { Route as AuthenticatedAdminReviewRouteImport } from './routes/_authenticated/admin.review'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as ApiPublicFleetSyncRouteImport } from './routes/api/public/fleet-sync'
+import { Route as ApiPublicFleetSyncCheckRouteImport } from './routes/api/public/fleet-sync-check'
+import { Route as ApiPublicGlobalpaysMockRouteImport } from './routes/api/public/globalpays-mock'
+import { Route as ApiPublicIdentityReturnRouteImport } from './routes/api/public/identity-return'
+import { Route as LangBrandHubCityBrandRouteImport } from './routes/$lang.brand-hub.$city.$brand'
+import { Route as LangCarsCitySlugRouteImport } from './routes/$lang.cars.$city.$slug'
+import { Route as LangCatalogCityCategoryRouteImport } from './routes/$lang.catalog.$city_.$category'
+import { Route as LangCheckoutCitySlugRouteImport } from './routes/$lang.checkout.$city.$slug'
+import { Route as AuthenticatedAdminCarsIndexRouteImport } from './routes/_authenticated/admin.cars.index'
+import { Route as AuthenticatedAdminCarsIdRouteImport } from './routes/_authenticated/admin.cars.$id'
+import { Route as ApiPublicFleetSyncCompareRouteImport } from './routes/api/public/fleet-sync.compare'
+import { Route as ApiPublicJobsExpireHoldsRouteImport } from './routes/api/public/jobs/expire-holds'
+import { Route as ApiPublicJobsFleetFlushRouteImport } from './routes/api/public/jobs/fleet-flush'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicPhotoSplatRouteImport } from './routes/api/public/photo.$'
+import { Route as ApiPublicWebhooksGlobalpaysRouteImport } from './routes/api/public/webhooks/globalpays'
+import { Route as LangDiscoverKindCityKeyRouteImport } from './routes/$lang.discover.$kind.$city.$key'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LangRoute = LangRouteImport.update({
+  id: '/$lang',
+  path: '/$lang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LangIndexRoute = LangIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangCityRoute = LangCityRouteImport.update({
+  id: '/$city',
+  path: '/$city',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangAboutRoute = LangAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangCancellationRoute = LangCancellationRouteImport.update({
+  id: '/cancellation',
+  path: '/cancellation',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangFaqRoute = LangFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangFleetRoute = LangFleetRouteImport.update({
+  id: '/fleet',
+  path: '/fleet',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangHowItWorksRoute = LangHowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangLegalRoute = LangLegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangMyBookingRoute = LangMyBookingRouteImport.update({
+  id: '/my-booking',
+  path: '/my-booking',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangPrivacyRoute = LangPrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangReviewsRoute = LangReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangSearchRoute = LangSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangTermsRoute = LangTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => LangRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const LangCityCategoryRoute = LangCityCategoryRouteImport.update({
+  id: '/$city_/$category',
+  path: '/$city/$category',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangBlogIndexRoute = LangBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangBlogSlugRoute = LangBlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangBookingIndexRoute = LangBookingIndexRouteImport.update({
+  id: '/booking/',
+  path: '/booking/',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangBookingTokenRoute = LangBookingTokenRouteImport.update({
+  id: '/booking/$token',
+  path: '/booking/$token',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangCatalogIndexRoute = LangCatalogIndexRouteImport.update({
+  id: '/catalog/',
+  path: '/catalog/',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangCatalogCityRoute = LangCatalogCityRouteImport.update({
+  id: '/catalog/$city',
+  path: '/catalog/$city',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangGuidesIndexRoute = LangGuidesIndexRouteImport.update({
+  id: '/guides/',
+  path: '/guides/',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangGuidesSlugRoute = LangGuidesSlugRouteImport.update({
+  id: '/guides/$slug',
+  path: '/guides/$slug',
+  getParentRoute: () => LangRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminAbandonedRoute =
+  AuthenticatedAdminAbandonedRouteImport.update({
+    id: '/abandoned',
+    path: '/abandoned',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCitiesRoute =
+  AuthenticatedAdminCitiesRouteImport.update({
+    id: '/cities',
+    path: '/cities',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminPaymentsRoute =
+  AuthenticatedAdminPaymentsRouteImport.update({
+    id: '/payments',
+    path: '/payments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminPromotionsRoute =
+  AuthenticatedAdminPromotionsRouteImport.update({
+    id: '/promotions',
+    path: '/promotions',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminReviewRoute =
+  AuthenticatedAdminReviewRouteImport.update({
+    id: '/review',
+    path: '/review',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const ApiPublicFleetSyncRoute = ApiPublicFleetSyncRouteImport.update({
+  id: '/api/public/fleet-sync',
+  path: '/api/public/fleet-sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFleetSyncCheckRoute = ApiPublicFleetSyncCheckRouteImport.update({
+  id: '/api/public/fleet-sync-check',
+  path: '/api/public/fleet-sync-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicGlobalpaysMockRoute = ApiPublicGlobalpaysMockRouteImport.update({
+  id: '/api/public/globalpays-mock',
+  path: '/api/public/globalpays-mock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicIdentityReturnRoute = ApiPublicIdentityReturnRouteImport.update({
+  id: '/api/public/identity-return',
+  path: '/api/public/identity-return',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LangBrandHubCityBrandRoute = LangBrandHubCityBrandRouteImport.update({
+  id: '/brand-hub/$city/$brand',
+  path: '/brand-hub/$city/$brand',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangCarsCitySlugRoute = LangCarsCitySlugRouteImport.update({
+  id: '/cars/$city/$slug',
+  path: '/cars/$city/$slug',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangCatalogCityCategoryRoute = LangCatalogCityCategoryRouteImport.update({
+  id: '/catalog/$city_/$category',
+  path: '/catalog/$city/$category',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangCheckoutCitySlugRoute = LangCheckoutCitySlugRouteImport.update({
+  id: '/checkout/$city/$slug',
+  path: '/checkout/$city/$slug',
+  getParentRoute: () => LangRoute,
+} as any)
+const AuthenticatedAdminCarsIndexRoute =
+  AuthenticatedAdminCarsIndexRouteImport.update({
+    id: '/cars/',
+    path: '/cars/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCarsIdRoute =
+  AuthenticatedAdminCarsIdRouteImport.update({
+    id: '/cars/$id',
+    path: '/cars/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const ApiPublicFleetSyncCompareRoute =
+  ApiPublicFleetSyncCompareRouteImport.update({
+    id: '/compare',
+    path: '/compare',
+    getParentRoute: () => ApiPublicFleetSyncRoute,
+  } as any)
+const ApiPublicJobsExpireHoldsRoute =
+  ApiPublicJobsExpireHoldsRouteImport.update({
+    id: '/api/public/jobs/expire-holds',
+    path: '/api/public/jobs/expire-holds',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicJobsFleetFlushRoute = ApiPublicJobsFleetFlushRouteImport.update({
+  id: '/api/public/jobs/fleet-flush',
+  path: '/api/public/jobs/fleet-flush',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicPhotoSplatRoute = ApiPublicPhotoSplatRouteImport.update({
+  id: '/api/public/photo/$',
+  path: '/api/public/photo/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicWebhooksGlobalpaysRoute =
+  ApiPublicWebhooksGlobalpaysRouteImport.update({
+    id: '/api/public/webhooks/globalpays',
+    path: '/api/public/webhooks/globalpays',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LangDiscoverKindCityKeyRoute = LangDiscoverKindCityKeyRouteImport.update({
+  id: '/discover/$kind/$city/$key',
+  path: '/discover/$kind/$city/$key',
+  getParentRoute: () => LangRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$lang': typeof LangRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$lang/$city': typeof LangCityRoute
+  '/$lang/about': typeof LangAboutRoute
+  '/$lang/cancellation': typeof LangCancellationRoute
+  '/$lang/faq': typeof LangFaqRoute
+  '/$lang/fleet': typeof LangFleetRoute
+  '/$lang/how-it-works': typeof LangHowItWorksRoute
+  '/$lang/legal': typeof LangLegalRoute
+  '/$lang/my-booking': typeof LangMyBookingRoute
+  '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/reviews': typeof LangReviewsRoute
+  '/$lang/search': typeof LangSearchRoute
+  '/$lang/terms': typeof LangTermsRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/$lang/': typeof LangIndexRoute
+  '/$lang/$city/$category': typeof LangCityCategoryRoute
+  '/$lang/blog/$slug': typeof LangBlogSlugRoute
+  '/$lang/booking/$token': typeof LangBookingTokenRoute
+  '/$lang/catalog/$city': typeof LangCatalogCityRoute
+  '/$lang/guides/$slug': typeof LangGuidesSlugRoute
+  '/admin/abandoned': typeof AuthenticatedAdminAbandonedRoute
+  '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/promotions': typeof AuthenticatedAdminPromotionsRoute
+  '/admin/review': typeof AuthenticatedAdminReviewRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/api/public/fleet-sync': typeof ApiPublicFleetSyncRouteWithChildren
+  '/api/public/fleet-sync-check': typeof ApiPublicFleetSyncCheckRoute
+  '/api/public/globalpays-mock': typeof ApiPublicGlobalpaysMockRoute
+  '/api/public/identity-return': typeof ApiPublicIdentityReturnRoute
+  '/$lang/blog/': typeof LangBlogIndexRoute
+  '/$lang/booking/': typeof LangBookingIndexRoute
+  '/$lang/catalog/': typeof LangCatalogIndexRoute
+  '/$lang/guides/': typeof LangGuidesIndexRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/$lang/brand-hub/$city/$brand': typeof LangBrandHubCityBrandRoute
+  '/$lang/cars/$city/$slug': typeof LangCarsCitySlugRoute
+  '/$lang/catalog/$city/$category': typeof LangCatalogCityCategoryRoute
+  '/$lang/checkout/$city/$slug': typeof LangCheckoutCitySlugRoute
+  '/admin/cars/$id': typeof AuthenticatedAdminCarsIdRoute
+  '/api/public/fleet-sync/compare': typeof ApiPublicFleetSyncCompareRoute
+  '/api/public/jobs/expire-holds': typeof ApiPublicJobsExpireHoldsRoute
+  '/api/public/jobs/fleet-flush': typeof ApiPublicJobsFleetFlushRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
+  '/api/public/webhooks/globalpays': typeof ApiPublicWebhooksGlobalpaysRoute
+  '/admin/cars/': typeof AuthenticatedAdminCarsIndexRoute
+  '/$lang/discover/$kind/$city/$key': typeof LangDiscoverKindCityKeyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$lang/$city': typeof LangCityRoute
+  '/$lang/about': typeof LangAboutRoute
+  '/$lang/cancellation': typeof LangCancellationRoute
+  '/$lang/faq': typeof LangFaqRoute
+  '/$lang/fleet': typeof LangFleetRoute
+  '/$lang/how-it-works': typeof LangHowItWorksRoute
+  '/$lang/legal': typeof LangLegalRoute
+  '/$lang/my-booking': typeof LangMyBookingRoute
+  '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/reviews': typeof LangReviewsRoute
+  '/$lang/search': typeof LangSearchRoute
+  '/$lang/terms': typeof LangTermsRoute
+  '/$lang': typeof LangIndexRoute
+  '/$lang/$city/$category': typeof LangCityCategoryRoute
+  '/$lang/blog/$slug': typeof LangBlogSlugRoute
+  '/$lang/booking/$token': typeof LangBookingTokenRoute
+  '/$lang/catalog/$city': typeof LangCatalogCityRoute
+  '/$lang/guides/$slug': typeof LangGuidesSlugRoute
+  '/admin/abandoned': typeof AuthenticatedAdminAbandonedRoute
+  '/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/promotions': typeof AuthenticatedAdminPromotionsRoute
+  '/admin/review': typeof AuthenticatedAdminReviewRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/api/public/fleet-sync': typeof ApiPublicFleetSyncRouteWithChildren
+  '/api/public/fleet-sync-check': typeof ApiPublicFleetSyncCheckRoute
+  '/api/public/globalpays-mock': typeof ApiPublicGlobalpaysMockRoute
+  '/api/public/identity-return': typeof ApiPublicIdentityReturnRoute
+  '/$lang/blog': typeof LangBlogIndexRoute
+  '/$lang/booking': typeof LangBookingIndexRoute
+  '/$lang/catalog': typeof LangCatalogIndexRoute
+  '/$lang/guides': typeof LangGuidesIndexRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/$lang/brand-hub/$city/$brand': typeof LangBrandHubCityBrandRoute
+  '/$lang/cars/$city/$slug': typeof LangCarsCitySlugRoute
+  '/$lang/catalog/$city/$category': typeof LangCatalogCityCategoryRoute
+  '/$lang/checkout/$city/$slug': typeof LangCheckoutCitySlugRoute
+  '/admin/cars/$id': typeof AuthenticatedAdminCarsIdRoute
+  '/api/public/fleet-sync/compare': typeof ApiPublicFleetSyncCompareRoute
+  '/api/public/jobs/expire-holds': typeof ApiPublicJobsExpireHoldsRoute
+  '/api/public/jobs/fleet-flush': typeof ApiPublicJobsFleetFlushRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
+  '/api/public/webhooks/globalpays': typeof ApiPublicWebhooksGlobalpaysRoute
+  '/admin/cars': typeof AuthenticatedAdminCarsIndexRoute
+  '/$lang/discover/$kind/$city/$key': typeof LangDiscoverKindCityKeyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/$lang': typeof LangRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$lang/$city': typeof LangCityRoute
+  '/$lang/about': typeof LangAboutRoute
+  '/$lang/cancellation': typeof LangCancellationRoute
+  '/$lang/faq': typeof LangFaqRoute
+  '/$lang/fleet': typeof LangFleetRoute
+  '/$lang/how-it-works': typeof LangHowItWorksRoute
+  '/$lang/legal': typeof LangLegalRoute
+  '/$lang/my-booking': typeof LangMyBookingRoute
+  '/$lang/privacy': typeof LangPrivacyRoute
+  '/$lang/reviews': typeof LangReviewsRoute
+  '/$lang/search': typeof LangSearchRoute
+  '/$lang/terms': typeof LangTermsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/$lang/': typeof LangIndexRoute
+  '/$lang/$city_/$category': typeof LangCityCategoryRoute
+  '/$lang/blog/$slug': typeof LangBlogSlugRoute
+  '/$lang/booking/$token': typeof LangBookingTokenRoute
+  '/$lang/catalog/$city': typeof LangCatalogCityRoute
+  '/$lang/guides/$slug': typeof LangGuidesSlugRoute
+  '/_authenticated/admin/abandoned': typeof AuthenticatedAdminAbandonedRoute
+  '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
+  '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/_authenticated/admin/promotions': typeof AuthenticatedAdminPromotionsRoute
+  '/_authenticated/admin/review': typeof AuthenticatedAdminReviewRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/api/public/fleet-sync': typeof ApiPublicFleetSyncRouteWithChildren
+  '/api/public/fleet-sync-check': typeof ApiPublicFleetSyncCheckRoute
+  '/api/public/globalpays-mock': typeof ApiPublicGlobalpaysMockRoute
+  '/api/public/identity-return': typeof ApiPublicIdentityReturnRoute
+  '/$lang/blog/': typeof LangBlogIndexRoute
+  '/$lang/booking/': typeof LangBookingIndexRoute
+  '/$lang/catalog/': typeof LangCatalogIndexRoute
+  '/$lang/guides/': typeof LangGuidesIndexRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/$lang/brand-hub/$city/$brand': typeof LangBrandHubCityBrandRoute
+  '/$lang/cars/$city/$slug': typeof LangCarsCitySlugRoute
+  '/$lang/catalog/$city_/$category': typeof LangCatalogCityCategoryRoute
+  '/$lang/checkout/$city/$slug': typeof LangCheckoutCitySlugRoute
+  '/_authenticated/admin/cars/$id': typeof AuthenticatedAdminCarsIdRoute
+  '/api/public/fleet-sync/compare': typeof ApiPublicFleetSyncCompareRoute
+  '/api/public/jobs/expire-holds': typeof ApiPublicJobsExpireHoldsRoute
+  '/api/public/jobs/fleet-flush': typeof ApiPublicJobsFleetFlushRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
+  '/api/public/webhooks/globalpays': typeof ApiPublicWebhooksGlobalpaysRoute
+  '/_authenticated/admin/cars/': typeof AuthenticatedAdminCarsIndexRoute
+  '/$lang/discover/$kind/$city/$key': typeof LangDiscoverKindCityKeyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/$lang'
+    | '/auth'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/$lang/$city'
+    | '/$lang/about'
+    | '/$lang/cancellation'
+    | '/$lang/faq'
+    | '/$lang/fleet'
+    | '/$lang/how-it-works'
+    | '/$lang/legal'
+    | '/$lang/my-booking'
+    | '/$lang/privacy'
+    | '/$lang/reviews'
+    | '/$lang/search'
+    | '/$lang/terms'
+    | '/admin'
+    | '/$lang/'
+    | '/$lang/$city/$category'
+    | '/$lang/blog/$slug'
+    | '/$lang/booking/$token'
+    | '/$lang/catalog/$city'
+    | '/$lang/guides/$slug'
+    | '/admin/abandoned'
+    | '/admin/cities'
+    | '/admin/payments'
+    | '/admin/promotions'
+    | '/admin/review'
+    | '/admin/settings'
+    | '/api/public/fleet-sync'
+    | '/api/public/fleet-sync-check'
+    | '/api/public/globalpays-mock'
+    | '/api/public/identity-return'
+    | '/$lang/blog/'
+    | '/$lang/booking/'
+    | '/$lang/catalog/'
+    | '/$lang/guides/'
+    | '/admin/'
+    | '/$lang/brand-hub/$city/$brand'
+    | '/$lang/cars/$city/$slug'
+    | '/$lang/catalog/$city/$category'
+    | '/$lang/checkout/$city/$slug'
+    | '/admin/cars/$id'
+    | '/api/public/fleet-sync/compare'
+    | '/api/public/jobs/expire-holds'
+    | '/api/public/jobs/fleet-flush'
+    | '/api/public/payments/webhook'
+    | '/api/public/photo/$'
+    | '/api/public/webhooks/globalpays'
+    | '/admin/cars/'
+    | '/$lang/discover/$kind/$city/$key'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/$lang/$city'
+    | '/$lang/about'
+    | '/$lang/cancellation'
+    | '/$lang/faq'
+    | '/$lang/fleet'
+    | '/$lang/how-it-works'
+    | '/$lang/legal'
+    | '/$lang/my-booking'
+    | '/$lang/privacy'
+    | '/$lang/reviews'
+    | '/$lang/search'
+    | '/$lang/terms'
+    | '/$lang'
+    | '/$lang/$city/$category'
+    | '/$lang/blog/$slug'
+    | '/$lang/booking/$token'
+    | '/$lang/catalog/$city'
+    | '/$lang/guides/$slug'
+    | '/admin/abandoned'
+    | '/admin/cities'
+    | '/admin/payments'
+    | '/admin/promotions'
+    | '/admin/review'
+    | '/admin/settings'
+    | '/api/public/fleet-sync'
+    | '/api/public/fleet-sync-check'
+    | '/api/public/globalpays-mock'
+    | '/api/public/identity-return'
+    | '/$lang/blog'
+    | '/$lang/booking'
+    | '/$lang/catalog'
+    | '/$lang/guides'
+    | '/admin'
+    | '/$lang/brand-hub/$city/$brand'
+    | '/$lang/cars/$city/$slug'
+    | '/$lang/catalog/$city/$category'
+    | '/$lang/checkout/$city/$slug'
+    | '/admin/cars/$id'
+    | '/api/public/fleet-sync/compare'
+    | '/api/public/jobs/expire-holds'
+    | '/api/public/jobs/fleet-flush'
+    | '/api/public/payments/webhook'
+    | '/api/public/photo/$'
+    | '/api/public/webhooks/globalpays'
+    | '/admin/cars'
+    | '/$lang/discover/$kind/$city/$key'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/$lang'
+    | '/auth'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/$lang/$city'
+    | '/$lang/about'
+    | '/$lang/cancellation'
+    | '/$lang/faq'
+    | '/$lang/fleet'
+    | '/$lang/how-it-works'
+    | '/$lang/legal'
+    | '/$lang/my-booking'
+    | '/$lang/privacy'
+    | '/$lang/reviews'
+    | '/$lang/search'
+    | '/$lang/terms'
+    | '/_authenticated/admin'
+    | '/$lang/'
+    | '/$lang/$city_/$category'
+    | '/$lang/blog/$slug'
+    | '/$lang/booking/$token'
+    | '/$lang/catalog/$city'
+    | '/$lang/guides/$slug'
+    | '/_authenticated/admin/abandoned'
+    | '/_authenticated/admin/cities'
+    | '/_authenticated/admin/payments'
+    | '/_authenticated/admin/promotions'
+    | '/_authenticated/admin/review'
+    | '/_authenticated/admin/settings'
+    | '/api/public/fleet-sync'
+    | '/api/public/fleet-sync-check'
+    | '/api/public/globalpays-mock'
+    | '/api/public/identity-return'
+    | '/$lang/blog/'
+    | '/$lang/booking/'
+    | '/$lang/catalog/'
+    | '/$lang/guides/'
+    | '/_authenticated/admin/'
+    | '/$lang/brand-hub/$city/$brand'
+    | '/$lang/cars/$city/$slug'
+    | '/$lang/catalog/$city_/$category'
+    | '/$lang/checkout/$city/$slug'
+    | '/_authenticated/admin/cars/$id'
+    | '/api/public/fleet-sync/compare'
+    | '/api/public/jobs/expire-holds'
+    | '/api/public/jobs/fleet-flush'
+    | '/api/public/payments/webhook'
+    | '/api/public/photo/$'
+    | '/api/public/webhooks/globalpays'
+    | '/_authenticated/admin/cars/'
+    | '/$lang/discover/$kind/$city/$key'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  LangRoute: typeof LangRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicFleetSyncRoute: typeof ApiPublicFleetSyncRouteWithChildren
+  ApiPublicFleetSyncCheckRoute: typeof ApiPublicFleetSyncCheckRoute
+  ApiPublicGlobalpaysMockRoute: typeof ApiPublicGlobalpaysMockRoute
+  ApiPublicIdentityReturnRoute: typeof ApiPublicIdentityReturnRoute
+  ApiPublicJobsExpireHoldsRoute: typeof ApiPublicJobsExpireHoldsRoute
+  ApiPublicJobsFleetFlushRoute: typeof ApiPublicJobsFleetFlushRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicPhotoSplatRoute: typeof ApiPublicPhotoSplatRoute
+  ApiPublicWebhooksGlobalpaysRoute: typeof ApiPublicWebhooksGlobalpaysRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +719,516 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$lang': {
+      id: '/$lang'
+      path: '/$lang'
+      fullPath: '/$lang'
+      preLoaderRoute: typeof LangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$lang/': {
+      id: '/$lang/'
+      path: '/'
+      fullPath: '/$lang/'
+      preLoaderRoute: typeof LangIndexRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/$city': {
+      id: '/$lang/$city'
+      path: '/$city'
+      fullPath: '/$lang/$city'
+      preLoaderRoute: typeof LangCityRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/about': {
+      id: '/$lang/about'
+      path: '/about'
+      fullPath: '/$lang/about'
+      preLoaderRoute: typeof LangAboutRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/cancellation': {
+      id: '/$lang/cancellation'
+      path: '/cancellation'
+      fullPath: '/$lang/cancellation'
+      preLoaderRoute: typeof LangCancellationRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/faq': {
+      id: '/$lang/faq'
+      path: '/faq'
+      fullPath: '/$lang/faq'
+      preLoaderRoute: typeof LangFaqRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/fleet': {
+      id: '/$lang/fleet'
+      path: '/fleet'
+      fullPath: '/$lang/fleet'
+      preLoaderRoute: typeof LangFleetRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/how-it-works': {
+      id: '/$lang/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/$lang/how-it-works'
+      preLoaderRoute: typeof LangHowItWorksRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/legal': {
+      id: '/$lang/legal'
+      path: '/legal'
+      fullPath: '/$lang/legal'
+      preLoaderRoute: typeof LangLegalRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/my-booking': {
+      id: '/$lang/my-booking'
+      path: '/my-booking'
+      fullPath: '/$lang/my-booking'
+      preLoaderRoute: typeof LangMyBookingRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/privacy': {
+      id: '/$lang/privacy'
+      path: '/privacy'
+      fullPath: '/$lang/privacy'
+      preLoaderRoute: typeof LangPrivacyRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/reviews': {
+      id: '/$lang/reviews'
+      path: '/reviews'
+      fullPath: '/$lang/reviews'
+      preLoaderRoute: typeof LangReviewsRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/search': {
+      id: '/$lang/search'
+      path: '/search'
+      fullPath: '/$lang/search'
+      preLoaderRoute: typeof LangSearchRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/terms': {
+      id: '/$lang/terms'
+      path: '/terms'
+      fullPath: '/$lang/terms'
+      preLoaderRoute: typeof LangTermsRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/$lang/$city_/$category': {
+      id: '/$lang/$city_/$category'
+      path: '/$city/$category'
+      fullPath: '/$lang/$city/$category'
+      preLoaderRoute: typeof LangCityCategoryRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/blog/': {
+      id: '/$lang/blog/'
+      path: '/blog'
+      fullPath: '/$lang/blog/'
+      preLoaderRoute: typeof LangBlogIndexRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/blog/$slug': {
+      id: '/$lang/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/$lang/blog/$slug'
+      preLoaderRoute: typeof LangBlogSlugRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/booking/': {
+      id: '/$lang/booking/'
+      path: '/booking'
+      fullPath: '/$lang/booking/'
+      preLoaderRoute: typeof LangBookingIndexRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/booking/$token': {
+      id: '/$lang/booking/$token'
+      path: '/booking/$token'
+      fullPath: '/$lang/booking/$token'
+      preLoaderRoute: typeof LangBookingTokenRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/catalog/': {
+      id: '/$lang/catalog/'
+      path: '/catalog'
+      fullPath: '/$lang/catalog/'
+      preLoaderRoute: typeof LangCatalogIndexRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/catalog/$city': {
+      id: '/$lang/catalog/$city'
+      path: '/catalog/$city'
+      fullPath: '/$lang/catalog/$city'
+      preLoaderRoute: typeof LangCatalogCityRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/guides/': {
+      id: '/$lang/guides/'
+      path: '/guides'
+      fullPath: '/$lang/guides/'
+      preLoaderRoute: typeof LangGuidesIndexRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/guides/$slug': {
+      id: '/$lang/guides/$slug'
+      path: '/guides/$slug'
+      fullPath: '/$lang/guides/$slug'
+      preLoaderRoute: typeof LangGuidesSlugRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/abandoned': {
+      id: '/_authenticated/admin/abandoned'
+      path: '/abandoned'
+      fullPath: '/admin/abandoned'
+      preLoaderRoute: typeof AuthenticatedAdminAbandonedRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/cities': {
+      id: '/_authenticated/admin/cities'
+      path: '/cities'
+      fullPath: '/admin/cities'
+      preLoaderRoute: typeof AuthenticatedAdminCitiesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/payments': {
+      id: '/_authenticated/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/promotions': {
+      id: '/_authenticated/admin/promotions'
+      path: '/promotions'
+      fullPath: '/admin/promotions'
+      preLoaderRoute: typeof AuthenticatedAdminPromotionsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/review': {
+      id: '/_authenticated/admin/review'
+      path: '/review'
+      fullPath: '/admin/review'
+      preLoaderRoute: typeof AuthenticatedAdminReviewRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/public/fleet-sync': {
+      id: '/api/public/fleet-sync'
+      path: '/api/public/fleet-sync'
+      fullPath: '/api/public/fleet-sync'
+      preLoaderRoute: typeof ApiPublicFleetSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fleet-sync-check': {
+      id: '/api/public/fleet-sync-check'
+      path: '/api/public/fleet-sync-check'
+      fullPath: '/api/public/fleet-sync-check'
+      preLoaderRoute: typeof ApiPublicFleetSyncCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/globalpays-mock': {
+      id: '/api/public/globalpays-mock'
+      path: '/api/public/globalpays-mock'
+      fullPath: '/api/public/globalpays-mock'
+      preLoaderRoute: typeof ApiPublicGlobalpaysMockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/identity-return': {
+      id: '/api/public/identity-return'
+      path: '/api/public/identity-return'
+      fullPath: '/api/public/identity-return'
+      preLoaderRoute: typeof ApiPublicIdentityReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$lang/brand-hub/$city/$brand': {
+      id: '/$lang/brand-hub/$city/$brand'
+      path: '/brand-hub/$city/$brand'
+      fullPath: '/$lang/brand-hub/$city/$brand'
+      preLoaderRoute: typeof LangBrandHubCityBrandRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/cars/$city/$slug': {
+      id: '/$lang/cars/$city/$slug'
+      path: '/cars/$city/$slug'
+      fullPath: '/$lang/cars/$city/$slug'
+      preLoaderRoute: typeof LangCarsCitySlugRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/catalog/$city_/$category': {
+      id: '/$lang/catalog/$city_/$category'
+      path: '/catalog/$city/$category'
+      fullPath: '/$lang/catalog/$city/$category'
+      preLoaderRoute: typeof LangCatalogCityCategoryRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/checkout/$city/$slug': {
+      id: '/$lang/checkout/$city/$slug'
+      path: '/checkout/$city/$slug'
+      fullPath: '/$lang/checkout/$city/$slug'
+      preLoaderRoute: typeof LangCheckoutCitySlugRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/_authenticated/admin/cars/': {
+      id: '/_authenticated/admin/cars/'
+      path: '/cars'
+      fullPath: '/admin/cars/'
+      preLoaderRoute: typeof AuthenticatedAdminCarsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/cars/$id': {
+      id: '/_authenticated/admin/cars/$id'
+      path: '/cars/$id'
+      fullPath: '/admin/cars/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCarsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/public/fleet-sync/compare': {
+      id: '/api/public/fleet-sync/compare'
+      path: '/compare'
+      fullPath: '/api/public/fleet-sync/compare'
+      preLoaderRoute: typeof ApiPublicFleetSyncCompareRouteImport
+      parentRoute: typeof ApiPublicFleetSyncRoute
+    }
+    '/api/public/jobs/expire-holds': {
+      id: '/api/public/jobs/expire-holds'
+      path: '/api/public/jobs/expire-holds'
+      fullPath: '/api/public/jobs/expire-holds'
+      preLoaderRoute: typeof ApiPublicJobsExpireHoldsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/jobs/fleet-flush': {
+      id: '/api/public/jobs/fleet-flush'
+      path: '/api/public/jobs/fleet-flush'
+      fullPath: '/api/public/jobs/fleet-flush'
+      preLoaderRoute: typeof ApiPublicJobsFleetFlushRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/photo/$': {
+      id: '/api/public/photo/$'
+      path: '/api/public/photo/$'
+      fullPath: '/api/public/photo/$'
+      preLoaderRoute: typeof ApiPublicPhotoSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/webhooks/globalpays': {
+      id: '/api/public/webhooks/globalpays'
+      path: '/api/public/webhooks/globalpays'
+      fullPath: '/api/public/webhooks/globalpays'
+      preLoaderRoute: typeof ApiPublicWebhooksGlobalpaysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$lang/discover/$kind/$city/$key': {
+      id: '/$lang/discover/$kind/$city/$key'
+      path: '/discover/$kind/$city/$key'
+      fullPath: '/$lang/discover/$kind/$city/$key'
+      preLoaderRoute: typeof LangDiscoverKindCityKeyRouteImport
+      parentRoute: typeof LangRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAbandonedRoute: typeof AuthenticatedAdminAbandonedRoute
+  AuthenticatedAdminCitiesRoute: typeof AuthenticatedAdminCitiesRoute
+  AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
+  AuthenticatedAdminPromotionsRoute: typeof AuthenticatedAdminPromotionsRoute
+  AuthenticatedAdminReviewRoute: typeof AuthenticatedAdminReviewRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminCarsIdRoute: typeof AuthenticatedAdminCarsIdRoute
+  AuthenticatedAdminCarsIndexRoute: typeof AuthenticatedAdminCarsIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAbandonedRoute: AuthenticatedAdminAbandonedRoute,
+  AuthenticatedAdminCitiesRoute: AuthenticatedAdminCitiesRoute,
+  AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
+  AuthenticatedAdminPromotionsRoute: AuthenticatedAdminPromotionsRoute,
+  AuthenticatedAdminReviewRoute: AuthenticatedAdminReviewRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminCarsIdRoute: AuthenticatedAdminCarsIdRoute,
+  AuthenticatedAdminCarsIndexRoute: AuthenticatedAdminCarsIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface LangRouteChildren {
+  LangCityRoute: typeof LangCityRoute
+  LangAboutRoute: typeof LangAboutRoute
+  LangCancellationRoute: typeof LangCancellationRoute
+  LangFaqRoute: typeof LangFaqRoute
+  LangFleetRoute: typeof LangFleetRoute
+  LangHowItWorksRoute: typeof LangHowItWorksRoute
+  LangLegalRoute: typeof LangLegalRoute
+  LangMyBookingRoute: typeof LangMyBookingRoute
+  LangPrivacyRoute: typeof LangPrivacyRoute
+  LangReviewsRoute: typeof LangReviewsRoute
+  LangSearchRoute: typeof LangSearchRoute
+  LangTermsRoute: typeof LangTermsRoute
+  LangIndexRoute: typeof LangIndexRoute
+  LangCityCategoryRoute: typeof LangCityCategoryRoute
+  LangBlogSlugRoute: typeof LangBlogSlugRoute
+  LangBookingTokenRoute: typeof LangBookingTokenRoute
+  LangCatalogCityRoute: typeof LangCatalogCityRoute
+  LangGuidesSlugRoute: typeof LangGuidesSlugRoute
+  LangBlogIndexRoute: typeof LangBlogIndexRoute
+  LangBookingIndexRoute: typeof LangBookingIndexRoute
+  LangCatalogIndexRoute: typeof LangCatalogIndexRoute
+  LangGuidesIndexRoute: typeof LangGuidesIndexRoute
+  LangBrandHubCityBrandRoute: typeof LangBrandHubCityBrandRoute
+  LangCarsCitySlugRoute: typeof LangCarsCitySlugRoute
+  LangCatalogCityCategoryRoute: typeof LangCatalogCityCategoryRoute
+  LangCheckoutCitySlugRoute: typeof LangCheckoutCitySlugRoute
+  LangDiscoverKindCityKeyRoute: typeof LangDiscoverKindCityKeyRoute
+}
+
+const LangRouteChildren: LangRouteChildren = {
+  LangCityRoute: LangCityRoute,
+  LangAboutRoute: LangAboutRoute,
+  LangCancellationRoute: LangCancellationRoute,
+  LangFaqRoute: LangFaqRoute,
+  LangFleetRoute: LangFleetRoute,
+  LangHowItWorksRoute: LangHowItWorksRoute,
+  LangLegalRoute: LangLegalRoute,
+  LangMyBookingRoute: LangMyBookingRoute,
+  LangPrivacyRoute: LangPrivacyRoute,
+  LangReviewsRoute: LangReviewsRoute,
+  LangSearchRoute: LangSearchRoute,
+  LangTermsRoute: LangTermsRoute,
+  LangIndexRoute: LangIndexRoute,
+  LangCityCategoryRoute: LangCityCategoryRoute,
+  LangBlogSlugRoute: LangBlogSlugRoute,
+  LangBookingTokenRoute: LangBookingTokenRoute,
+  LangCatalogCityRoute: LangCatalogCityRoute,
+  LangGuidesSlugRoute: LangGuidesSlugRoute,
+  LangBlogIndexRoute: LangBlogIndexRoute,
+  LangBookingIndexRoute: LangBookingIndexRoute,
+  LangCatalogIndexRoute: LangCatalogIndexRoute,
+  LangGuidesIndexRoute: LangGuidesIndexRoute,
+  LangBrandHubCityBrandRoute: LangBrandHubCityBrandRoute,
+  LangCarsCitySlugRoute: LangCarsCitySlugRoute,
+  LangCatalogCityCategoryRoute: LangCatalogCityCategoryRoute,
+  LangCheckoutCitySlugRoute: LangCheckoutCitySlugRoute,
+  LangDiscoverKindCityKeyRoute: LangDiscoverKindCityKeyRoute,
+}
+
+const LangRouteWithChildren = LangRoute._addFileChildren(LangRouteChildren)
+
+interface ApiPublicFleetSyncRouteChildren {
+  ApiPublicFleetSyncCompareRoute: typeof ApiPublicFleetSyncCompareRoute
+}
+
+const ApiPublicFleetSyncRouteChildren: ApiPublicFleetSyncRouteChildren = {
+  ApiPublicFleetSyncCompareRoute: ApiPublicFleetSyncCompareRoute,
+}
+
+const ApiPublicFleetSyncRouteWithChildren =
+  ApiPublicFleetSyncRoute._addFileChildren(ApiPublicFleetSyncRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  LangRoute: LangRouteWithChildren,
+  AuthRoute: AuthRoute,
+  LlmsFullDottxtRoute: LlmsFullDottxtRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicFleetSyncRoute: ApiPublicFleetSyncRouteWithChildren,
+  ApiPublicFleetSyncCheckRoute: ApiPublicFleetSyncCheckRoute,
+  ApiPublicGlobalpaysMockRoute: ApiPublicGlobalpaysMockRoute,
+  ApiPublicIdentityReturnRoute: ApiPublicIdentityReturnRoute,
+  ApiPublicJobsExpireHoldsRoute: ApiPublicJobsExpireHoldsRoute,
+  ApiPublicJobsFleetFlushRoute: ApiPublicJobsFleetFlushRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicPhotoSplatRoute: ApiPublicPhotoSplatRoute,
+  ApiPublicWebhooksGlobalpaysRoute: ApiPublicWebhooksGlobalpaysRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

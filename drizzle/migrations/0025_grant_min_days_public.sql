@@ -1,0 +1,1 @@
+GRANT SELECT (min_days_by_category) ON public.settings TO anon, authenticated;

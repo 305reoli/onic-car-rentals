@@ -1,9 +1,13 @@
+import { SealIntro } from "@/components/brand/SealIntro";
+import { settingsQuery } from "@/lib/queries";
+import { businessAddresses, googleProfileUrl, orgJsonLd } from "@/lib/seo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -12,6 +16,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Toaster } from "@/components/ui/sonner";
+import { useMotion } from "@/components/site/Motion";
+import { META_PIXEL_HEAD, metaTrack } from "@/lib/metaPixel";
 
 function NotFoundComponent() {
   return (
@@ -74,28 +81,37 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    // Replace these placeholders with the app's name and description when first building the app.
-    // Each content route, / included, must still set its own head(). Never add og:image or
-    // twitter:image here: every page without its own would inherit the root's preview image.
+  loader: async ({ context }) => {
+    const st = await context.queryClient.ensureQueryData(settingsQuery()).catch(() => null);
+    const x = st as { delivery_config?: { bases?: Record<string, { address: string }> }; google_business_url?: string; google_place_id?: string | null } | null;
+    return { addresses: businessAddresses(x?.delivery_config?.bases), googleUrl: googleProfileUrl(x?.google_business_url, x?.google_place_id) };
+  },
+  head: ({ loaderData }) => ({
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(orgJsonLd(loaderData?.addresses ?? businessAddresses(null), undefined, loaderData?.googleUrl)) }],
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Sua Locadora" },
+      { property: "og:site_name", content: "Sua Locadora" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "theme-color", content: "#0A0A0B" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.ico", sizes: "16x16 32x32 48x48" },
+      { rel: "icon", href: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..112,400..700&family=Inter:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -105,10 +121,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  const lang = /^\/en(?:\/|$)/.test(path) ? "en" : /^\/es(?:\/|$)/.test(path) ? "es" : "pt-BR";
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
+        {/* Dev preview only: define the React refresh hooks before any module runs (the dev bundler sets them too late, which broke hydration and in-app navigation in preview). Not rendered in production. */}
+        {import.meta.env.DEV && <script dangerouslySetInnerHTML={{ __html: "window.$RefreshReg$=window.$RefreshReg$||function(){};window.$RefreshSig$=window.$RefreshSig$||function(){return function(t){return t}};" }} />}
         <HeadContent />
+        <script async src="https://app.promptado.com/v1/analytics.js?key=pk_749d7c48574781f89431ea74ec212b03"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+`,
+          }}
+        />
+        {/* Meta Pixel (base code + PageView), loaded only outside consent regions */}
+        <script dangerouslySetInnerHTML={{ __html: META_PIXEL_HEAD }} />
       </head>
       <body>
         {children}
@@ -120,11 +154,39 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  useMotion();
+  useEffect(() => {
+    // Auth client is loaded after hydration so public pages don't ship it in their first-paint JS.
+    let unsub: (() => void) | undefined; let dead = false;
+    import("@/integrations/supabase/client").then(({ supabase }) => {
+      if (dead) return;
+      const { data } = supabase.auth.onAuthStateChange((event) => {
+        if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+        router.invalidate();
+        if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+      });
+      unsub = () => data.subscription.unsubscribe();
+    });
+    return () => { dead = true; unsub?.(); };
+  }, [router, queryClient]);
+  useEffect(() => {
+    // Meta PageView on every in-app navigation (the first load's PageView fires from the head base code).
+    let last = router.state.location.href;
+    return router.subscribe("onResolved", (ev) => {
+      const href = ev.toLocation.href;
+      if (href === last) return;
+      last = href;
+      metaTrack("PageView");
+    });
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster />
+      <SealIntro />
     </QueryClientProvider>
   );
 }

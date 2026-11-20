@@ -1,0 +1,3 @@
+ALTER TABLE public.prereservations DROP CONSTRAINT IF EXISTS prereservations_insurance_us_flow_check;
+ALTER TABLE public.prereservations ADD CONSTRAINT prereservations_insurance_us_flow_check CHECK (insurance_us_flow IN ('measureone_started','fallback_uploaded','not_provided','measureone_pending_after_payment'));
+ALTER TABLE public.prereservations ADD COLUMN IF NOT EXISTS measureone_email_sent_at timestamptz;

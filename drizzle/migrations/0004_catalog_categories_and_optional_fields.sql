@@ -1,0 +1,13 @@
+ALTER TABLE public.vehicles DROP CONSTRAINT vehicles_category_check;
+UPDATE public.vehicles SET category = 'exotic' WHERE category NOT IN ('economy','family','luxury_suv','sport','exotic');
+ALTER TABLE public.vehicles ADD CONSTRAINT vehicles_category_check CHECK (category IN ('economy','family','luxury_suv','sport','exotic'));
+ALTER TABLE public.vehicles ALTER COLUMN owner_type DROP NOT NULL;
+ALTER TABLE public.vehicles ALTER COLUMN owner_type DROP DEFAULT;
+ALTER TABLE public.vehicles ALTER COLUMN min_days DROP NOT NULL;
+ALTER TABLE public.vehicles ALTER COLUMN min_days DROP DEFAULT;
+ALTER TABLE public.vehicles ADD COLUMN IF NOT EXISTS internal_label text NOT NULL DEFAULT '';
+ALTER TABLE public.vehicles ADD COLUMN IF NOT EXISTS admin_note text NOT NULL DEFAULT '';
+COMMENT ON COLUMN public.vehicles.internal_label IS 'INTERNAL: admin-only suffix such as (unit 2); not granted to anon';
+COMMENT ON COLUMN public.vehicles.admin_note IS 'INTERNAL: admin-only notes (e.g. Confirm trim/spec); not granted to anon';
+ALTER TABLE public.vehicles DROP CONSTRAINT vehicles_slug_key;
+ALTER TABLE public.vehicles ADD CONSTRAINT vehicles_city_slug_key UNIQUE (city, slug);

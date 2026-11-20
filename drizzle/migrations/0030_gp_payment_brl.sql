@@ -1,0 +1,1 @@
+ALTER TABLE public.prereservations ADD COLUMN IF NOT EXISTS gp_amount_brl numeric, ADD COLUMN IF NOT EXISTS gp_installments integer, ADD COLUMN IF NOT EXISTS gp_quote jsonb;

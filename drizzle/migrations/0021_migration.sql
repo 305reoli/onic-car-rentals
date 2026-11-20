@@ -1,0 +1,1 @@
+GRANT SELECT (payment_mode) ON public.vehicles TO anon, authenticated;

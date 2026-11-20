@@ -1,0 +1,1 @@
+ALTER TABLE public.prereservations ADD COLUMN IF NOT EXISTS sistemagestao_rental_number text, ADD COLUMN IF NOT EXISTS sistemagestao_rental_id text;

@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX vehicles_internal_label_unique ON public.vehicles (lower(btrim(internal_label))) WHERE btrim(internal_label) <> '';

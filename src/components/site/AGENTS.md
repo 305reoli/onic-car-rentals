@@ -1,0 +1,4 @@
+- Price-on-request cars (`hasDailyPrice` false: null/0/negative) are WhatsApp-only via `PriceOnRequest.tsx` on cards, car page and checkout; `validateBooking` throws PRICE_ON_REQUEST so no path can create a $0 booking.
+- SimilarModels uses shared unavailableQuery and sameSubstituteCategory via similarModels.ts; the similarTo catalog filter shares selection and preserves dates, so public alternatives never use private booking substitution logic.
+- ResultsPriceNote owns list-level charge explanations; cards retain exact daily prices and computed totals without repeating trust notes.
+- Mobile filters/sort collapse around one shared control set using presentation-only local state; card density uses breakpoint styles to preserve desktop and result logic.

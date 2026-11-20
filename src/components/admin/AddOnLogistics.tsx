@@ -1,0 +1,8 @@
+import { useLang } from "@/hooks/use-lang";
+import { checkoutPackageText, fmt } from "@/lib/i18n";
+import type { LuggageLogistics, HotelLogistics, ChildSeats } from "@/lib/checkoutExtras";
+export function AddOnLogistics({ addons }: { addons: unknown }) {
+  const { lang } = useLang(), t = checkoutPackageText[lang];
+  const a = (addons ?? {}) as { luggageLogistics?: LuggageLogistics; hotelLogistics?: HotelLogistics; babySeat?: boolean; childSeats?: ChildSeats; coverage?: boolean; prepaidFuel?: boolean; vipDelivery?: boolean };
+  return <div className="mt-3 grid gap-2 text-xs" data-testid="admin-addon-logistics">{a.prepaidFuel && <div data-testid="admin-prepaid-fuel"><b>{t.fuel}</b></div>}{a.vipDelivery && <div data-testid="admin-vip-delivery"><b>{t.vip}</b></div>}{a.luggageLogistics && <div><b>{t.pickupPoint}</b>: {a.luggageLogistics.pickupPoint} {a.luggageLogistics.pickupAddress}<br />{t.luggageAddress}: {a.luggageLogistics.deliveryAddress}<br />{t.pickupTime}: {a.luggageLogistics.pickupTime}</div>}{a.hotelLogistics && <div><b>{t.hotelName}</b>: {a.hotelLogistics.hotelName}<br />{t.hotelAddress}: {a.hotelLogistics.hotelAddress}<br />{t.arrival}: {a.hotelLogistics.arrivalTime}</div>}{a.babySeat && <div><b>{t.baby}</b> {a.childSeats ? `× ${a.childSeats.quantity}` : "✓"}{a.childSeats?.ages.map((age, i) => <p key={i}>{fmt(t.childAge, { n: i + 1 })}: {age || "—"}</p>)}</div>}{a.coverage && <p>{t.coverage} ✓</p>}</div>;
+}

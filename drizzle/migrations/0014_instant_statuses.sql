@@ -1,0 +1,2 @@
+ALTER TABLE public.prereservations DROP CONSTRAINT prereservations_status_check;
+ALTER TABLE public.prereservations ADD CONSTRAINT prereservations_status_check CHECK (status = ANY (ARRAY['draft','pending_approval','approved','declined','expired','cancelled','checkout_hold','confirmed','payment_failed','paid_conflict','amount_review','refunded']));
