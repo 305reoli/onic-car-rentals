@@ -6,14 +6,14 @@ const cars = [{ active: true, city: "orlando", slug: "porsche-macan" }, { active
 const cities = [{ slug: "orlando", fleet_from_city: "orlando" }, { slug: "miami", fleet_from_city: "miami" }];
 describe("SEO/AEO clean URL rules", () => {
   it("resolves the supplied legacy Porsche Macan URL to its clean Orlando page", () => {
-    expect(legacyCarTarget(new URL("https://seudominio.com/?carros-2=porsche-macan"), cars, cities)).toBe("/carros/orlando/porsche-macan");
+    expect(legacyCarTarget(new URL("https://oniccarrentals.com/?carros-2=porsche-macan"), cars, cities)).toBe("/carros/orlando/porsche-macan");
   });
   it("uses the matching city hub when a legacy model is absent", () => {
-    expect(legacyCarTarget(new URL("https://seudominio.com/?carros-2=missing&city=miami"), cars, cities)).toBe("/aluguel-de-carros-de-luxo-em-miami");
+    expect(legacyCarTarget(new URL("https://oniccarrentals.com/?carros-2=missing&city=miami"), cars, cities)).toBe("/aluguel-de-carros-de-luxo-em-miami");
   });
   it("does not intercept clean car or transaction URLs", () => {
-    expect(legacyCarTarget(new URL("https://seudominio.com/pt/checkout/orlando/porsche-macan?carros-2=porsche-macan"), cars, cities)).toBeNull();
-    expect(legacyCarTarget(new URL("https://seudominio.com/carros/orlando/porsche-macan"), cars, cities)).toBeNull();
+    expect(legacyCarTarget(new URL("https://oniccarrentals.com/pt/checkout/orlando/porsche-macan?carros-2=porsche-macan"), cars, cities)).toBeNull();
+    expect(legacyCarTarget(new URL("https://oniccarrentals.com/carros/orlando/porsche-macan"), cars, cities)).toBeNull();
   });
   it("maps the exact requested institutional URLs in all languages", () => {
     expect(publicPath("pt", "about")).toBe("/quem-somos");

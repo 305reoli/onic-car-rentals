@@ -26,7 +26,7 @@ describe("1. MeasureOne card on the first confirmation screen", () => {
     expect(a.getAttribute("href")).toBe(LINK);
     expect(a.getAttribute("target")).toBe("_blank");
   });
-  it("does not render for non-US, Sua coverage, unpaid or missing link", () => {
+  it("does not render for non-US, Onic coverage, unpaid or missing link", () => {
     for (const b of [{ ...paidPending, insurance_us_flow: null }, { ...paidPending, insurance_choice: "ben" }, { ...paidPending, status: "draft", captured_at: null, paid_amount_usd: null }]) {
       const { container, unmount } = render(<MeasureOneCard lang="en" link={LINK} booking={b as never} />);
       expect(container.innerHTML).toBe(""); unmount();
@@ -62,7 +62,7 @@ describe("2. MeasureOne email fires at payment time", () => {
     expect(await measureOneAfterPayment(db, booking().id)).toEqual({ sent: false, reason: "already_sent" });
     expect(vi.mocked(sendResendEmail)).toHaveBeenCalledTimes(1);
   });
-  it("does not send for non-US, Sua coverage or unpaid bookings", async () => {
+  it("does not send for non-US, Onic coverage or unpaid bookings", async () => {
     vi.mocked(sendResendEmail).mockClear();
     for (const over of [{ insurance_us_flow: null }, { insurance_choice: "ben" }, { status: "draft", captured_at: null, paid_amount_usd: null }]) await measureOneAfterPayment(fakeDb(booking(over)), booking().id);
     expect(vi.mocked(sendResendEmail)).not.toHaveBeenCalled();

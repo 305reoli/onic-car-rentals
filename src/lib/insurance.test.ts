@@ -24,7 +24,7 @@ describe("insurance i18n", () => {
 
 const base = (): CheckoutValidationInput => ({ driver: {}, pickup: { city: "orlando", type: "airport" }, ret: { city: "orlando", type: "airport" }, same: true, pickupAt: new Date(), minAge: 21, askClient: false, clientType: null, babySeat: false, hotelCheckin: false, hotel: { hotelName: "", hotelAddress: "", arrivalTime: "" }, luggageCar: false, luggage: { pickupPoint: "MCO", pickupAddress: "", deliveryAddress: "", pickupTime: "" }, paymentReady: false, uploaded: { licenseFront: "a", licenseBack: "b", passport: "c" }, docBusy: {}, accepted: false, licenseCountry: "Brazil" });
 describe("checkout validation never requires insurance", () => {
-  it("passes with no choice, Sua coverage, or an uploaded file", () => {
+  it("passes with no choice, Onic coverage, or an uploaded file", () => {
     expect(checkoutInvalidFields(1, base())).toEqual([]);
     const withFile = base(); withFile.uploaded = { ...withFile.uploaded, insurancePolicy: `${folder}/insurancePolicy.pdf` };
     expect(checkoutInvalidFields(1, withFile)).toEqual([]);

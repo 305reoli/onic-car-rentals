@@ -14,7 +14,7 @@ export function DiscoveryPage({ data, search }: { data: DiscoveryData; search?: 
       {data.crumbs.map(([name, path]) => <span key={path}> / <Link to={internalPath(publicPath("pt", path))}>{name}</Link></span>)}
     </nav>
     <header className="mb-10">
-      <div className="eyebrow mb-3">Sua Locadora</div>
+      <div className="eyebrow mb-3">Onic Car Rentals</div>
       <h1 className="font-display max-w-5xl text-4xl md:text-6xl">{data.h1}</h1>
       {!data.group && ["orlando", "miami"].includes(data.city.slug) && <p className="mt-3 text-xs text-muted-foreground">{data.city.slug === "orlando" ? deliveryLegText.pt.tampa : deliveryLegText.pt.fll}</p>}
       <p className="mt-5 max-w-4xl text-muted-foreground">{data.intro}</p>

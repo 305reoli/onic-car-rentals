@@ -112,7 +112,7 @@ export async function liveIdentityNotifyDeps(db: Db, mode: string): Promise<Iden
     client: {
       send: sendResendEmail,
       createSession: async ({ bookingId, licenseCountry, lang }) => {
-        const vs = await s.createVerificationSession({ returnUrl: `https://seudominio.com/api/public/identity-return?lang=${lang}`, meta: { source: "client_redo", booking_id: bookingId, license_country: licenseCountry.slice(0, 80) }, idem: `identity-redo-${bookingId}-${crypto.randomUUID()}` });
+        const vs = await s.createVerificationSession({ returnUrl: `https://oniccarrentals.com/api/public/identity-return?lang=${lang}`, meta: { source: "client_redo", booking_id: bookingId, license_country: licenseCountry.slice(0, 80) }, idem: `identity-redo-${bookingId}-${crypto.randomUUID()}` });
         return { id: vs.id, url: vs.url };
       },
     },

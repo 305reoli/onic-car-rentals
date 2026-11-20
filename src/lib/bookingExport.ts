@@ -34,7 +34,7 @@ export function buildBookingExport(r: Row, vehicle: { slug: string; security_dep
   const fees = Array.isArray(pb["customFees"]) ? pb["customFees"].map(f => record(f)) : [];
   const snapshotDeposit = money(pb["securityDeposit"] ?? pb["security_deposit_usd"] ?? pb["deposit"]);
   return {
-    schema_version: 1, source: "Sua Locadora", currency: "USD", booking_id: r.id, booking_status: r.status,
+    schema_version: 1, source: "Onic Car Rentals", currency: "USD", booking_id: r.id, booking_status: r.status,
     customer: {
       full_name: `${r.first_name} ${r.last_name}`.trim(), first_name: r.first_name, last_name: r.last_name,
       email: r.email, phone: r.phone, whatsapp: r.phone, whatsapp_updates_opt_in: r.whatsapp_opt_in,

@@ -11,7 +11,7 @@ import { usd, usd2 } from "@/lib/pricing";
 import { PaymentProblems } from "@/components/admin/PaymentProblems";
 
 export const Route = createFileRoute("/_authenticated/admin/payments")({
-  head: () => ({ meta: [{ title: "Payments — Sua Locadora admin" }, { name: "description", content: "Payments and refunds." }, { property: "og:title", content: "Payments — Sua Locadora admin" }, { property: "og:description", content: "Payments and refunds." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Payments — Onic Car Rentals admin" }, { name: "description", content: "Payments and refunds." }, { property: "og:title", content: "Payments — Onic Car Rentals admin" }, { property: "og:description", content: "Payments and refunds." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: PaymentsPage,
 });
 

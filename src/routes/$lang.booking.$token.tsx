@@ -27,7 +27,7 @@ const bookingQuery = (token: string) => queryOptions({ queryKey: ["booking", tok
 
 export const Route = createFileRoute("/$lang/booking/$token")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(bookingQuery(params.token)),
-  head: () => ({ meta: [{ title: "My booking — Sua Locadora" }, { name: "description", content: "Booking status." }, { property: "og:title", content: "My booking — Sua Locadora" }, { property: "og:description", content: "Booking status." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "My booking — Onic Car Rentals" }, { name: "description", content: "Booking status." }, { property: "og:title", content: "My booking — Onic Car Rentals" }, { property: "og:description", content: "Booking status." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
   component: BookingStatus,
   errorComponent: PageError,
   notFoundComponent: () => <PageError error={new Error("Not found")} />,

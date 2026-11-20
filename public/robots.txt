@@ -1,4 +1,4 @@
-# Sua Locadora — search engines and AI assistants are welcome on all public pages.
+# Onic Car Rentals — search engines and AI assistants are welcome on all public pages.
 User-agent: Googlebot
 User-agent: Bingbot
 User-agent: GPTBot
@@ -26,4 +26,4 @@ Allow: /
 Disallow: /admin
 Disallow: /auth
 
-Sitemap: https://seudominio.com/sitemap.xml
+Sitemap: https://oniccarrentals.com/sitemap.xml

@@ -23,7 +23,7 @@ export function Footer() {
     <footer className="border-t border-border">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-3 font-display text-xl"><Seal size={40} className="-my-2" /><span>BEN <span className="text-primary">RENTAL</span> CAR</span></div>
+          <div className="flex items-center gap-3 font-display text-xl"><Seal size={40} className="-my-2" /><span><span className="text-primary">ONIC</span> <span className="text-muted-foreground">CAR RENTALS</span></span></div>
           <p className="mt-3 max-w-sm text-sm text-muted-foreground">Orlando · Miami · Fort Lauderdale · Tampa, Florida</p>
         </div>
         <nav className="flex flex-col gap-3 text-sm text-muted-foreground [&_a:hover]:text-primary">
@@ -38,10 +38,10 @@ export function Footer() {
           <Link to="/$lang/legal" params={{ lang }} className="text-xs">{tr.footer.legal}</Link>
         </nav>
         <div className="flex flex-col gap-3 text-sm text-muted-foreground [&_a:hover]:text-primary">
-          <a href={waLink(waMessage(lang, { kind: "general" }))} target="_blank" rel="noreferrer">WhatsApp +1 (555) 123-4567</a>
+          <a href={waLink(waMessage(lang, { kind: "general" }))} target="_blank" rel="noreferrer">WhatsApp +55 (65) 98404-6666</a>
           <a href={`tel:${CALL_PHONE}`}>{ownerText[lang].call} {CALL_PHONE_DISPLAY}</a>
           <p>{ownerText[lang].hours}</p>
-          <a href="https://instagram.com/sualocadora" target="_blank" rel="noreferrer">Instagram @sualocadora</a>
+          <a href="https://instagram.com/oniccarrentals" target="_blank" rel="noreferrer">Instagram @oniccarrentals</a>
         </div>
       </div>
       <div className="border-t border-border px-5 py-6 text-center text-xs text-muted-foreground"><p>{legalLine}</p><p className="mt-2">{tr.footer.rights}</p></div>

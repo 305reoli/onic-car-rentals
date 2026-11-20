@@ -8,7 +8,7 @@ export const Route = createFileRoute("/$lang/reviews")({
   loader: ({ context }) => context.queryClient.ensureQueryData(googleReviewsQuery()),
   head: ({ params }) => {
     const lang = params.lang as Lang, ui = aeoUi[lang];
-    return seoHead({ lang, path: "reviews", title: `${ui.reviews} | Sua Locadora`, description: editorialMeta(ui.reviewsMeta, lang), homeLabel: t(lang).seo.home, crumbs: [[ui.reviews, "/reviews"]] });
+    return seoHead({ lang, path: "reviews", title: `${ui.reviews} | Onic Car Rentals`, description: editorialMeta(ui.reviewsMeta, lang), homeLabel: t(lang).seo.home, crumbs: [[ui.reviews, "/reviews"]] });
   },
   component: () => <Reviews page />,
 });

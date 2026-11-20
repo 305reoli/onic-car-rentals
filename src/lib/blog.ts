@@ -40,11 +40,11 @@ export const blogText = (post: BlogPost, lang: Lang) => {
 };
 export function blogHead(lang: Lang, post?: BlogPost, cars: Vehicle[] = []) {
   const ui = blogUi[lang], copy = post?.translations[lang], path = blogPathKey(post?.slug), photo = post ? blogCover(post, cars) : null;
-  const head = seoHead({ lang, path, title: copy ? `${copy.title} | Sua Locadora` : ui.metaTitle, description: (post?.description?.[lang]) ?? copy?.excerpt ?? ui.intro, type: post ? "article" : "website", homeLabel: t(lang).seo.home, crumbs: [[ui.title, "/blog"], ...(post && copy ? [[copy.title, `/${path}`] as [string, string]] : [])], jsonLd: post && copy ? [{
+  const head = seoHead({ lang, path, title: copy ? `${copy.title} | Onic Car Rentals` : ui.metaTitle, description: (post?.description?.[lang]) ?? copy?.excerpt ?? ui.intro, type: post ? "article" : "website", homeLabel: t(lang).seo.home, crumbs: [[ui.title, "/blog"], ...(post && copy ? [[copy.title, `/${path}`] as [string, string]] : [])], jsonLd: post && copy ? [{
     "@context": "https://schema.org", "@type": "Article", headline: copy.title, description: post.description?.[lang] ?? copy.excerpt,
     datePublished: post.date, inLanguage: lang === "pt" ? "pt-BR" : lang,
     mainEntityOfPage: abs(publicPath(lang, path)), articleSection: ui.categories[post.category], articleBody: blogText(post, lang),
-    author: { "@type": "Organization", name: "Sua Locadora", "@id": `${SITE}/#organization` }, publisher: { "@id": `${SITE}/#organization` },
+    author: { "@type": "Organization", name: "Onic Car Rentals", "@id": `${SITE}/#organization` }, publisher: { "@id": `${SITE}/#organization` },
     ...(photo ? { image: abs(sizedPhoto(photo, 1200)) } : {}), citation: post.sources.map(s => s.url ?? s.name),
   }] : [] });
   // Blog shares use the same real fleet cover shown in the article, at share size.

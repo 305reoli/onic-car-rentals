@@ -13,7 +13,7 @@ import doorPoster from "@/assets/videos/private_jet_aircraft_door_poster.jpg.ass
 
 export const REEL_URL = "https://www.instagram.com/reel/DekOSzco5MR/";
 
-/** "A experiência Sua": concierge care items (on request via WhatsApp, never priced) + self-hosted VIP-arrival reel. */
+/** "A experiência Onic": concierge care items (on request via WhatsApp, never priced) + self-hosted VIP-arrival reel. */
 export function ConciergeSection() {
   const { lang } = useLang();
   const t = conciergeText[lang];

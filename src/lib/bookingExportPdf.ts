@@ -8,7 +8,7 @@ export async function bookingExportPdf(data: BookingExport) {
   const response = await fetch("/fonts/export-sans.ttf");
   if (!response.ok) throw new Error("Export font unavailable");
   const font = await pdf.embedFont(await response.arrayBuffer(), { subset: true });
-  pdf.setTitle(`Sua Locadora — booking ${data.booking_id}`);
+  pdf.setTitle(`Onic Car Rentals — booking ${data.booking_id}`);
   let page = pdf.addPage([595, 842]), y = 780;
   const newPage = () => { page = pdf.addPage([595, 842]); y = 780; };
   const wrap = (value: string, maxWidth: number, size: number) => {
@@ -26,8 +26,8 @@ export async function bookingExportPdf(data: BookingExport) {
     if (line) lines.push(line);
     return lines.length ? lines : ["—"];
   };
-  page.drawText("SUA LOCADORA", { x: 42, y, font, size: 20 }); y -= 28;
-  page.drawText("Private booking export · Sua Empresa LLC", { x: 42, y, font, size: 10 }); y -= 28;
+  page.drawText("ONIC CAR RENTALS", { x: 42, y, font, size: 20 }); y -= 28;
+  page.drawText("Private booking export · Reoli LLC", { x: 42, y, font, size: 10 }); y -= 28;
   for (const section of exportSections(data)) {
     if (y < 95) newPage();
     page.drawText(section.title.toUpperCase(), { x: 42, y, font, size: 12 }); y -= 24;

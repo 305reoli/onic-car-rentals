@@ -168,9 +168,9 @@ describe("fleet sync hardening (Nov 13)", () => {
   const base = { event_id: "e1", event_type: "vehicle.updated", vehicle_id: "v1", source_revision: 5, occurred_at: "2026-11-13T10:00:00Z", schema_version: 2 };
   it("outbound vehicle.updated carries all six fields and the photos array", async () => {
     const { outboundEnvelope, wireRulesEnvelope } = await import("./fleet-sync");
-    const out = wireRulesEnvelope(outboundEnvelope({ ...base, changed_fields: ["security_deposit"], snapshot: { daily_price: 199, security_deposit: 300, deductible: null, minimum_days: 2, minimum_age: 25, category: "suv", photos: ["https://seudominio.com/api/public/photo/cars/a.jpg", "not-a-url"] } }), d) as unknown as { snapshot: Record<string, unknown> };
+    const out = wireRulesEnvelope(outboundEnvelope({ ...base, changed_fields: ["security_deposit"], snapshot: { daily_price: 199, security_deposit: 300, deductible: null, minimum_days: 2, minimum_age: 25, category: "suv", photos: ["https://oniccarrentals.com/api/public/photo/cars/a.jpg", "not-a-url"] } }), d) as unknown as { snapshot: Record<string, unknown> };
     expect(Object.keys(out.snapshot).sort()).toEqual(["category", "deductible", "minimum_age", "minimum_days", "photos", "security_deposit"]);
-    expect(out.snapshot["photos"]).toEqual(["https://seudominio.com/api/public/photo/cars/a.jpg"]);
+    expect(out.snapshot["photos"]).toEqual(["https://oniccarrentals.com/api/public/photo/cars/a.jpg"]);
   });
   it("delete is sent only when the site row is verifiably gone; archive only while still inactive", async () => {
     const { lifecycleStillValid } = await import("./fleet-sync");

@@ -8,7 +8,7 @@ export const Route = createFileRoute("/$lang/terms")({
     const lang = params.lang as Lang;
     const tr = t(lang);
     const title = rentalTermsText[lang].title;
-    return seoHead({ lang, path: "/terms", homeLabel: tr.seo.home, title: `${title} | Sua Locadora`, description: rentalTermsText[lang].description, crumbs: [[title, "/terms"]] });
+    return seoHead({ lang, path: "/terms", homeLabel: tr.seo.home, title: `${title} | Onic Car Rentals`, description: rentalTermsText[lang].description, crumbs: [[title, "/terms"]] });
   },
   component: () => <LegalPage kind="terms" />,
 });

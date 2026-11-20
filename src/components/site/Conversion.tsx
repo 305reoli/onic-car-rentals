@@ -7,7 +7,7 @@ import { INSTAGRAM_PHOTOS, INSTAGRAM_POSTS } from "@/lib/instagramPhotos";
 import { photoSrcSet, sizedPhoto } from "@/lib/vehicles";
 import { cn } from "@/lib/utils";
 
-export const INSTAGRAM_URL = "https://instagram.com/sualocadora";
+export const INSTAGRAM_URL = "https://instagram.com/oniccarrentals";
 const GOOGLE_LINK = "https://share.google/yY7cWYetSug8kS6P7";
 
 /** Live Google rating summary (renders nothing until the live integration returns a rating). */
@@ -79,7 +79,7 @@ export function CancellationSummary() {
   );
 }
 
-/** Instagram social-proof strip (homepage + car pages): the 10 real @sualocadora photos, 4:5 tiles, each opening its own post. Lazy images, no embeds. */
+/** Instagram social-proof strip (homepage + car pages): the 10 real @oniccarrentals photos, 4:5 tiles, each opening its own post. Lazy images, no embeds. */
 export function InstagramStrip() {
   const { lang } = useLang();
   const t = convText[lang];
@@ -89,12 +89,12 @@ export function InstagramStrip() {
     <section className="py-16" aria-labelledby="ig-title" data-testid="instagram-strip">
       <div className="mx-auto max-w-7xl px-5">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-          <div><h2 id="ig-title" className="font-display text-3xl md:text-5xl"><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-primary">{t.igTitle}</a></h2><p className="mt-2 text-sm text-muted-foreground"><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="font-semibold text-foreground hover:underline">@sualocadora</a> · {t.igSub}</p></div>
+          <div><h2 id="ig-title" className="font-display text-3xl md:text-5xl"><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-primary">{t.igTitle}</a></h2><p className="mt-2 text-sm text-muted-foreground"><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="font-semibold text-foreground hover:underline">@oniccarrentals</a> · {t.igSub}</p></div>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"><Instagram className="size-4" />{t.igFollow}</a>
         </div>
         <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
           {photos.map((p, i) => (
-            <a key={i} href={p.href} target="_blank" rel="noreferrer" aria-label={`@sualocadora — ${p.alt}`} className="group relative block aspect-[4/5] overflow-hidden rounded-xl">
+            <a key={i} href={p.href} target="_blank" rel="noreferrer" aria-label={`@oniccarrentals — ${p.alt}`} className="group relative block aspect-[4/5] overflow-hidden rounded-xl">
               <img src={sizedPhoto(p.src, 480)} srcSet={photoSrcSet(p.src, [320, 480, 640])} sizes="(min-width: 768px) 20vw, 45vw" alt={p.alt} loading="lazy" decoding="async" width={480} height={600} className="size-full object-cover object-center transition-transform duration-500 group-hover:scale-105" />
               <span className="absolute inset-0 flex items-center justify-center bg-background/0 opacity-0 transition group-hover:bg-background/40 group-hover:opacity-100"><Instagram className="size-6" /></span>
             </a>

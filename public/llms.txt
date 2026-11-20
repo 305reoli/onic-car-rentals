@@ -1,22 +1,22 @@
-# Sua Locadora
+# Onic Car Rentals
 
-> Luxury, sports and exotic car rental in Orlando and Miami, Florida, operated by Sua Empresa LLC. Portuguese-speaking support for Brazilian travelers; site and service in Portuguese, English and Spanish. Online booking with pre-reservation approval within minutes or up to 2 hours during business hours. Delivery available in Orlando and Miami.
+> Luxury, sports and exotic car rental in Orlando and Miami, Florida, operated by Reoli LLC. Portuguese-speaking support for Brazilian travelers; site and service in Portuguese, English and Spanish. Online booking with pre-reservation approval within minutes or up to 2 hours during business hours. Delivery available in Orlando and Miami.
 
 ## About
 
-- Legal operator: Sua Empresa LLC
-- Website: https://seudominio.com/
-- Call us: +1 555-123-4567
-- WhatsApp: +1 555 123-4567
+- Legal operator: Reoli LLC
+- Website: https://oniccarrentals.com/
+- Call us: +1 (954) 248-0903
+- WhatsApp: +55 (65) 98404-6666
 - Business hours: 8:00 AM - 7:45 PM ET
-- Email: reservas@seudominio.com
+- Email: info@oniccarrentals.com
 - Google rating: 5.0 (53 reviews)
 - Cities served: Orlando and Miami; delivery also to Tampa and Fort Lauderdale
 - Pickup base Orlando: 789 Sua Rua, Orlando, FL (Level 4 parking garage)
-- Pickup base Miami: 321 Sua Avenida, Miami Beach, FL (Level 3)
+- Pickup base Miami: 1000 Lincoln Rd, Miami Beach, FL (Level 3)
 - Languages: Portuguese (primary), English, Spanish
 
-## The Sua experience
+## The Onic experience
 
 - No rental counter and no lines: the car is hand-delivered to the customer.
 - Airport reception: the team personally receives the customer at arrivals.
@@ -32,21 +32,21 @@
 
 ## Key pages
 
-- Home: https://seudominio.com/
-- Orlando rentals: https://seudominio.com/aluguel-de-carros-de-luxo-em-orlando
-- Miami rentals: https://seudominio.com/aluguel-de-carros-de-luxo-em-miami
-- Blog: https://seudominio.com/blog
-- Reviews: https://seudominio.com/depoimentos
-- About: https://seudominio.com/quem-somos
-- Terms: https://seudominio.com/termos
-- Cancellation policy: https://seudominio.com/cancelamento
-- Privacy policy: https://seudominio.com/privacidade
+- Home: https://oniccarrentals.com/
+- Orlando rentals: https://oniccarrentals.com/aluguel-de-carros-de-luxo-em-orlando
+- Miami rentals: https://oniccarrentals.com/aluguel-de-carros-de-luxo-em-miami
+- Blog: https://oniccarrentals.com/blog
+- Reviews: https://oniccarrentals.com/depoimentos
+- About: https://oniccarrentals.com/quem-somos
+- Terms: https://oniccarrentals.com/termos
+- Cancellation policy: https://oniccarrentals.com/cancelamento
+- Privacy policy: https://oniccarrentals.com/privacidade
 
 ## Blog articles
 
-- Porsche Mission S: o conceito que coloca um superesportivo de motor central acima do 911 — https://seudominio.com/blog/porsche-mission-s-conceito-superesportivo
-- Brabus 800: o Porsche 911 Turbo S híbrido agora tem 800 cv — https://seudominio.com/blog/brabus-800-porsche-911-turbo-s
-- Ferrari Finali Mondiali 2026: Barcelona recebe a grande festa da Ferrari em novembro — https://seudominio.com/blog/ferrari-finali-mondiali-2026-barcelona
-- Ferrari Purosangue: o SUV V12 da Ferrari que você pode dirigir em Miami — https://seudominio.com/blog/ferrari-purosangue-aluguel-miami
-- Lamborghini Huracán EVO Spyder: o V10 conversível para dirigir em Miami e Orlando — https://seudominio.com/blog/lamborghini-huracan-evo-spyder-aluguel-miami-orlando
-- Porsche 911 Carrera Conversível: o ícone esportivo para dirigir na Flórida — https://seudominio.com/blog/porsche-911-carrera-conversivel-aluguel-miami
+- Porsche Mission S: o conceito que coloca um superesportivo de motor central acima do 911 — https://oniccarrentals.com/blog/porsche-mission-s-conceito-superesportivo
+- Brabus 800: o Porsche 911 Turbo S híbrido agora tem 800 cv — https://oniccarrentals.com/blog/brabus-800-porsche-911-turbo-s
+- Ferrari Finali Mondiali 2026: Barcelona recebe a grande festa da Ferrari em novembro — https://oniccarrentals.com/blog/ferrari-finali-mondiali-2026-barcelona
+- Ferrari Purosangue: o SUV V12 da Ferrari que você pode dirigir em Miami — https://oniccarrentals.com/blog/ferrari-purosangue-aluguel-miami
+- Lamborghini Huracán EVO Spyder: o V10 conversível para dirigir em Miami e Orlando — https://oniccarrentals.com/blog/lamborghini-huracan-evo-spyder-aluguel-miami-orlando
+- Porsche 911 Carrera Conversível: o ícone esportivo para dirigir na Flórida — https://oniccarrentals.com/blog/porsche-911-carrera-conversivel-aluguel-miami

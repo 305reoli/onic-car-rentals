@@ -22,7 +22,7 @@ export async function processCheckoutRecovery(db: SupabaseClient<Database>, now 
     const tx = recoveryText[lang], link = resumeLink(row);
     let receipt = "", detail = "", status = "failed";
     try {
-      const result = await sendResendEmail({ to: row.email, subject: tx.subject, idempotencyKey: `checkout-recovery-${row.id}`, html: `<h1>Sua Locadora</h1><p>${escape(tx.email)}</p><p>${escape(fmt(tx.message, { name: row.first_name, car: row.vehicle_name, link: "" }))}</p><p><a href="${escape(link)}">${escape(tx.resume)}</a></p>` });
+      const result = await sendResendEmail({ to: row.email, subject: tx.subject, idempotencyKey: `checkout-recovery-${row.id}`, html: `<h1>Onic Car Rentals</h1><p>${escape(tx.email)}</p><p>${escape(fmt(tx.message, { name: row.first_name, car: row.vehicle_name, link: "" }))}</p><p><a href="${escape(link)}">${escape(tx.resume)}</a></p>` });
       receipt = result.id; status = "sent"; sent++;
     } catch (e) { detail = e instanceof Error ? e.message : "Email unavailable"; failed++; }
     await db.from("checkout_captures").update({ recovery_sent_at: status === "sent" ? now.toISOString() : null, recovery_receipt: receipt || null, recovery_error: detail || null }).eq("id", row.id);

@@ -8,7 +8,7 @@ export const Route = createFileRoute("/$lang/cancellation")({
     const lang = params.lang as Lang;
     const tr = t(lang);
     const title = tr.legal.cancellation;
-    return seoHead({ lang, path: "/cancellation", homeLabel: tr.seo.home, title: `${title} | Sua Locadora`, description: rentalTermsText[lang].cancellationDescription, crumbs: [[title, "/cancellation"]] });
+    return seoHead({ lang, path: "/cancellation", homeLabel: tr.seo.home, title: `${title} | Onic Car Rentals`, description: rentalTermsText[lang].cancellationDescription, crumbs: [[title, "/cancellation"]] });
   },
   component: () => <LegalPage kind="cancellation" />,
 });

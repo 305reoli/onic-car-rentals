@@ -11,7 +11,7 @@ import { usd2 } from "@/lib/pricing";
 import { listAbandonedCheckouts, deleteAbandonedCheckout } from "@/services/checkout-recovery.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/abandoned")({
-  head: () => ({ meta: [{ title: "Abandoned checkouts — Sua Locadora" }, { name: "description", content: "Private Sua Locadora checkout recovery." }, { property: "og:title", content: "Abandoned checkouts — Sua Locadora" }, { property: "og:description", content: "Private checkout recovery." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Abandoned checkouts — Onic Car Rentals" }, { name: "description", content: "Private Onic Car Rentals checkout recovery." }, { property: "og:title", content: "Abandoned checkouts — Onic Car Rentals" }, { property: "og:description", content: "Private checkout recovery." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: Abandoned,
 });
 function Abandoned() {

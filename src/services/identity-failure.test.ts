@@ -37,7 +37,7 @@ function setup() {
   const send = vi.fn(async () => ({ sent: true }));
   let session: any = { id: SID, status: "requires_input", url: null, client_secret: null, last_error: null, last_verification_report: null, metadata: { booking_id: BOOKING.id } };
   const deps: IdentityNotifyDeps = {
-    db: fakeDb(tables), mode: "sandbox", send, ownerEmail: async () => "dono@seudominio.com",
+    db: fakeDb(tables), mode: "sandbox", send, ownerEmail: async () => "info@oniccarrentals.com",
     retrieveSession: async () => session, retrieveReport: async () => report as never,
   };
   return { tables, send, deps, set: (s: any) => { session = { ...session, ...s }; } };
@@ -51,7 +51,7 @@ describe("identity failure → owner email", () => {
     expect(await handleIdentityFailed(deps, { id: SID })).toMatch(/^identity:failure_notified/);
     expect(send).toHaveBeenCalledTimes(1);
     const m = mail(send);
-    expect(m.to).toBe("dono@seudominio.com");
+    expect(m.to).toBe("info@oniccarrentals.com");
     expect(m.subject).toBe("Identity verification NOT completed — Ana Exemplo — booking TESTE001");
     for (const s of ["selfie_face_mismatch", "The selfie did not match the document.", SID, "Cadillac Escalade", "still needs its identity verification completed"]) expect(m.html).toContain(s);
     expect(tables["identity_verifications"]![0]!.owner_failure_notified_at).toBeTruthy();

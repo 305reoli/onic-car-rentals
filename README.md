@@ -3,8 +3,8 @@
 Código-fonte completo de um site de locadora, **sem nenhum dado da empresa de origem**:
 marca, telefones, e-mails, endereços, chaves, IDs de rastreamento, fotos da frota,
 blog e textos comerciais foram removidos ou trocados por placeholders.
-Para achar o que trocar, procure no código por: `Sua Locadora`, `seudominio.com`,
-`SEU_`, `555 123-4567`, `dono@seudominio.com`.
+Para achar o que trocar, procure no código por: `Onic Car Rentals`, `oniccarrentals.com`,
+`SEU_`, `555 123-4567`, `info@oniccarrentals.com`.
 
 ## O que tem dentro
 

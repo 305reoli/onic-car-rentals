@@ -17,7 +17,7 @@ describe("price-on-request cars", () => {
     it(`${lang}: panel shows Price on request + WhatsApp with car and city, never $0`, () => {
       const html = renderToStaticMarkup(<PriceOnRequestPanel lang={lang} car="Ferrari Roma" city="Miami" />);
       expect(html).toContain(t(lang).fleet.priceOnRequest);
-      expect(html).toContain("wa.me/15551234567");
+      expect(html).toContain("wa.me/5565984046666");
       const href = decodeURIComponent(/href="([^"]+)"/.exec(html)![1]!.replace(/&amp;/g, "&"));
       expect(href).toContain("Ferrari Roma");
       expect(href).toContain("Miami");

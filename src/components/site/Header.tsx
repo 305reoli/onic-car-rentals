@@ -59,10 +59,10 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <NavProgress />
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5">
-        <Link to="/$lang" params={{ lang }} className="flex items-center gap-2.5 font-display text-lg tracking-tight" aria-label="Sua Locadora">
+        <Link to="/$lang" params={{ lang }} className="flex items-center gap-2.5 font-display text-lg tracking-tight" aria-label="Onic Car Rentals">
           <Seal size={36} priority className="sm:hidden" />
           <Seal size={44} priority className="hidden sm:inline-block" />
-          <span className="hidden min-[360px]:inline">BEN <span className="text-primary">RENTAL</span> CAR</span>
+          <span className="hidden min-[360px]:inline"><span className="text-primary">ONIC</span> <span className="text-muted-foreground">CAR RENTALS</span></span>
         </Link>
         <nav className="hidden items-center gap-4 text-sm text-muted-foreground xl:flex [&_a]:transition-colors">
           <DropdownMenu>
@@ -81,7 +81,7 @@ export function Header() {
           <Sheet>
             <SheetTrigger className="cursor-pointer xl:hidden" aria-label="Menu"><Menu className="size-6" /></SheetTrigger>
             <SheetContent side="right" className="bg-background">
-              <SheetTitle className="font-display">SUA LOCADORA</SheetTitle>
+              <SheetTitle className="font-display">ONIC CAR RENTALS</SheetTitle>
               <nav className="mt-8 flex flex-col gap-5 text-lg">
                 {links}
                 <a href={`tel:${CALL_PHONE}`} className="text-sm">{ownerText[lang].call} {CALL_PHONE_DISPLAY}</a>

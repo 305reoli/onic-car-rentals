@@ -103,7 +103,7 @@ export const Route = createFileRoute("/$lang/checkout/$city/$slug")({
     // Booked dates are a normal state, not a server error: show a friendly message instead of a 500.
     return { unavailable: unavailable.includes(v.id), priceless: false, carName: v.name, cityLabel: v.city };
   },
-  head: () => ({ meta: [{ title: "Booking — Sua Locadora" }, { name: "description", content: "Complete your Sua Locadora booking with an itemized payment summary." }, { property: "og:title", content: "Booking — Sua Locadora" }, { property: "og:description", content: "Complete your Sua Locadora booking with an itemized payment summary." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Booking — Onic Car Rentals" }, { name: "description", content: "Complete your Onic Car Rentals booking with an itemized payment summary." }, { property: "og:title", content: "Booking — Onic Car Rentals" }, { property: "og:description", content: "Complete your Onic Car Rentals booking with an itemized payment summary." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
   component: CheckoutGate,
   errorComponent: PageError,
   notFoundComponent: () => <PageError error={new Error("Car not found")} />,

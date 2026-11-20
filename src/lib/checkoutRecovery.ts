@@ -6,7 +6,7 @@ export const CAPTURE_HOURS = 24;
 export const RECOVERY_HOURS = 2;
 export const captureReferenceSchema = z.string().uuid();
 export type ResumeFields = { language: string; base_city: string; service_city: string; vehicle_slug: string; pickup_at: string; return_at: string };
-export function resumeLink(row: ResumeFields, origin = "https://seudominio.com") {
+export function resumeLink(row: ResumeFields, origin = "https://oniccarrentals.com") {
   const lang: Lang = row.language === "en" || row.language === "es" ? row.language : "pt";
   const path = publicPath(lang, `/checkout/${encodeURIComponent(row.base_city)}/${encodeURIComponent(row.vehicle_slug)}`);
   const q = new URLSearchParams({ city: row.service_city, pickup: row.pickup_at, ret: row.return_at });

@@ -1,7 +1,7 @@
 const GATEWAY = "https://connector-gateway.lovable.dev/resend";
-export const EMAIL_DOMAIN = "seudominio.com";
-export const EMAIL_FROM = "Sua Locadora <reservas@seudominio.com>";
-export const OWNER_EMAIL = "dono@seudominio.com";
+export const EMAIL_DOMAIN = "oniccarrentals.com";
+export const EMAIL_FROM = "Onic Car Rentals <info@oniccarrentals.com>";
+export const OWNER_EMAIL = "info@oniccarrentals.com";
 
 export function emailConfigured() {
   return Boolean(process.env["RESEND_API_KEY"] && process.env["LOVABLE_API_KEY"]);

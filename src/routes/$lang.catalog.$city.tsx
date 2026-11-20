@@ -32,7 +32,7 @@ export const Route = createFileRoute("/$lang/catalog/$city")({
     const title = fmt(tr.seo.catalogTitle, { city: name });
     return seoHead({
       lang, path: `/catalog/${params.city}`, homeLabel: tr.seo.home, noindex: !loaderData,
-      title: `${title} | Sua Locadora`, description: fmt(tr.seo.cityDesc, { city: name }),
+      title: `${title} | Onic Car Rentals`, description: fmt(tr.seo.cityDesc, { city: name }),
       crumbs: [[tr.seo.catalog, "/catalog"], [name, `/catalog/${params.city}`]],
       jsonLd: loaderData ? [itemListJsonLd(title, loaderData.cats.map((c) => ({ name: `${tr.seo.catTitle[c]} ${tr.seo.in} ${name}`, path: `/${lang}/catalog/${params.city}/${c}` })))] : [],
     });
@@ -61,7 +61,7 @@ function Catalog() {
           <div className="eyebrow mb-2">{tr.catalog.title}</div>
           <h1 className="font-display text-5xl md:text-7xl">{c.name}</h1>
         </div>
-        <Button variant="outline" size="sm" onClick={() => share(window.location.href, `Sua Locadora · ${c.name}`, tr.catalog.copied)}>
+        <Button variant="outline" size="sm" onClick={() => share(window.location.href, `Onic Car Rentals · ${c.name}`, tr.catalog.copied)}>
           <Share2 />{tr.catalog.share}
         </Button>
       </div>

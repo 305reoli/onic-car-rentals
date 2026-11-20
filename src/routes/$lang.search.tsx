@@ -31,7 +31,7 @@ export const Route = createFileRoute("/$lang/search")({
     const q = (match.search as S).q;
     const title = q ? fmt(tr.sbar.results, { q }) : tr.seo.searchTitle;
     // Result pages vary by query: keep them out of the index, but crawlable.
-    return seoHead({ lang, path: "/search", homeLabel: tr.seo.home, title: `${title} | Sua Locadora`, description: tr.meta.home[1] ?? "", noindex: true, crumbs: [[tr.seo.searchTitle, "/search"]] });
+    return seoHead({ lang, path: "/search", homeLabel: tr.seo.home, title: `${title} | Onic Car Rentals`, description: tr.meta.home[1] ?? "", noindex: true, crumbs: [[tr.seo.searchTitle, "/search"]] });
   },
   component: SearchPage,
   errorComponent: PageError,

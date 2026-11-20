@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/$lang/my-booking")({
   head: ({ params }) => {
     const tr = t(params.lang as Lang);
-    const title = `${tr.booking.title} — Sua Locadora`;
+    const title = `${tr.booking.title} — Onic Car Rentals`;
     return {
       meta: [
         { title }, { name: "description", content: tr.booking.find },

@@ -99,7 +99,7 @@ function harness(over: Partial<{ mode: string; consult: { status: string; amount
   };
   return { booking, settled, logs, deps };
 }
-const post = (q: string, body: unknown) => new Request(`https://seudominio.com/api/public/webhooks/globalpays${q}`, { method: "POST", body: JSON.stringify(body) });
+const post = (q: string, body: unknown) => new Request(`https://oniccarrentals.com/api/public/webhooks/globalpays${q}`, { method: "POST", body: JSON.stringify(body) });
 
 describe("Global Pays webhook (bare panel route)", () => {
   it("settles the booking resolved from the body orderId after consulting the transaction", async () => {

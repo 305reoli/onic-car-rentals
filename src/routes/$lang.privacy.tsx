@@ -9,7 +9,7 @@ export const Route = createFileRoute("/$lang/privacy")({
     const lang = params.lang as Lang;
     const tr = t(lang);
     const title = "Privacy Policy";
-    return seoHead({ lang, path: "/privacy", homeLabel: tr.seo.home, title: `${title} | Sua Locadora`, description: editorialMeta(aeoUi[lang].privacyMeta, lang), crumbs: [[title, "/privacy"]] });
+    return seoHead({ lang, path: "/privacy", homeLabel: tr.seo.home, title: `${title} | Onic Car Rentals`, description: editorialMeta(aeoUi[lang].privacyMeta, lang), crumbs: [[title, "/privacy"]] });
   },
   component: () => <PrivacyPolicy />,
 });

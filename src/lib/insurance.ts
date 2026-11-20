@@ -24,7 +24,7 @@ export function insuranceClass(v: { body_category?: string | null; category?: st
   return "regular";
 }
 
-/** Initial stored state: a file → Pending review; Sua coverage or nothing → no status. */
+/** Initial stored state: a file → Pending review; Onic coverage or nothing → no status. */
 export function initialInsurance(choice: InsuranceChoice | null | undefined, path: string | null | undefined): { insurance_choice: InsuranceChoice | null; insurance_status: InsuranceStatus | null } {
   if (choice === "own" && path) return { insurance_choice: "own", insurance_status: "pending_review" };
   return { insurance_choice: choice ?? null, insurance_status: null };

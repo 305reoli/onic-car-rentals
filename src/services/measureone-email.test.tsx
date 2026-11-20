@@ -23,17 +23,17 @@ describe("MeasureOne post-payment email", () => {
     expect((await sendMeasureOneEmail(d, "x")).reason).toBe("already_sent");
     expect(send).toHaveBeenCalledTimes(1);
     const m = (send.mock.calls[0] as unknown as [{ subject: string; html: string; idempotencyKey: string }])[0];
-    expect(m.subject).toBe("Verifique seu seguro de carro — Sua Locadora");
+    expect(m.subject).toBe("Verifique seu seguro de carro — Onic Car Rentals");
     expect(m.html).toContain('href="https://link.measureone.com/abc?x=1"');
     expect(m.idempotencyKey).toBe("measureone-x");
   });
   it("EN/ES subjects", async () => {
-    for (const [lang, subj] of [["en", "Verify your auto insurance — Sua Locadora"], ["es", "Verifique su seguro de auto — Sua Locadora"]] as const) {
+    for (const [lang, subj] of [["en", "Verify your auto insurance — Onic Car Rentals"], ["es", "Verifique su seguro de auto — Onic Car Rentals"]] as const) {
       const { d, send } = deps({ language: lang }); await sendMeasureOneEmail(d, "x");
       expect((send.mock.calls[0] as unknown as [{ subject: string }])[0].subject).toBe(subj);
     }
   });
-  it.each([["Sua coverage", { insurance_choice: "ben" }], ["upload path", { insurance_us_flow: null }], ["fallback", { insurance_us_flow: "fallback_uploaded" }]])("%s → no email", async (_n, row) => {
+  it.each([["Onic coverage", { insurance_choice: "ben" }], ["upload path", { insurance_us_flow: null }], ["fallback", { insurance_us_flow: "fallback_uploaded" }]])("%s → no email", async (_n, row) => {
     const { d, send } = deps(row as never); await sendMeasureOneEmail(d, "x"); expect(send).not.toHaveBeenCalled();
   });
   it("empty link → no email", async () => { const { d, send } = deps({}, " "); await sendMeasureOneEmail(d, "x"); expect(send).not.toHaveBeenCalled(); });
@@ -52,7 +52,7 @@ describe("MeasureOne confirmation card eligibility", () => {
   });
   it.each([
     ["BR/foreign", { ...paid, insurance_us_flow: null, insurance_choice: "own" }, LINK],
-    ["Sua coverage", { ...paid, insurance_us_flow: MEASUREONE_PENDING, insurance_choice: "ben" }, LINK],
+    ["Onic coverage", { ...paid, insurance_us_flow: MEASUREONE_PENDING, insurance_choice: "ben" }, LINK],
     ["unpaid", { ...paid, captured_at: null, paid_amount_usd: 0, insurance_us_flow: MEASUREONE_PENDING }, LINK],
     ["empty link", { ...paid, insurance_us_flow: MEASUREONE_PENDING }, ""],
   ])("%s → renders nothing", (_n, booking, link) => {

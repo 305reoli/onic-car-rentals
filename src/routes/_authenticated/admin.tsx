@@ -8,7 +8,7 @@ import { adminStatus } from "@/services/admin.functions";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Admin — Sua Locadora" }, { name: "description", content: "Owner admin." }, { property: "og:title", content: "Admin — Sua Locadora" }, { property: "og:description", content: "Owner admin." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Admin — Onic Car Rentals" }, { name: "description", content: "Owner admin." }, { property: "og:title", content: "Admin — Onic Car Rentals" }, { property: "og:description", content: "Owner admin." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
   component: AdminLayout,
 });
 

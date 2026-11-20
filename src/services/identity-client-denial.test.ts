@@ -38,7 +38,7 @@ function setup() {
   const send = vi.fn(async () => ({ sent: true }));
   let session: any = { id: SID, status: "requires_input", url: null, client_secret: null, last_error: null, last_verification_report: null, metadata: { booking_id: BOOKING.id } };
   const deps: IdentityNotifyDeps = {
-    db: fakeDb(tables), mode: "sandbox", send, ownerEmail: async () => "dono@seudominio.com",
+    db: fakeDb(tables), mode: "sandbox", send, ownerEmail: async () => "info@oniccarrentals.com",
     retrieveSession: async () => session, retrieveReport: async () => report as never,
   };
   return { tables, send, deps, set: (s: any) => { session = { ...session, ...s }; } };

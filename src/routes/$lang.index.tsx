@@ -36,7 +36,7 @@ export const Route = createFileRoute("/$lang/")({
   shouldReload: true,
   head: ({ params, loaderData }) => {
     const lang = params.lang as Lang;
-    const h = pageHead(lang, "home", "", { ...(lang === "pt" ? { description: "Carros esportivos, exóticos e premium na Flórida. Atendimento em português para brasileiros desde 2022. Taxas discriminadas antes de pagar." } : {}), keywords: KEYWORDS, jsonLd: [faqJsonLd(loaderData ? toPairs(allMain(mainFaq(lang, loaderData.faq.settings as never, loaderData.faq.cities, loaderData.faq.cars))) : [])] });
+    const h = pageHead(lang, "home", "", { ...(lang === "pt" ? { description: "Carros esportivos, exóticos e premium na Flórida. Atendimento em português para brasileiros desde 2014. Taxas discriminadas antes de pagar." } : {}), keywords: KEYWORDS, jsonLd: [faqJsonLd(loaderData ? toPairs(allMain(mainFaq(lang, loaderData.faq.settings as never, loaderData.faq.cities, loaderData.faq.cars))) : [])] });
     return {
       ...h,
       links: [...h.links, { rel: "preload", as: "image", href: `${heroDesktop.url}?w=1280&q=75`, imageSrcSet: HERO_DESKTOP_SET, imageSizes: "100vw", fetchPriority: "high", media: "(min-width: 768px)" }, { rel: "preload", as: "image", href: `${heroMobile.url}?w=600&q=70`, imageSrcSet: HERO_MOBILE_SET, imageSizes: "100vw", fetchPriority: "high", media: "(max-width: 767px)" }],
@@ -71,13 +71,6 @@ function Home() {
         </Container>
         <PromoTicker />
       </section>
-      <section className="pb-6 pt-16 md:pt-20" aria-labelledby="cities-title">
-        <Container>
-          <h2 id="cities-title" className="font-display text-3xl md:text-5xl">{tr.drill.chooseCity}</h2>
-          <p className="mt-3 text-muted-foreground">{tr.drill.chooseCitySub}</p>
-        </Container>
-      </section>
-      <CityCards />
       <section className="pb-16" aria-labelledby="featured-title">
         <Container>
           <h2 id="featured-title" className="font-display text-2xl md:text-3xl">{tr.fleet.featured}</h2>
@@ -90,12 +83,19 @@ function Home() {
           </div>
         </Container>
       </section>
+      <section className="pb-6 pt-16 md:pt-20" aria-labelledby="cities-title">
+        <Container>
+          <h2 id="cities-title" className="font-display text-3xl md:text-5xl">{tr.drill.chooseCity}</h2>
+          <p className="mt-3 text-muted-foreground">{tr.drill.chooseCitySub}</p>
+        </Container>
+      </section>
+      <CityCards />
+      <Reviews />
       <HowItWorks />
       <About />
-      <Reviews />
       <ConciergeSection />
-      <InstagramStrip />
       <Faq />
+      <InstagramStrip />
     </>
   );
 }

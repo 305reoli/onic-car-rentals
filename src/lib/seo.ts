@@ -6,30 +6,30 @@ import { DEFAULT_DELIVERY } from "@/lib/pricing";
 import { localizedPath, publicPath } from "@/lib/publicRoutes";
 import { editorialMeta } from "@/lib/aeo";
 
-export const SITE = "https://seudominio.com";
+export const SITE = "https://oniccarrentals.com";
 export const abs = (p: string) => (/^https?:\/\//.test(p) ? p : `${SITE}${p.startsWith("/") ? "" : "/"}${p}`);
 export const DEFAULT_IMAGE = abs("/brand/og-1200x630.jpg");
-export const OG_IMAGE_ALT = "Sua Locadora";
+export const OG_IMAGE_ALT = "Onic Car Rentals";
 export const LOGO = abs("/logo.png");
 const OG_LOCALE: Record<Lang, string> = { en: "en_US", pt: "pt_BR", es: "es_ES" };
 
 export const BUSINESS = {
-  name: "Sua Locadora",
-  legalName: "Sua Empresa LLC",
-  telephone: "+15551234567",
-  phoneDisplay: "+1 (555) 123-4567",
-  email: "reservas@seudominio.com",
-  foundingDate: "2022",
+  name: "Onic Car Rentals",
+  legalName: "Reoli LLC",
+  telephone: "+19542480903",
+  phoneDisplay: "+1 (954) 248-0903",
+  email: "info@oniccarrentals.com",
+  foundingDate: "2014",
   priceRange: "$$",
   openingHours: "Mo-Su 08:00-19:45",
-  instagram: "https://instagram.com/sualocadora",
+  instagram: "https://instagram.com/oniccarrentals",
   cities: ["Orlando", "Miami", "Fort Lauderdale", "Tampa"],
 } as const;
 
 export type Postal = { streetAddress: string; addressLocality: string; addressRegion: string; postalCode?: string; addressCountry: "US" };
 export const addressLine = (a: Postal) =>
   `${a.streetAddress}, ${a.addressLocality}, ${a.addressRegion}${a.postalCode ? ` ${a.postalCode}` : ""}`;
-/** "123 Sua Rua, Orlando, FL 32809" → PostalAddress parts. */
+/** "1000 Lincoln Rd, Miami Beach, FL 33139" → PostalAddress parts. */
 export function postalFrom(address: string): Postal {
   const parts = address.split(",").map((x) => x.trim()).filter(Boolean);
   const m = /^([A-Z]{2})(?:\s+(\d{5}))?/.exec(parts[2] ?? "");
@@ -41,7 +41,7 @@ export function businessAddresses(bases: Record<string, { address: string }> | u
   return ["orlando", "miami"].filter((k) => b[k]?.address).map((k) => postalFrom(b[k]!.address));
 }
 
-export const KEYWORDS = "exotic car rental Florida, exotic car rental Orlando, exotic car rental Miami, exotic car rental Fort Lauderdale, exotic car rental Tampa, luxury car rental, rent Ferrari Orlando, rent Lamborghini Miami, aluguel de carros exóticos Florida, Sua Locadora";
+export const KEYWORDS = "exotic car rental Florida, exotic car rental Orlando, exotic car rental Miami, exotic car rental Fort Lauderdale, exotic car rental Tampa, luxury car rental, rent Ferrari Orlando, rent Lamborghini Miami, aluguel de carros exóticos Florida, Onic Car Rentals";
 
 /** Google Business Profile URL: owner setting first, else derived from the reviews Place ID. Never invented. */
 export function googleProfileUrl(setting?: string | null, placeId?: string | null): string | null {
@@ -59,11 +59,11 @@ export function orgJsonLd(_addresses: Postal[], _description?: string, _googleUr
     url: SITE,
     telephone: BUSINESS.telephone,
     email: BUSINESS.email,
-    sameAs: ["https://www.instagram.com/sualocadora", "https://search.google.com/local/writereview?placeid=ChIJNyybg_oR00wRh4n0-LvkXoU"],
+    sameAs: ["https://www.instagram.com/oniccarrentals", "https://search.google.com/local/writereview?placeid=ChIJNyybg_oR00wRh4n0-LvkXoU"],
     areaServed: ["Orlando", "Miami", "Tampa", "Fort Lauderdale"].map((name) => ({ "@type": "City", name, addressRegion: "FL", addressCountry: "US" })),
     location: [
       { "@type": "Place", address: { "@type": "PostalAddress", streetAddress: "789 Sua Rua", addressLocality: "Winter Garden", addressRegion: "FL", addressCountry: "US" } },
-      { "@type": "Place", address: { "@type": "PostalAddress", streetAddress: "321 Sua Avenida", addressLocality: "Miami Beach", addressRegion: "FL", postalCode: "33139", addressCountry: "US" } },
+      { "@type": "Place", address: { "@type": "PostalAddress", streetAddress: "1000 Lincoln Rd", addressLocality: "Miami Beach", addressRegion: "FL", postalCode: "33139", addressCountry: "US" } },
     ],
     aggregateRating: { "@type": "AggregateRating", ratingValue: 5.0, reviewCount: 53 },
     priceRange: BUSINESS.priceRange,
@@ -152,7 +152,7 @@ export function seoHead(i: SeoInput) {
       { property: "og:title", content: i.title },
       { property: "og:description", content: description },
       { property: "og:url", content: url },
-      { property: "og:site_name", content: "Sua Locadora" },
+      { property: "og:site_name", content: "Onic Car Rentals" },
       { property: "og:type", content: i.type ?? "website" },
       { property: "og:image", content: image },
       { property: "og:image:width", content: "1200" },
@@ -178,6 +178,6 @@ export function seoHead(i: SeoInput) {
 /** Static pages: title/description from the i18n meta table. */
 export function pageHead(lang: Lang, key: keyof ReturnType<typeof t>["meta"], path: string, extra: Partial<SeoInput> = {}) {
   const tr = t(lang);
-  const [title = "Sua Locadora", description = ""] = tr.meta[key];
+  const [title = "Onic Car Rentals", description = ""] = tr.meta[key];
   return seoHead({ lang, path, title, description, homeLabel: tr.seo.home, ...(path ? { crumbs: [[title.split(" — ")[0]!.split(" | ")[0]!, path]] as [string, string][] } : {}), ...extra });
 }

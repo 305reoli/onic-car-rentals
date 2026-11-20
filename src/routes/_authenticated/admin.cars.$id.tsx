@@ -16,7 +16,7 @@ import { deliveryAdminText } from "@/lib/i18n";
 import { useServerFn } from "@tanstack/react-start";
 import { flushVehicleFleetSync } from "@/services/fleet-sync.functions";
 
-export const Route = createFileRoute("/_authenticated/admin/cars/$id")({ head: () => ({ meta: [{ title: "Edit car — Sua Locadora admin" }, { name: "description", content: "Owner vehicle details and fixed delivery prices." }, { property: "og:title", content: "Edit car — Sua Locadora admin" }, { property: "og:description", content: "Owner vehicle details and fixed delivery prices." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: CarEditor });
+export const Route = createFileRoute("/_authenticated/admin/cars/$id")({ head: () => ({ meta: [{ title: "Edit car — Onic Car Rentals admin" }, { name: "description", content: "Owner vehicle details and fixed delivery prices." }, { property: "og:title", content: "Edit car — Onic Car Rentals admin" }, { property: "og:description", content: "Owner vehicle details and fixed delivery prices." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: CarEditor });
 
 type Form = Omit<Vehicle, "id" | "created_at" | "updated_at">;
 const EMPTY: Form = {

@@ -1,5 +1,5 @@
 // Global Pays webhook core (server-only). Shared by the booking_id callback and the bare panel route
-// (https://seudominio.com/api/public/webhooks/globalpays?secret=…), which carries only orderId in the body.
+// (https://oniccarrentals.com/api/public/webhooks/globalpays?secret=…), which carries only orderId in the body.
 import type { OrderStatus } from "./globalpays.server";
 
 type Row = { id: string; created_at: string; provider_order_id: string | null; flow: string };

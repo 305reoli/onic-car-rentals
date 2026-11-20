@@ -18,7 +18,7 @@ export function CityPage({ city, search }: { city: CityRow; search: DrillSearch 
         <CityCoverImg slug={city.slug} lang={lang} fallback={photoUrl(city.hero_photo)} fallbackAlt={city.name} eager sizes="(min-width: 1280px) 1200px, 100vw" />
         <div className="hero-overlay absolute inset-0" />
         <div className="relative p-6 md:p-10">
-          <div className="eyebrow mb-2">Sua Locadora</div>
+          <div className="eyebrow mb-2">Onic Car Rentals</div>
           <h1 className="font-display mb-3 text-5xl md:text-7xl">{city.name}</h1>
           {["orlando", "miami"].includes(city.slug) && <p className="mb-3 text-xs text-muted-foreground">{city.slug === "orlando" ? deliveryLegText[lang].tampa : deliveryLegText[lang].fll}</p>}
           <p className="max-w-2xl text-muted-foreground">{cityDescription(city, lang)}</p>

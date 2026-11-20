@@ -127,11 +127,11 @@ export const testBookingEmail = createServerFn({ method: "POST" })
     const { emailHtml } = await import("@/lib/emailLayout");
     const { logNotification } = await import("./whatsapp.server");
     const { SITE_URL } = await import("./notify.server");
-    const subject = "TESTE — Sua Locadora · nova configuração de notificações de reservas";
+    const subject = "TESTE — Onic Car Rentals · nova configuração de notificações de reservas";
     const base = { channel: "email", kind: "owner_email_test", recipient };
     try {
       const result = await sendResendEmail({ to: recipient, subject,
-        html: emailHtml({ siteUrl: SITE_URL(), lang: "pt", subject, lines: ["Teste de envio do Sua Locadora. Nenhuma reserva ou pagamento foi alterado."], footer: OWNER_EMAIL }),
+        html: emailHtml({ siteUrl: SITE_URL(), lang: "pt", subject, lines: ["Teste de envio do Onic Car Rentals. Nenhuma reserva ou pagamento foi alterado."], footer: OWNER_EMAIL }),
         idempotencyKey: `owner-email-test-${recipient}-${new Date().toISOString().slice(0, 10)}` });
       await logNotification(db, { ...base, status: "sent", detail: `Resend id=${result.id}` });
       return result;

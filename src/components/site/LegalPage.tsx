@@ -10,7 +10,7 @@ export function LegalPage({ kind }: { kind: "terms" | "cancellation" }) {
       <h1 className="font-display mb-8 text-3xl md:text-5xl">{kind === "terms" ? rentalTermsText[lang].title : tr.legal.cancellation}</h1>
       <div className="text-muted-foreground">
         <RentalTerms lang={lang} cancellationOnly={kind === "cancellation"} />
-        <p className="mt-4 text-xs">Sua Empresa LLC · Sua Locadora</p>
+        <p className="mt-4 text-xs">Reoli LLC · Onic Car Rentals</p>
       </div>
     </Container>
   );

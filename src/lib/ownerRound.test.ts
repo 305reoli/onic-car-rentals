@@ -18,7 +18,7 @@ describe("owner car rules", () => {
   it("does not invent missing allowance", () => expect(carMileageLine({ body_category: "sports", mileage_limit: "" }, "en")).toBe("extra miles US$ 7/mile"));
   it("no absent specs invented", () => expect(carSpecs({ hp: null, color: "", transmission: "" }, "en")).toEqual([]));
   it("only stored specs", () => expect(carSpecs({ hp: 670, color: "Red", transmission: "Automatic" }, "en")).toEqual([["Horsepower", "670 hp"], ["Color", "Red"], ["Transmission", "Automatic"]]));
-  it("call line separate from WhatsApp", () => expect(CALL_PHONE).toBe("+15551234567"));
+  it("call line separate from WhatsApp", () => expect(CALL_PHONE).toBe("+19542480903"));
   it("hours end 19:45 ET", () => expect(ownerText.en.hours).toBe("Business hours: 8:00 AM - 7:45 PM ET"));
   for (const lang of ["en", "pt", "es"] as const) it(`${lang} cancellation page resolves`, () => expect(internalPath(publicPath(lang, "cancellation"))).toBe(`/${lang}/cancellation`));
 });

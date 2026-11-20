@@ -68,7 +68,7 @@ export async function notify(kind: Kind, to: string, lang: Lang, vars: Record<st
       const { checkoutPackageText } = await import("@/lib/i18n");
       if (emailPerkAllowed(kind, booking)) {
         const copy = checkoutPackageText[lang];
-        perkLine = `${copy.perk}: BENRENTAL10 — ${copy.perkText}`;
+        perkLine = `${copy.perk}: ONIC10 — ${copy.perkText}`;
         actions = [...(actions ?? []), { label: copy.visit, href: "https://lojaparceira.com" }];
       }
       const { data: st } = await supabaseAdmin.from("settings").select("gp_interest_free_installments").eq("id", 1).maybeSingle();
@@ -105,7 +105,7 @@ export async function notify(kind: Kind, to: string, lang: Lang, vars: Record<st
   }
 }
 
-export const SITE_URL = () => (process.env["SITE_URL"] || "https://seudominio.com").replace(/\/$/, "");
+export const SITE_URL = () => (process.env["SITE_URL"] || "https://oniccarrentals.com").replace(/\/$/, "");
 
 type Pre = { id: string; token: string; email: string; phone: string; language: string; vehicle_name: string; pickup_at: string; return_at: string;
   service_city: string | null; base_city: string | null; price_breakdown: unknown; prereservation_amount_usd: number | string; whatsapp_opt_in: boolean; sistemagestao_link?: string | null };

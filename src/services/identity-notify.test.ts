@@ -38,7 +38,7 @@ function setup(opts: { meta?: Record<string, string>; idRow?: R | null; booking?
   const tables: Record<string, R[]> = { prereservations: [{ ...(opts.booking ?? BOOKING) }], identity_verifications: opts.idRow ? [{ owner_notified_at: null, ...opts.idRow }] : [] };
   const send = vi.fn(async () => ({ sent: true }));
   const deps: IdentityNotifyDeps = {
-    db: fakeDb(tables), mode: "sandbox", send, ownerEmail: async () => "dono@seudominio.com",
+    db: fakeDb(tables), mode: "sandbox", send, ownerEmail: async () => "info@oniccarrentals.com",
     retrieveSession: async () => ({ id: SID, status: "verified", url: null, client_secret: null, last_error: null, last_verification_report: "vr_1", metadata: opts.meta ?? {} }),
     retrieveReport: async () => report as never,
   };
@@ -51,7 +51,7 @@ describe("identity.verification_session.verified → owner email", () => {
     expect(await handleIdentityVerified(deps, { id: SID })).toBe("identity:notified(metadata.booking_id)");
     expect(send).toHaveBeenCalledTimes(1);
     const m = (send.mock.calls[0] as any)[0];
-    expect(m.to).toBe("dono@seudominio.com");
+    expect(m.to).toBe("info@oniccarrentals.com");
     expect(m.subject).toBe("Identity verification completed — Ana Exemplo — booking TESTE001");
     for (const s of ["Ana Exemplo", BOOKING.id, "Cadillac Escalade", "Orlando base", "ANA", "EXEMPLO", "1990-03-02", "Passport", "FX123456", "PT", "2031-01-01", SID, new Date(1794700000 * 1000).toISOString()]) expect(m.html).toContain(s);
     // Stored for admin badge + SistemaGestao payload, flag set.

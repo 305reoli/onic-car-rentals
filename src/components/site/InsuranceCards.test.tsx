@@ -6,9 +6,9 @@ import { initialInsurance } from "@/lib/insurance";
 
 const base = { onFile: vi.fn(), busy: false } as const;
 const exp = {
-  en: { phone: "Phone / WhatsApp (with country code)", q: "How do you want to cover the car?", ben: ["Sua Locadora coverage", "Already included in your total", "No documents to send."], own: ["Use my own insurance", "Upload required", "You upload your policy declarations and our team reviews them."] },
-  pt: { phone: "Telefone / WhatsApp (com código do país)", q: "Como você quer cobrir o carro?", ben: ["Cobertura da Sua Locadora", "Já inclusa no total", "Você não precisa enviar nada."], own: ["Usar meu próprio seguro", "Requer envio", "Você envia as declarações da apólice e nossa equipe confere."] },
-  es: { phone: "Teléfono / WhatsApp (con código de país)", q: "¿Cómo quieres cubrir el auto?", ben: ["Cobertura de Sua Locadora", "Ya incluida en tu total", "No necesitas enviar nada."], own: ["Usar mi propio seguro", "Se requiere envío", "Envías las declaraciones de la póliza y nuestro equipo las revisa."] },
+  en: { phone: "Phone / WhatsApp (with country code)", q: "How do you want to cover the car?", ben: ["Onic Car Rentals coverage", "Already included in your total", "No documents to send."], own: ["Use my own insurance", "Upload required", "You upload your policy declarations and our team reviews them."] },
+  pt: { phone: "Telefone / WhatsApp (com código do país)", q: "Como você quer cobrir o carro?", ben: ["Cobertura da Onic Car Rentals", "Já inclusa no total", "Você não precisa enviar nada."], own: ["Usar meu próprio seguro", "Requer envio", "Você envia as declarações da apólice e nossa equipe confere."] },
+  es: { phone: "Teléfono / WhatsApp (con código de país)", q: "¿Cómo quieres cubrir el auto?", ben: ["Cobertura de Onic Car Rentals", "Ya incluida en tu total", "No necesitas enviar nada."], own: ["Usar mi propio seguro", "Se requiere envío", "Envías las declaraciones de la póliza y nuestro equipo las revisa."] },
 } as const;
 
 describe.each(["en", "pt", "es"] as const)("checkout polish (%s)", (lang) => {

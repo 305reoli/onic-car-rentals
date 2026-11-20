@@ -76,13 +76,13 @@ export const Route = createFileRoute("/$lang/cars/$city/$slug")({
     const tr = t(lang);
     const d = loaderData;
     const path = `/cars/${params.city}/${params.slug}`;
-    if (!d) return seoHead({ lang, path, title: "Unavailable — Sua Locadora", description: "", noindex: true });
+    if (!d) return seoHead({ lang, path, title: "Unavailable — Onic Car Rentals", description: "", noindex: true });
     const title = fmt(tr.seo.carTitle, { car: d.name, city: d.city });
     const image = d.photo ? photoUrl(d.photo) : null;
     const lcpSet = d.photo ? photoSrcSet(d.photo, GALLERY_WIDTHS) : undefined;
     const sh = seoHead({
       lang, path, type: "product", homeLabel: tr.seo.home, image,
-      title: `${title} | Sua Locadora`,
+      title: `${title} | Onic Car Rentals`,
       description: carMeta(lang, d.name, d.city, d.price),
       crumbs: [[d.city, `/${params.city}`], [tr.categories[d.category as keyof typeof tr.categories] ?? d.category, `/${params.city}/${d.category}`], ...(lang === "pt" ? [[d.modelName, `/${d.modelPath}`] as [string, string]] : []), [d.name, path]],
       jsonLd: [productJsonLd(d.name, d.photos.map(photoUrl), abs(publicPath(lang, path)), d.price, { description: d.desc, brand: d.brand, reviews: d.reviewData }), faqJsonLd(toPairs(d.faq))],

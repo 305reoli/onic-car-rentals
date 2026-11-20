@@ -1,4 +1,4 @@
-// ============ Real @sualocadora Instagram photos, in posting order (ig-01 .. ig-10) ============
+// ============ Real @oniccarrentals Instagram photos, in posting order (ig-01 .. ig-10) ============
 // Browser-safe module: static JSON imports only, no window/document access.
 import ig01 from "@/assets/instagram/ig-01.jpg.asset.json";
 import ig02 from "@/assets/instagram/ig-02.jpg.asset.json";
@@ -11,7 +11,7 @@ import ig08 from "@/assets/instagram/ig-08.jpg.asset.json";
 import ig09 from "@/assets/instagram/ig-09.jpg.asset.json";
 import ig10 from "@/assets/instagram/ig-10.jpg.asset.json";
 
-/** The 10 real @sualocadora photos in posting order: ig-01..ig-03 (2026-06-30), ig-04..ig-06 (2026-03-16), ig-07..ig-09 (2025-11-07), ig-10 (2025-08-03). */
+/** The 10 real @oniccarrentals photos in posting order: ig-01..ig-03 (2026-06-30), ig-04..ig-06 (2026-03-16), ig-07..ig-09 (2025-11-07), ig-10 (2025-08-03). */
 export const INSTAGRAM_PHOTOS: string[] = [
   ig01.url,
   ig02.url,

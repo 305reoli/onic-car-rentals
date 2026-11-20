@@ -16,7 +16,7 @@ import { flushVehicleFleetSync } from "@/services/fleet-sync.functions";
 import { inCategory, PUBLIC_CATEGORIES } from "@/lib/vehicles";
 const CAT_LABEL = { suv: "SUV", sedan: "Sedan", luxury: "Luxury", convertible: "Convertible", sports: "Sports", exotics: "Exotics" } as const;
 
-export const Route = createFileRoute("/_authenticated/admin/cars/")({ head: () => ({ meta: [{ title: "Fleet — Sua Locadora admin" }, { name: "description", content: "Manage vehicle listings and internal fleet codes." }, { property: "og:title", content: "Fleet — Sua Locadora admin" }, { property: "og:description", content: "Manage vehicle listings and internal fleet codes." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: CarsPage });
+export const Route = createFileRoute("/_authenticated/admin/cars/")({ head: () => ({ meta: [{ title: "Fleet — Onic Car Rentals admin" }, { name: "description", content: "Manage vehicle listings and internal fleet codes." }, { property: "og:title", content: "Fleet — Onic Car Rentals admin" }, { property: "og:description", content: "Manage vehicle listings and internal fleet codes." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: CarsPage });
 
 function CarsPage() {
   const flushFleet = useServerFn(flushVehicleFleetSync);

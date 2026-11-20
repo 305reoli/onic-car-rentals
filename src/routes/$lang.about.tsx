@@ -8,7 +8,7 @@ import { Container } from "@/components/site/Sections";
 export const Route = createFileRoute("/$lang/about")({
   head: ({ params }) => {
     const lang = params.lang as Lang, ui = aeoUi[lang];
-    return seoHead({ lang, path: "about", title: `${ui.about} | Sua Locadora`, description: editorialMeta(ui.aboutMeta, lang), homeLabel: t(lang).seo.home, crumbs: [[ui.about, "/about"]] });
+    return seoHead({ lang, path: "about", title: `${ui.about} | Onic Car Rentals`, description: editorialMeta(ui.aboutMeta, lang), homeLabel: t(lang).seo.home, crumbs: [[ui.about, "/about"]] });
   },
   component: AboutPage,
 });

@@ -221,14 +221,14 @@ export function InstagramReels() {
       <Container>
         <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <div className="eyebrow mb-3">@sualocadora</div>
+            <div className="eyebrow mb-3">@oniccarrentals</div>
             <h2 className="font-display text-3xl md:text-5xl">{tr.insta.title}</h2>
           </div>
-          <Button asChild variant="outline"><a href="https://instagram.com/sualocadora" target="_blank" rel="noreferrer"><Instagram />{tr.insta.follow}</a></Button>
+          <Button asChild variant="outline"><a href="https://instagram.com/oniccarrentals" target="_blank" rel="noreferrer"><Instagram />{tr.insta.follow}</a></Button>
         </div>
         <div className="no-scrollbar -mx-5 flex gap-4 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-6 md:px-0">
           {["/images/car-urus.jpg", "/images/car-cullinan.jpg", "/images/car-purosangue.jpg", "/images/car-g63.jpg", "/images/car-escalade.jpg", "/images/city-miami.jpg"].map((src, i) => (
-            <a key={i} href="https://instagram.com/sualocadora" target="_blank" rel="noreferrer" className="surface relative block aspect-[9/16] w-40 shrink-0 overflow-hidden md:w-auto">
+            <a key={i} href="https://instagram.com/oniccarrentals" target="_blank" rel="noreferrer" className="surface relative block aspect-[9/16] w-40 shrink-0 overflow-hidden md:w-auto">
               <img src={src} alt={fmt(tr.seo.instaAlt, { n: i + 1 })} loading="lazy" className="size-full object-cover opacity-70" />
               <Play className="absolute left-1/2 top-1/2 size-8 -translate-x-1/2 -translate-y-1/2 fill-current" />
             </a>

@@ -99,7 +99,7 @@ export const payInstant = createServerFn({ method: "POST" })
       const quote = config.mode === "mock" ? null : await calculateQuote(amount);
       const o = await createOrder({
         amount, invoice: r.id.slice(0, 8).toUpperCase(),
-        description: `Sua Locadora — ${r.vehicle_name} (${r.pickup_at.slice(0, 10)} → ${r.return_at.slice(0, 10)})`,
+        description: `Onic Car Rentals — ${r.vehicle_name} (${r.pickup_at.slice(0, 10)} → ${r.return_at.slice(0, 10)})`,
         callback: returnUrl(origin, r.language, r.token),
         client: { name: `${r.first_name} ${r.last_name}`, email: r.email, phone: r.phone, doc: "" },
       }, origin);

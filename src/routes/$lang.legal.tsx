@@ -12,7 +12,7 @@ export const Route = createFileRoute("/$lang/legal")({
     const lang = params.lang as Lang;
     const tr = t(lang);
     const title = tr.legal.legalTitle;
-    return seoHead({ lang, path: "/legal", homeLabel: tr.seo.home, title: `${title} | Sua Locadora`, description: tr.legal.legalDesc, crumbs: [[title, "/legal"]] });
+    return seoHead({ lang, path: "/legal", homeLabel: tr.seo.home, title: `${title} | Onic Car Rentals`, description: tr.legal.legalDesc, crumbs: [[title, "/legal"]] });
   },
   component: LegalInfo,
 });
@@ -30,7 +30,7 @@ function LegalInfo() {
       <div className="surface p-8 text-muted-foreground">
         <H>{tr.legal.operatorTitle}</H>
         <p>{operator}</p>
-        <p className="mt-3">123 Sua Rua, Orlando, FL{zip ? ` ${zip}` : ""} · +1 (555) 123-4567{email ? ` · ${email}` : ""}</p>
+        <p className="mt-3">1000 Lincoln Rd, Miami Beach, FL 33139 · +1 (954) 248-0903{email ? ` · ${email}` : ""}</p>
         <H>{tr.legal.paymentsTitle}</H>
         <p>{payments}</p>
         <p className="mt-3">{ownerText[lang].prereserve}</p>
@@ -44,7 +44,7 @@ function LegalInfo() {
         <H>{tr.legal.supportTitle}</H>
         <p className="mb-2"><a href={`tel:${CALL_PHONE}`} className="text-primary">{ownerText[lang].call} {CALL_PHONE_DISPLAY}</a></p>
         <p className="mb-2">{ownerText[lang].hours}</p>
-        <p className="[&_a]:text-primary"><a href={waLink(waMessage(lang, { kind: "general" }))} target="_blank" rel="noreferrer">WhatsApp +1 (555) 123-4567</a>{email && <> · <a href={`mailto:${email}`}>{email}</a></>}</p>
+        <p className="[&_a]:text-primary"><a href={waLink(waMessage(lang, { kind: "general" }))} target="_blank" rel="noreferrer">WhatsApp +55 (65) 98404-6666</a>{email && <> · <a href={`mailto:${email}`}>{email}</a></>}</p>
       </div>
     </Container>
   );

@@ -3,9 +3,9 @@ import { bookingNotificationEmail, emailPerkAllowed, ownerBookingSubject } from 
 
 describe("booking email rules", () => {
   it("defaults owner notifications to Proprietario's current inbox", () => {
-    expect(bookingNotificationEmail(undefined)).toBe("dono@seudominio.com");
-    expect(bookingNotificationEmail(" ")).toBe("dono@seudominio.com");
-    expect(bookingNotificationEmail("not-an-email")).toBe("dono@seudominio.com");
+    expect(bookingNotificationEmail(undefined)).toBe("info@oniccarrentals.com");
+    expect(bookingNotificationEmail(" ")).toBe("info@oniccarrentals.com");
+    expect(bookingNotificationEmail("not-an-email")).toBe("info@oniccarrentals.com");
   });
   it("uses the admin's dedicated address after it is configured", () => {
     expect(bookingNotificationEmail(" bookings@example.com ")).toBe("bookings@example.com");
@@ -14,7 +14,7 @@ describe("booking email rules", () => {
   it("uses the owner's requested new booking subject pattern", () => {
     expect(ownerBookingSubject("BMW X3", "Nov 12–18", "Test Customer")).toBe("Nova reserva — BMW X3 · Nov 12–18 · Test Customer");
   });
-  it("allows BENRENTAL10 only in final fully paid confirmation", () => {
+  it("allows ONIC10 only in final fully paid confirmation", () => {
     expect(emailPerkAllowed("customer_confirmed", paid)).toBe(true);
     expect(emailPerkAllowed("customer_approved", paid)).toBe(false);
     expect(emailPerkAllowed("customer_received", paid)).toBe(false);

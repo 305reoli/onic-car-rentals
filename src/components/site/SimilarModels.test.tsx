@@ -45,7 +45,7 @@ describe("explicit car-panel dates without URL parameters", () => {
     expect(screen.queryByTestId("similar-models")).toBeNull();
     fireEvent.click(screen.getByLabelText("Pick blocked dates"));
     expect(screen.getAllByTestId("similar-card")).toHaveLength(1);
-    const links = screen.getAllByRole("link").map(link => new URL(link.getAttribute("href") ?? "", "https://seudominio.com"));
+    const links = screen.getAllByRole("link").map(link => new URL(link.getAttribute("href") ?? "", "https://oniccarrentals.com"));
     expect(links.map(link => link.pathname)).toEqual(["/en/cars/orlando/available", "/en/catalog/orlando/luxury"]);
     for (const link of links) expect(Object.fromEntries(link.searchParams)).toMatchObject(picked);
     expect(links[1]?.searchParams.get("similarTo")).toBe("cadillac-escalade");

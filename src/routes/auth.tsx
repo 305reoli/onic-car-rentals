@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { fieldCls } from "@/components/site/SearchBox";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Owner sign in — Sua Locadora" }, { name: "description", content: "Owner area sign in." }, { property: "og:title", content: "Owner sign in — Sua Locadora" }, { property: "og:description", content: "Owner area." }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Owner sign in — Onic Car Rentals" }, { name: "description", content: "Owner area sign in." }, { property: "og:title", content: "Owner sign in — Onic Car Rentals" }, { property: "og:description", content: "Owner area." }, { name: "robots", content: "noindex" }] }),
   component: AuthPage,
 });
 
@@ -47,7 +47,7 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen items-center justify-center px-5">
       <form onSubmit={submit} className="surface flex w-full max-w-sm flex-col gap-4 p-7">
-        <div className="font-display text-xl">BEN <span className="text-primary">RENTAL</span> CAR</div>
+        <div className="font-display text-xl"><span className="text-primary">ONIC</span> <span className="text-muted-foreground">CAR RENTALS</span></div>
         <h1 className="font-display text-2xl">{mode === "in" ? "Owner sign in" : mode === "reset" ? "Reset your password" : "Create owner account"}</h1>
         <input type="email" required placeholder="Email" className={fieldCls} value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
         {mode !== "reset" && <input type="password" required minLength={8} placeholder="Password" className={fieldCls} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === "in" ? "current-password" : "new-password"} />}

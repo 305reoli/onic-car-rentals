@@ -3,22 +3,22 @@
 **Effective date:** August 20, 2026
 **Last updated:** August 20, 2026
 
-Sua Locadora ("we," "us," or "our"), operated by Sua Empresa LLC, is committed to protecting your privacy. This policy explains what information we collect, how we use it, and the choices you have.
+Onic Car Rentals ("we," "us," or "our"), operated by Reoli LLC, is committed to protecting your privacy. This policy explains what information we collect, how we use it, and the choices you have.
 
-If you have questions about this policy, contact us at reservas@seudominio.com.
+If you have questions about this policy, contact us at info@oniccarrentals.com.
 
 ---
 
 ## 1. Who we are
 
-Sua Locadora is a concierge and travel logistics service based in Florida, United States. We arrange vehicle rentals, executive transfers, and related services on behalf of our clients.
+Onic Car Rentals is a concierge and travel logistics service based in Florida, United States. We arrange vehicle rentals, executive transfers, and related services on behalf of our clients.
 
 We do not own or rent out vehicles. Vehicles are owned and supplied by independent partner companies. Our role is to arrange the booking, coordinate documentation and logistics, and support you throughout the service. The rental agreement for the vehicle itself is entered into between you and the partner that supplies it.
 
-**Business address:** 123 Sua Rua, Orlando, FL
-**Email:** reservas@seudominio.com
-**Phone:** +1 (555) 123-4567
-**WhatsApp:** +1 (555) 123-4567
+**Business address:** 1000 Lincoln Rd, Miami Beach, FL 33139
+**Email:** info@oniccarrentals.com
+**Phone:** +1 (954) 248-0903
+**WhatsApp:** +1 (954) 248-0903
 
 ---
 
@@ -79,7 +79,7 @@ We use WhatsApp to communicate with customers about bookings and services.
 
 **Consent.** By starting a conversation with us on WhatsApp, contacting us through a WhatsApp link or advertisement, or providing your phone number when booking, you agree to receive service messages from us at that number.
 
-**Opting out.** You can stop receiving messages at any time by replying STOP, or by contacting us at reservas@seudominio.com. Opting out of service messages may limit our ability to coordinate your rental.
+**Opting out.** You can stop receiving messages at any time by replying STOP, or by contacting us at info@oniccarrentals.com. Opting out of service messages may limit our ability to coordinate your rental.
 
 **Message content.** Your conversations with us are transmitted through WhatsApp and are subject to WhatsApp's own privacy practices, which we do not control.
 
@@ -127,7 +127,7 @@ You may:
 - Withdraw your consent to receive messages from us
 - Ask questions about how your information is used
 
-To make a request, contact us at reservas@seudominio.com. We may need to verify your identity before responding. We will respond within the timeframe required by applicable law.
+To make a request, contact us at info@oniccarrentals.com. We may need to verify your identity before responding. We will respond within the timeframe required by applicable law.
 
 Depending on where you live, you may have additional rights under state or national privacy laws.
 
@@ -141,7 +141,7 @@ Our website uses cookies and similar technologies to operate the site, remember 
 
 ## 10. Children's privacy
 
-Our services are not directed to children. We do not knowingly collect information from anyone under 18. If you believe a minor has provided us information, contact us at reservas@seudominio.com and we will delete it.
+Our services are not directed to children. We do not knowingly collect information from anyone under 18. If you believe a minor has provided us information, contact us at info@oniccarrentals.com and we will delete it.
 
 ---
 
@@ -159,8 +159,8 @@ We may update this policy from time to time. When we do, we will revise the "Las
 
 ## 13. Contact us
 
-**Sua Empresa LLC**
-123 Sua Rua, Orlando, FL
-Email: reservas@seudominio.com
-Phone: +1 (555) 123-4567
-WhatsApp: +1 (555) 123-4567
+**Reoli LLC**
+1000 Lincoln Rd, Miami Beach, FL 33139
+Email: info@oniccarrentals.com
+Phone: +1 (954) 248-0903
+WhatsApp: +55 (65) 98404-6666

@@ -18,11 +18,11 @@ const CAT = { suv: "SUV", sedan: "Sedan", luxury: "Luxury", convertible: "Conver
 export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[] = businessAddresses(null), googleUrl: string | null = null, st: St = null, allCars: Car[] = cars ?? [], full = !!cars) {
   const cityName = (s: string) => cities.find((c) => c.slug === s)?.name ?? s;
   const lines = [
-    "# Sua Locadora",
+    "# Onic Car Rentals",
     "",
-    "> Specialist sports & exotic car rental service for Brazilians in the USA — Orlando and Miami (the Orlando fleet also serves Tampa, the Miami fleet also serves Fort Lauderdale). Since 2022. Operated by Sua Empresa LLC. Service in Portuguese, English and Spanish.",
+    "> Specialist sports & exotic car rental service for Brazilians in the USA — Orlando and Miami (the Orlando fleet also serves Tampa, the Miami fleet also serves Fort Lauderdale). Since 2014. Operated by Reoli LLC. Service in Portuguese, English and Spanish.",
     "",
-    "Sua Locadora rents exotic, luxury and premium cars (Ferrari, Lamborghini, Rolls-Royce, Mercedes-Benz G63, Cadillac Escalade, Porsche, luxury SUVs and convertibles) with concierge delivery.",
+    "Onic Car Rentals rents exotic, luxury and premium cars (Ferrari, Lamborghini, Rolls-Royce, Mercedes-Benz G63, Cadillac Escalade, Porsche, luxury SUVs and convertibles) with concierge delivery.",
     "The multilingual Blog publishes sourced Ferrari, Lamborghini and Porsche news and model stories in Portuguese, English and Spanish.",
     "",
     `## ${faqText("en").whoTitle}`,
@@ -34,7 +34,7 @@ export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[]
     "- Cross-city service (non-exotic cars).",
     "- Multilingual support (EN/PT/ES).",
     "",
-    "## The Sua experience (concierge, arranged on request via WhatsApp)",
+    "## The Onic experience (concierge, arranged on request via WhatsApp)",
     "- No rental counter and no lines: the car is hand-delivered to the customer.",
     "- Airport reception: the team personally receives the customer at arrivals.",
     "- Private-jet delivery: the car can be delivered at the aircraft or FBO in the Orlando and Miami areas, arranged in advance case by case.",
@@ -64,13 +64,13 @@ export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[]
     "",
     "## Contact",
     `- Call us: ${CALL_PHONE_DISPLAY}`,
-    `- WhatsApp: ${BUSINESS.phoneDisplay} (https://wa.me/15551234567)`,
+    `- WhatsApp: +55 (65) 98404-6666 (https://wa.me/5565984046666)`,
     `- Email: ${BUSINESS.email}`,
     `- Instagram: ${BUSINESS.instagram}`,
     ...(googleUrl ? [`- Google Business Profile: ${googleUrl}`] : []),
     "",
     "## Main pages",
-    `- [Início em português](${SITE}${publicPath("pt")}): Sua Locadora desde 2022`,
+    `- [Início em português](${SITE}${publicPath("pt")}): Onic Car Rentals desde 2014`,
     ...cities.map((c) => `- [Aluguel de carros em ${c.name}](${SITE}${publicPath("pt", c.slug)}): Catálogo e regras de entrega`),
     ...discoveryGroups(allCars).filter((g) => full || g.kind === "category").map((g) => `- [${g.label} em ${cityName(g.city)}](${SITE}${publicPath("pt", g.path)}): ${g.kind === "model" ? "Todas as unidades deste modelo na cidade" : "Carros do catálogo ativo"}`),
     `- [Home](${SITE}${publicPath("en")}): Exotic & luxury car rental in Florida`,
@@ -120,7 +120,7 @@ export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[]
   }
   if (full) for (const post of blogPosts) for (const lang of LANGS) {
     const copy = post.translations[lang];
-    lines.push("", `## Blog — ${SITE}${publicPath(lang, blogPathKey(post.slug))}`, `${copy.title}\n\nSua Locadora · ${post.date}\n\n${copy.intro}\n\n${copy.sections.flatMap(s => [s.title, ...s.paragraphs]).join("\n\n")}\n\n${copy.cta}\n\nSources: ${post.sources.map(s => s.url ? `${s.name} (${s.url})` : s.name).join(" · ")}`);
+    lines.push("", `## Blog — ${SITE}${publicPath(lang, blogPathKey(post.slug))}`, `${copy.title}\n\nOnic Car Rentals · ${post.date}\n\n${copy.intro}\n\n${copy.sections.flatMap(s => [s.title, ...s.paragraphs]).join("\n\n")}\n\n${copy.cta}\n\nSources: ${post.sources.map(s => s.url ? `${s.name} (${s.url})` : s.name).join(" · ")}`);
   }
   return lines.join("\n") + "\n";
 }

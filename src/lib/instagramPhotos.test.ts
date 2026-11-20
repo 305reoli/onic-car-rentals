@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { INSTAGRAM_PHOTOS, INSTAGRAM_POSTS } from "./instagramPhotos";
 import { t } from "./i18n";
 
-describe("homepage Instagram section uses the real @sualocadora photos", () => {
+describe("homepage Instagram section uses the real @oniccarrentals photos", () => {
   it("shows all 10 real photos in posting order ig-01..ig-10", () => {
     expect(INSTAGRAM_PHOTOS).toHaveLength(10);
     expect(INSTAGRAM_PHOTOS.map((u) => u.split("/").pop())).toEqual([

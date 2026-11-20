@@ -17,14 +17,14 @@ describe("llms.txt blog articles section", () => {
     expect(entries).toHaveLength(blogPosts.length);
     expect(entries.map((e) => e.match(/\/blog\/([a-z0-9-]+)/)?.[1])).toEqual(blogPosts.map((p) => p.slug));
     for (const post of blogPosts) {
-      expect(llms).toContain(`https://seudominio.com/blog/${post.slug}`);
+      expect(llms).toContain(`https://oniccarrentals.com/blog/${post.slug}`);
     }
   });
 
   it("opens with the Porsche Mission S article exactly as the owner wrote it", () => {
     const first = entries[0] ?? "";
     expect(first).toBe(
-      "- Porsche Mission S: o conceito que coloca um superesportivo de motor central acima do 911 — https://seudominio.com/blog/porsche-mission-s-conceito-superesportivo",
+      "- Porsche Mission S: o conceito que coloca um superesportivo de motor central acima do 911 — https://oniccarrentals.com/blog/porsche-mission-s-conceito-superesportivo",
     );
     expect(first).toContain(blogPosts[0]?.translations.pt.title);
     expect(blogPosts[0]?.slug).toBe("porsche-mission-s-conceito-superesportivo");
@@ -33,6 +33,6 @@ describe("llms.txt blog articles section", () => {
   it("keeps the article lines out of the other sections", () => {
     const before = llms.split("## Blog articles")[0];
     expect(before).not.toContain("/blog/");
-    expect(entries.every((e) => e.includes(" — https://seudominio.com/blog/"))).toBe(true);
+    expect(entries.every((e) => e.includes(" — https://oniccarrentals.com/blog/"))).toBe(true);
   });
 });

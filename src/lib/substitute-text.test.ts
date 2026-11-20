@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { substituteWaText } from "./i18n";
 
-const base = { name: "Proprietario", orig: "BMW X3", sub: "Audi Q5", link: "https://seudominio.com/pt/booking/abc" };
+const base = { name: "Proprietario", orig: "BMW X3", sub: "Audi Q5", link: "https://oniccarrentals.com/pt/booking/abc" };
 describe("substitute WhatsApp text", () => {
   it("states the extra to pay", () => expect(substituteWaText("en", { ...base, newTotal: 1200, difference: 200 })).toContain("Difference to pay: $200.00."));
   it("states the refund in PT", () => expect(substituteWaText("pt", { ...base, newTotal: 850.5, difference: -149.5 })).toContain("Reembolso para você: $149.50."));

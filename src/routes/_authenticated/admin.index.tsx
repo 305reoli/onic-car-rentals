@@ -25,7 +25,7 @@ import { useLang } from "@/hooks/use-lang";
 import { ExportPackage } from "@/components/admin/ExportPackage";
 import { Car } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/admin/")({ head: () => ({ meta: [{ title: "Booking requests — Sua Locadora admin" }, { name: "description", content: "Owner approvals, substitute offers and refund tasks." }, { property: "og:title", content: "Booking requests — Sua Locadora admin" }, { property: "og:description", content: "Owner approvals, substitute offers and refund tasks." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: Requests });
+export const Route = createFileRoute("/_authenticated/admin/")({ head: () => ({ meta: [{ title: "Booking requests — Onic Car Rentals admin" }, { name: "description", content: "Owner approvals, substitute offers and refund tasks." }, { property: "og:title", content: "Booking requests — Onic Car Rentals admin" }, { property: "og:description", content: "Owner approvals, substitute offers and refund tasks." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: Requests });
 
 /** Paid conflicts, amount reviews and open "REFUND IN GLOBAL PAYS" tasks. */
 const needsAttention = (r: { review_reason?: string | null; status: string; gp_refund_due_usd: number | null; gp_refund_marked_at: string | null }) =>

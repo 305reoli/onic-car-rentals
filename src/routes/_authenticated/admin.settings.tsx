@@ -16,7 +16,7 @@ import { currentPaymentMessage, insuranceText, type Lang } from "@/lib/i18n";
 
 const CAT_LABEL: Record<string, string> = { suv: "SUV", sedan: "Sedan", luxury: "Luxury", convertible: "Convertible", sports: "Sports", exotics: "Exotics" };
 
-export const Route = createFileRoute("/_authenticated/admin/settings")({ head: () => ({ meta: [{ title: "Settings — Sua Locadora admin" }, { name: "description", content: "Owner booking and delivery settings." }, { property: "og:title", content: "Settings — Sua Locadora admin" }, { property: "og:description", content: "Owner booking and delivery settings." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: SettingsPage });
+export const Route = createFileRoute("/_authenticated/admin/settings")({ head: () => ({ meta: [{ title: "Settings — Onic Car Rentals admin" }, { name: "description", content: "Owner booking and delivery settings." }, { property: "og:title", content: "Settings — Onic Car Rentals admin" }, { property: "og:description", content: "Owner booking and delivery settings." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: SettingsPage });
 
 const FIELDS = [
   ["addon_hotel_checkin", "Hotel check-in assistance (USD)", "number"],

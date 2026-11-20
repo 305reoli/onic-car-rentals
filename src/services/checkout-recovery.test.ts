@@ -30,7 +30,7 @@ it("claims once, sends through existing sender and records the receipt", async (
   await processCheckoutRecovery(db as never, new Date("2026-11-09T02:01:00Z"));
   await processCheckoutRecovery(db as never, new Date("2026-11-09T03:01:00Z"));
   expect(send).toHaveBeenCalledTimes(1);
-  expect(send.mock.calls[0]?.[0]).toMatchObject({ subject: "Conclua sua reserva na Sua Locadora", idempotencyKey: "checkout-recovery-test" });
+  expect(send.mock.calls[0]?.[0]).toMatchObject({ subject: "Conclua sua reserva na Onic Car Rentals", idempotencyKey: "checkout-recovery-test" });
   expect(db.notifications[0]).toMatchObject({ kind: "checkout_recovery", status: "sent", detail: "receipt-test" });
 });
 it("expires at 24h silently, never contacts completed bookings", async () => {

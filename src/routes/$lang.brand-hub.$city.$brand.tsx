@@ -17,9 +17,9 @@ export const Route = createFileRoute("/$lang/brand-hub/$city/$brand")({
   },
   head: ({ params, loaderData: h }) => {
     const lang = params.lang as Lang, ui = aeoUi[lang], path = brandHubKey(params.city, params.brand);
-    if (!h) return seoHead({ lang, path, title: "Unavailable | Sua Locadora", description: "", noindex: true });
+    if (!h) return seoHead({ lang, path, title: "Unavailable | Onic Car Rentals", description: "", noindex: true });
     const title = fmt(ui.brandH1, { brand: h.brand, city: h.city.name });
-    return seoHead({ lang, path, title: `${title} | Sua Locadora`, description: editorialMeta(fmt(ui.listingMeta, { category: h.brand, city: h.city.name }), lang), homeLabel: t(lang).seo.home, crumbs: [[h.city.name, `/${h.city.slug}`], [h.brand, `/${path}`]], jsonLd: [itemListJsonLd(title, h.cars.map(v => ({ name: v.name, path: `/${lang}/cars/${v.city}/${v.slug}`, image: photoUrl(v.photos[0]) })))] });
+    return seoHead({ lang, path, title: `${title} | Onic Car Rentals`, description: editorialMeta(fmt(ui.listingMeta, { category: h.brand, city: h.city.name }), lang), homeLabel: t(lang).seo.home, crumbs: [[h.city.name, `/${h.city.slug}`], [h.brand, `/${path}`]], jsonLd: [itemListJsonLd(title, h.cars.map(v => ({ name: v.name, path: `/${lang}/cars/${v.city}/${v.slug}`, image: photoUrl(v.photos[0]) })))] });
   },
   component: BrandHub,
 });

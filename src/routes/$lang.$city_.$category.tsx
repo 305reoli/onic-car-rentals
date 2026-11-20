@@ -36,7 +36,7 @@ export const Route = createFileRoute("/$lang/$city_/$category")({
     const h1 = `${tr.seo.catTitle[cat]} ${tr.seo.in} ${name}`;
     return seoHead({
       lang, path: `/${params.city}/${params.category}`, homeLabel: tr.seo.home, noindex: !loaderData, image: loaderData?.cars[0]?.image,
-      title: loaderData ? `${h1} | Sua Locadora` : "Unavailable — Sua Locadora",
+      title: loaderData ? `${h1} | Onic Car Rentals` : "Unavailable — Onic Car Rentals",
       description: fmt(tr.seo.catDesc, { cat: tr.seo.catTitle[cat], city: name, n: loaderData?.cars.length ?? 0 }),
       crumbs: [[name, `/${params.city}`], [tr.categories[cat], `/${params.city}/${params.category}`]],
       jsonLd: loaderData ? [itemListJsonLd(h1, loaderData.cars.map((v) => ({ name: v.name, path: `/${lang}/cars/${v.city}/${v.slug}`, image: v.image ?? undefined })))] : [],
