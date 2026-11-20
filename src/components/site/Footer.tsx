@@ -5,7 +5,7 @@ import { settingsQuery } from "@/lib/queries";
 import { useLang } from "@/hooks/use-lang";
 import { CALL_PHONE, CALL_PHONE_DISPLAY, ownerText, waLink, waMessage, aeoUi } from "@/lib/i18n";
 import { useCurrentWa } from "@/lib/waContext";
-import { Seal } from "@/components/brand/Seal";
+import { Logo } from "@/components/brand/Logo";
 
 /** Operator line; ZIP and support email come from admin Company info and are omitted until filled. */
 export function useCompany() {
@@ -23,7 +23,7 @@ export function Footer() {
     <footer className="border-t border-border">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-3 font-display text-xl"><Seal size={40} className="-my-2" /><span><span className="text-primary">ONIC</span> <span className="text-muted-foreground">CAR RENTALS</span></span></div>
+          <Logo />
           <p className="mt-3 max-w-sm text-sm text-muted-foreground">Orlando · Miami · Fort Lauderdale · Tampa, Florida</p>
         </div>
         <nav className="flex flex-col gap-3 text-sm text-muted-foreground [&_a:hover]:text-primary">

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { Seal } from "@/components/brand/Seal";
+import { Logo } from "@/components/brand/Logo";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { CalendarClock, Car, CreditCard, MapPin, Percent, Settings, LogOut } from "lucide-react";
@@ -46,7 +46,7 @@ function AdminLayout() {
     <div className="min-h-screen pb-20 md:pb-0">
       <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4">
-          <Link to="/admin" className="flex items-center gap-2 font-display"><Seal size={32} priority /><span>BEN <span className="text-primary">ADMIN</span></span></Link>
+          <Link to="/admin" className="flex items-center gap-2 font-display"><Logo /></Link>
           <nav className="hidden gap-1 md:flex">
             {NAV.map((n) => (
               <Link key={n.to} to={n.to} activeOptions={{ exact: n.exact }} className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground" }}>{n.label}</Link>

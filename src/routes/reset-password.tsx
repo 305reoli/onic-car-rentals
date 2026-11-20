@@ -4,9 +4,10 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { fieldCls } from "@/components/site/SearchBox";
+import { Logo } from "@/components/brand/Logo";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Reset password — Onic Car Rentals" }, { name: "description", content: "Set a new owner account password." }, { property: "og:title", content: "Reset password — Onic Car Rentals" }, { property: "og:description", content: "Owner area." }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Reset password — Onic Car Rentals" }, { name: "description", content: "Set a new owner account password." }, { property: "og:title", content: "Reset password — Onic Car Rentals" }, { property: "og:description", content: "Owner area." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
   component: ResetPasswordPage,
 });
 
@@ -47,12 +48,12 @@ function ResetPasswordPage() {
     <div className="flex min-h-screen items-center justify-center px-5">
       {state === "checking" ? (
         <div className="surface flex w-full max-w-sm flex-col gap-4 p-7">
-          <div className="font-display text-xl"><span className="text-primary">ONIC</span> <span className="text-muted-foreground">CAR RENTALS</span></div>
+          <Logo />
           <p className="text-sm text-muted-foreground">Checking your reset link…</p>
         </div>
       ) : state === "ready" ? (
         <form onSubmit={submit} className="surface flex w-full max-w-sm flex-col gap-4 p-7">
-          <div className="font-display text-xl"><span className="text-primary">ONIC</span> <span className="text-muted-foreground">CAR RENTALS</span></div>
+          <Logo />
           <h1 className="font-display text-2xl">Set a new password</h1>
           <input type="password" required minLength={8} placeholder="New password" className={fieldCls} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
           <input type="password" required minLength={8} placeholder="Confirm new password" className={fieldCls} value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" />
@@ -60,7 +61,7 @@ function ResetPasswordPage() {
         </form>
       ) : (
         <div className="surface flex w-full max-w-sm flex-col gap-4 p-7">
-          <div className="font-display text-xl"><span className="text-primary">ONIC</span> <span className="text-muted-foreground">CAR RENTALS</span></div>
+          <Logo />
           <h1 className="font-display text-2xl">Reset link invalid or expired</h1>
           <p className="text-sm text-muted-foreground">Request a new password reset link from the sign-in page.</p>
           <Link to="/auth" className="text-sm text-primary hover:underline">Back to sign in</Link>
