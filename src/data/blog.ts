@@ -20,7 +20,7 @@ export const blogPosts: BlogPost[
   // ESQUELETO: adicione aqui os posts do seu blog (estrutura: tipo BlogPost acima).
 ] = [
   {
-    slug: "porsche-mission-s-conceito-superesportivo", date: "2026-11-17", category: "porsche", brand: "Porsche", cover: { city: "miami", match: "porsche 911 carrera" }, coverImage: missionSCover.url, vehicles: [{ city: "miami", match: "porsche 911 carrera" }, { city: "orlando", match: "porsche 718 cayman" }], cities: ["orlando", "miami"],
+    slug: "porsche-mission-s-conceito-superesportivo", date: "2026-11-17", category: "porsche", brand: "Porsche", cover: { city: "miami", match: "porsche 911 carrera" }, vehicles: [{ city: "miami", match: "porsche 911 carrera" }, { city: "orlando", match: "porsche 718 cayman" }], cities: ["orlando", "miami"],
     description: tr("Revelado em Nova York em 15 de outubro de 2026, o Porsche Mission S é um conceito de superesportivo de motor central acima do 911. Ele estreia em Dubai em 21 e 22 de novembro. Entenda o que a Porsche confirmou — e o que ainda não divulgou.", "Revealed in New York on October 15, 2026, the Porsche Mission S is a mid-engine supercar concept positioned above the 911. It debuts in Dubai on November 21 and 22. Find out what Porsche has confirmed — and what it has not disclosed yet.", "Presentado en Nueva York el 15 de octubre de 2026, el Porsche Mission S es un concepto de superdeportivo de motor central por encima del 911. Debuta en Dubái el 21 y 22 de noviembre. Descubre lo que Porsche ha confirmado y lo que aún no ha divulgado."),
     sources: [{ name: "Porsche Newsroom (anúncio oficial do Museu Porsche / Icons of Porsche, nov 2026)" }, { name: "tbreak, 12 nov 2026" }, { name: "The Cornea Impression, 11 nov 2026 (atualizado 17 nov 2026)" }],
     inlineLinks: [
@@ -55,7 +55,7 @@ export const blogPosts: BlogPost[
     ),
   },
   {
-    slug: "brabus-800-porsche-911-turbo-s", date: "2026-11-10", category: "porsche", brand: "Porsche", cover: { city: "miami", match: "porsche 911 carrera s" }, coverImage: brabus800Cover.url, vehicles: [{ city: "miami", match: "porsche 911 carrera s" }, { city: "miami", match: "porsche 911" }, { city: "orlando", match: "porsche 718 cayman" }], cities: ["miami", "orlando"],
+    slug: "brabus-800-porsche-911-turbo-s", date: "2026-11-10", category: "porsche", brand: "Porsche", cover: { city: "miami", match: "porsche 911 carrera s" }, vehicles: [{ city: "miami", match: "porsche 911 carrera s" }, { city: "miami", match: "porsche 911" }, { city: "orlando", match: "porsche 718 cayman" }], cities: ["miami", "orlando"],
     sources: [{ name: "Brabus (via The Supercar Blog, 9 Nov 2026)" }, { name: "PistonHeads, 9 Nov 2026" }, { name: "CompleteCar.ie, 10 Nov 2026" }],
     inlineLinks: [{ slug: "porsche-911-carrera-conversivel-aluguel-miami", phrase: tr("Porsche 911 Carrera Conversível na Flórida", "Porsche 911 Carrera Convertible in Florida", "Porsche 911 Carrera Convertible en Florida") }],
     translations: copy(

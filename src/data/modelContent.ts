@@ -6,9 +6,7 @@ export const modelDescriptions: Record<string, Record<Lang, string>> = {
 };
 
 /** Verified model-level architecture only; official citations kept with the values. */
-export const officialEngines: Record<string, {
-  // ESQUELETO: motores oficiais dos seus modelos.
-}> = {
+export const officialEngines: Record<string, Record<Lang, string> & { source: string }> = {
   "Ferrari 296 GTB": {
     "pt": "V6 híbrido de 120°",
     "en": "120° V6 hybrid",
