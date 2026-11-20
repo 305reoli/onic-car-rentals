@@ -627,6 +627,17 @@ export function minDaysMap(raw: unknown): Record<string, number> {
   if (raw && typeof raw === "object") for (const [k, n] of Object.entries(raw as Record<string, unknown>)) { const x = Math.floor(Number(n)); if (x >= 1) out[k] = x; }
   return out;
 }
+/** Orlando is a delivery/pickup point only (no car is based there): any Orlando service needs at least this many days. */
+export const ORLANDO_MIN_DAYS = 7;
+/** Per-location minimum (not per-car): 7 when the service city is Orlando, else 0. */
+export function locationMinDays(serviceCity: string | null | undefined): number {
+  return serviceCity === "orlando" ? ORLANDO_MIN_DAYS : 0;
+}
+/** True when the rental is too short for an Orlando location. */
+export function orlandoTooShort(serviceCity: string | null | undefined, pickup: Date, ret: Date): boolean {
+  const min = locationMinDays(serviceCity);
+  return min > 0 && ret > pickup && rentalDays(pickup, ret) < min;
+}
 /** Effective minimum: per-car `min_days` when filled, else the category default. */
 export function effectiveMinDays(v: { body_category: string; min_days?: number | null }, raw: unknown): { n: number; source: "car" | "category" } {
   if (v.min_days != null && Number(v.min_days) >= 1) return { n: Math.floor(Number(v.min_days)), source: "car" };

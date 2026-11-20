@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useLang } from "@/hooks/use-lang";
 import { useBookingCities } from "@/hooks/use-cities";
 import { cityLocations } from "@/lib/vehicles";
+import { orlandoTooShort } from "@/lib/pricing";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { VEHICLE_TYPES, type VehicleType } from "@/lib/vehicleTypes";
@@ -10,7 +11,7 @@ import { vehicleTypeText } from "@/lib/i18n";
 import { DateTimeField } from "@/components/site/DateTimeField";
 import { useHomeSearch } from "@/hooks/use-home-search";
 
-export const fieldCls = "h-12 w-full rounded-2xl border border-border bg-background px-4 text-sm text-foreground [color-scheme:dark] focus:border-primary focus:outline-none";
+export const fieldCls = "h-12 w-full rounded-2xl border border-border bg-background px-4 text-sm text-foreground [color-scheme:light] focus:border-primary focus:outline-none";
 
 export function SearchBox({ initialCity }: { initialCity?: string }) {
   const { lang, tr } = useLang();
@@ -29,11 +30,13 @@ export function SearchBox({ initialCity }: { initialCity?: string }) {
   const ret = shared?.ret ?? localRet, setRet = shared?.setRet ?? setLocalRet;
   const [type, setType] = useState<VehicleType>("all");
 
+  const orlandoShort = !!(pickup && ret && orlandoTooShort(city, new Date(pickup), new Date(ret)));
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const picked = (new FormData(e.currentTarget).get("type") as VehicleType | null) ?? type;
     const pu = pickup || (e.currentTarget.elements.namedItem("pickup") as HTMLInputElement | null)?.value || "";
     const rt = ret || (e.currentTarget.elements.namedItem("ret") as HTMLInputElement | null)?.value || "";
+    if (pu && rt && orlandoTooShort(city, new Date(pu), new Date(rt))) return;
     navigate({ to: "/$lang/$city", params: { lang, city }, search: { loc, pickup: pu || undefined, ret: rt || undefined, type: picked } });
   };
 
@@ -77,7 +80,8 @@ export function SearchBox({ initialCity }: { initialCity?: string }) {
           </label>
         ))}
       </div>
-      <Button type="submit" className="mt-2 h-12 w-full">{tr.search.show}</Button>
+      {orlandoShort && <p role="alert" data-testid="orlando-min" className="mt-2 text-sm font-medium text-destructive">{tr.search.orlandoMin}</p>}
+      <Button type="submit" disabled={orlandoShort} className="mt-2 h-12 w-full">{tr.search.show}</Button>
     </form>
   );
 }

@@ -1,4 +1,4 @@
-import { effectiveMinDays, rentalDays } from "./pricing";
+import { effectiveMinDays, locationMinDays, rentalDays } from "./pricing";
 import { datedTotal } from "./searchLocation";
 import { hasDailyPrice, type Vehicle } from "./vehicles";
 
@@ -10,7 +10,7 @@ export function meetsResultMinimum(v: Vehicle, context: ResultPriceContext): boo
   const days = rentalDays(new Date(context.pickup), new Date(context.ret));
   if (!days) return true; // invalid dates remain the existing date-validation path
   const settings = context.settings as { min_days_by_category?: unknown } | undefined;
-  return days >= effectiveMinDays(v, settings?.min_days_by_category).n;
+  return days >= Math.max(effectiveMinDays(v, settings?.min_days_by_category).n, locationMinDays(context.serviceCity));
 }
 
 /** Sort by the same dated total rendered on cards; unknown totals stay last in both directions. */

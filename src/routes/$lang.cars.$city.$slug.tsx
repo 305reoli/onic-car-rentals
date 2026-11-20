@@ -20,7 +20,7 @@ import { useLang } from "@/hooks/use-lang";
 import { resolveServiceCity, description, highlightsFor, carMileageLine, hasDailyPrice, photoUrl, photoSrcSet, sizedPhoto, GALLERY_SIZES, GALLERY_WIDTHS } from "@/lib/vehicles";
 import { useCities } from "@/hooks/use-cities";
 import { citiesQuery } from "@/lib/queries";
-import { effectiveMinDays, dueAtBooking, paymentMode, embedsFee, allInPrice, canBookOnline, computeQuote, crossCell, crossConfig, crossFromDaily, crossPrice, DEFAULT_SETTINGS, deliveryConfig, deliveryTier, matchingFees, feeName, usd, usd2, routeLegFee, durationLabel, rentalRateText, promoLabels } from "@/lib/pricing";
+import { effectiveMinDays, locationMinDays, dueAtBooking, paymentMode, embedsFee, allInPrice, canBookOnline, computeQuote, crossCell, crossConfig, crossFromDaily, crossPrice, DEFAULT_SETTINGS, deliveryConfig, deliveryTier, matchingFees, feeName, usd, usd2, routeLegFee, durationLabel, rentalRateText, promoLabels } from "@/lib/pricing";
 import { dailyCharges } from "@/lib/deliveryText";
 import { bookingSearch } from "@/lib/search";
 import { Container, FaqList, PageError, googleReviewsQuery } from "@/components/site/Sections";
@@ -145,7 +145,7 @@ function CarPage() {
   const effAddons = { ...addons, insurance: false };
   const custom = matchingFees(deliveryConfig(rawCfg).custom_fees, { body_category: vehicle.body_category, exotic: deliveryTier(vehicle) === "exotic" }, svcSlug);
   const optionalFees = custom.filter((f) => f.mode === "optional");
-  const minN = effectiveMinDays(vehicle, (settings as { min_days_by_category?: unknown }).min_days_by_category).n;
+  const minN = Math.max(effectiveMinDays(vehicle, (settings as { min_days_by_category?: unknown }).min_days_by_category).n, locationMinDays(svcSlug));
   const pickupD = pickup ? new Date(pickup) : null;
   const retD = ret ? new Date(ret) : null;
   const quote = pickupD && retD ? computeQuote(vehicle, pickupD, retD, effAddons, s, dlv.deliveryFee, dlv.dOk?.embeddedFee ?? 0, { exotic: deliveryTier(vehicle) === "exotic", deliveryPending: dlv.deliveryPending, fees: deliveryConfig(rawCfg).fees, customFees: custom, chosenFees }) : null;
@@ -156,7 +156,7 @@ function CarPage() {
     if (!pickupD || !retD) return null;
     if (retD <= pickupD) return { msg: tr.car.invalidDates, wa: false };
     if (!canBookOnline(new Date(), pickupD, s)) return { msg: fmt(tr.car.tooSoon, { h: s.min_lead_time_hours }), wa: true };
-    if (quote && quote.days < minN) return { msg: minDaysMsg(tr, minN), wa: false };
+    if (quote && quote.days < minN) return { msg: locationMinDays(svcSlug) >= minN && locationMinDays(svcSlug) > 0 ? tr.search.orlandoMin : minDaysMsg(tr, minN), wa: false };
     const set = new Set(booked);
     const d = new Date(pickupD); d.setHours(0, 0, 0, 0);
     while (d <= retD) { if (set.has(dayKey(d))) return { msg: tr.car.unavailable, wa: true, booked: true }; d.setDate(d.getDate() + 1); }

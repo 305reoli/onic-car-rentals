@@ -28,7 +28,7 @@ import { captureCheckout } from "@/services/checkout-recovery.functions";
 import { getUnavailableIds } from "@/services/catalog.functions";
 import { useLang } from "@/hooks/use-lang";
 import { useCities } from "@/hooks/use-cities";
-import { effectiveMinDays, rentalDays, dueAtBooking, paymentMode, computeQuote, crossCell, crossConfig, DEFAULT_SETTINGS, deliveryConfig, deliveryTier, matchingFees, feeName, usd, usd2, durationLabel, rentalRateText, promoLabels, type CrossMode } from "@/lib/pricing";
+import { effectiveMinDays, locationMinDays, rentalDays, dueAtBooking, paymentMode, computeQuote, crossCell, crossConfig, DEFAULT_SETTINGS, deliveryConfig, deliveryTier, matchingFees, feeName, usd, usd2, durationLabel, rentalRateText, promoLabels, type CrossMode } from "@/lib/pricing";
 import { quoteDelivery, suggestDeliveryAddress } from "@/services/delivery.functions";
 import { photoUrl } from "@/lib/vehicles";
 import { InsuranceUpload } from "@/components/site/InsuranceUpload";
@@ -157,7 +157,10 @@ function Checkout() {
   const { pickupLeg, setPickupLeg, returnLeg, setReturnLeg, sameReturn, setSameReturn, dq, dqBusy, dOk, optPrices, shownLegs, deliveryFee, deliveryPending, deliveryChoice, mcoFree } = dlv;
   // Locations chosen on the car page arrive confirmed; the customer can still reopen them.
   const [editLegs, setEditLegs] = useState(!handed);
-  const minN = effectiveMinDays(vehicle, (settings as { min_days_by_category?: unknown }).min_days_by_category).n;
+  const carMin = effectiveMinDays(vehicle, (settings as { min_days_by_category?: unknown }).min_days_by_category).n;
+  const orlandoMin = locationMinDays(cityRow?.slug ?? city);
+  const minN = Math.max(carMin, orlandoMin);
+  const shortMsg = () => orlandoMin > carMin ? tr.search.orlandoMin : minDaysMsg(tr, minN);
   const tooShort = !!(pickup && ret && rentalDays(pickup, ret) < minN);
   const quote = pickup && ret && !tooShort ? computeQuote(vehicle, pickup, ret, addons, s, deliveryFee, dOk?.embeddedFee ?? 0, { exotic: exoticCar, deliveryPending, fees: deliveryConfig(rawCfg).fees, customFees: custom, chosenFees }) : null;
   const due = quote ? dueAtBooking(quote, paymentMode(vehicle, (settings as { payment_modes?: unknown }).payment_modes)) : null;
@@ -296,7 +299,7 @@ function Checkout() {
   if (!pickup || !ret || !quote) {
     return (
       <Container className="py-24 text-center">
-        <p className="mb-6 text-muted-foreground">{tooShort ? minDaysMsg(tr, minN) : tr.car.invalidDates}</p>
+        <p className="mb-6 text-muted-foreground">{tooShort ? shortMsg() : tr.car.invalidDates}</p>
         <Button asChild><Link to="/$lang/cars/$city/$slug" params={{ lang, city, slug }}>{vehicle.name}</Link></Button>
       </Container>
     );
@@ -305,7 +308,8 @@ function Checkout() {
   const errMsg = (e: unknown) => {
     const m = e instanceof Error ? e.message : "";
     if (m.includes("TOO_SOON")) return fmt(tr.car.tooSoon, { h: s.min_lead_time_hours });
-    if (m.includes("MIN_DAYS")) return minDaysMsg(tr, minN);
+    if (m.includes("ORLANDO_MIN_DAYS")) return tr.search.orlandoMin;
+    if (m.includes("MIN_DAYS")) return shortMsg();
     if (m.includes("UNDER_AGE")) return fmt(c.underAge, { n: vehicle.min_age });
     if (m.includes("HOLD_EXPIRED")) return ti.holdExpired;
     if (m.includes("DELIVERY_CITY")) return tr.delivery.cityRequired;
@@ -388,7 +392,7 @@ function Checkout() {
   const backBtn = step > 0 && !locked ? <Button variant="outline" onClick={() => goTo(step - 1)} data-testid="checkout-back">{c.back}</Button> : <span />;
   const editDates = () => { if (locked) return; setDraftDates(dates); setEditLegs(true); setStep(0); };
   const draftP = draftDates.pickup ? new Date(draftDates.pickup) : null, draftR = draftDates.ret ? new Date(draftDates.ret) : null;
-  const draftError = !draftP || !draftR || !(draftR > draftP) ? tr.car.invalidDates : rentalDays(draftP, draftR) < minN ? minDaysMsg(tr, minN) : null;
+  const draftError = !draftP || !draftR || !(draftR > draftP) ? tr.car.invalidDates : rentalDays(draftP, draftR) < minN ? shortMsg() : null;
   const applyDraft = (d: { pickup: string; ret: string }) => {
     setDraftDates(d);
     const p = d.pickup ? new Date(d.pickup) : null, r = d.ret ? new Date(d.ret) : null;

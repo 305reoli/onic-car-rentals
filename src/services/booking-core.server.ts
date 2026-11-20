@@ -2,7 +2,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { remoteBlocks } from "./fleet-sync";
-import { blockingFilter, canBookOnline, computeQuote, effectiveMinDays, crossConfig, deliveryConfig, DEFAULT_SETTINGS, deliveryTier, insuranceOffered, matchingFees, servesCity } from "@/lib/pricing";
+import { blockingFilter, canBookOnline, computeQuote, effectiveMinDays, orlandoTooShort, locationMinDays, crossConfig, deliveryConfig, DEFAULT_SETTINGS, deliveryTier, insuranceOffered, matchingFees, servesCity } from "@/lib/pricing";
 import { getRequestHeader } from "@tanstack/react-start/server";
 import { REQUIRED_DOCS, docsInFolder, type BookingInput } from "./booking-schema";
 import { deliveryDestination } from "@/lib/deliveryCity";
@@ -37,13 +37,14 @@ export async function validateBooking(db: SupabaseClient<Database>, data: Bookin
     const pickup = new Date(data.pickupAt), ret = new Date(data.returnAt), now = new Date();
     if (!(ret > pickup)) throw new Error("Invalid dates");
     if (!canBookOnline(now, pickup, s)) throw new Error("TOO_SOON");
+    if (orlandoTooShort(city.slug, pickup, ret)) throw new Error("ORLANDO_MIN_DAYS");
     const dcfg = deliveryConfig(rawCfg);
     const exotic = deliveryTier(v) === "exotic";
     // Owner custom fees: server decides which apply; an optional fee the car doesn't offer is a tampered request.
     const customFees = matchingFees(dcfg.custom_fees, { body_category: v.body_category, exotic }, city.slug);
     const chosenFees = data.addons.fees ?? [];
     if (chosenFees.some((id) => !customFees.some((f) => f.id === id && f.mode === "optional"))) throw new Error("FEE_NOT_OFFERED");
-    const q = computeQuote(v, pickup, ret, data.addons, s, delivery.itemizedFee, delivery.embeddedFee, { exotic, deliveryPending: delivery.status === "quote_pending", fees: dcfg.fees, customFees, chosenFees, minDays: effectiveMinDays(v, (st as { min_days_by_category?: unknown } | null)?.min_days_by_category).n });
+    const q = computeQuote(v, pickup, ret, data.addons, s, delivery.itemizedFee, delivery.embeddedFee, { exotic, deliveryPending: delivery.status === "quote_pending", fees: dcfg.fees, customFees, chosenFees, minDays: Math.max(effectiveMinDays(v, (st as { min_days_by_category?: unknown } | null)?.min_days_by_category).n, locationMinDays(city.slug)) });
 
     const dob = new Date(data.driver.dateOfBirth);
     const age = (pickup.getTime() - dob.getTime()) / (365.25 * 86400000);

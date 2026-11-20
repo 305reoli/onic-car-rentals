@@ -4,7 +4,7 @@ import { useLang } from "@/hooks/use-lang";
 import { fmt } from "@/lib/i18n";
 import { cityName, photoSrcSet, sizedPhoto, CARD_SIZES, type Vehicle } from "@/lib/vehicles";
 import { useCities } from "@/hooks/use-cities";
-import { allInPrice, effectiveMinDays, rentalDays, usd } from "@/lib/pricing";
+import { allInPrice, effectiveMinDays, locationMinDays, rentalDays, usd } from "@/lib/pricing";
 import { useQuery } from "@tanstack/react-query";
 import { settingsQuery } from "@/lib/queries";
 import { crossCell, crossConfig } from "@/lib/pricing";
@@ -50,7 +50,7 @@ export function CarCard({ v, search, serviceCity }: { v: Vehicle; search?: Recor
   const { lang, tr } = useLang();
   const cities = useCities();
   const { data: st } = useQuery(settingsQuery());
-  const minN = effectiveMinDays(v, (st as { min_days_by_category?: unknown } | undefined)?.min_days_by_category).n;
+  const minN = Math.max(effectiveMinDays(v, (st as { min_days_by_category?: unknown } | undefined)?.min_days_by_category).n, locationMinDays(serviceCity));
   // Dates shorter than this car's minimum: show "Minimum X days" instead of booking for those dates.
   const short = !!(search?.["pickup"] && search?.["ret"] && rentalDays(new Date(search["pickup"]), new Date(search["ret"])) < minN);
   const link = { to: "/$lang/cars/$city/$slug", params: { lang, city: v.city, slug: v.slug }, search: { ...(search ?? {}), city: serviceCity && serviceCity !== v.city ? serviceCity : undefined } } as const;
