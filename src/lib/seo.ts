@@ -5,10 +5,12 @@ import { LANGS, aeoUi, fmt, t, type Lang } from "@/lib/i18n";
 import { DEFAULT_DELIVERY } from "@/lib/pricing";
 import { localizedPath, publicPath } from "@/lib/publicRoutes";
 import { editorialMeta } from "@/lib/aeo";
+import shareLogo from "@/assets/onic-share-logo.jpg.asset.json";
+import { launchText } from "@/lib/launch";
 
 export const SITE = "https://oniccarrentals.com";
 export const abs = (p: string) => (/^https?:\/\//.test(p) ? p : `${SITE}${p.startsWith("/") ? "" : "/"}${p}`);
-export const DEFAULT_IMAGE = abs("/brand/og-1200x630.jpg");
+export const DEFAULT_IMAGE = shareLogo.url;
 export const OG_IMAGE_ALT = "Onic Car Rentals";
 export const LOGO = abs("/logo.png");
 const OG_LOCALE: Record<Lang, string> = { en: "en_US", pt: "pt_BR", es: "es_ES" };
@@ -59,6 +61,7 @@ export function orgJsonLd(_addresses: Postal[], _description?: string, _googleUr
     url: SITE,
     telephone: BUSINESS.telephone,
     email: BUSINESS.email,
+    address: { "@type": "PostalAddress", streetAddress: "1000 Lincoln Rd", addressLocality: "Miami Beach", addressRegion: "FL", postalCode: "33139", addressCountry: "US" },
     sameAs: ["https://www.instagram.com/oniccarrentals", "https://search.google.com/local/writereview?placeid=ChIJNyybg_oR00wRh4n0-LvkXoU"],
     areaServed: ["Orlando", "Miami", "Tampa", "Fort Lauderdale"].map((name) => ({ "@type": "City", name, addressRegion: "FL", addressCountry: "US" })),
     location: [
@@ -134,11 +137,13 @@ type SeoInput = {
 };
 
 export function seoHead(i: SeoInput) {
+  if (/^Unavailable/.test(i.title)) i = { ...i, title: `${launchText[i.lang].notFound} — Onic Car Rentals`, description: launchText[i.lang].missing, noindex: true };
   const sourceDescription = /^\/?catalog\//.test(i.path) ? `${t(i.lang).seo.catalog}: ${i.description}` : /^\/?search$/.test(i.path) ? fmt(aeoUi[i.lang].listingMeta, { category: t(i.lang).fleet.all, city: "Florida" }) : i.description;
   const description = /^\/?(?:cars|checkout|booking|my-booking|terms|cancellation)(?:\/|$)/.test(i.path) || !sourceDescription ? sourceDescription : editorialMeta(sourceDescription, i.lang);
-  const url = abs(publicPath(i.lang, i.path));
+  const url = publicPath(i.lang, i.path);
   // One brand share image for every page and language (owner decision).
-  const image = DEFAULT_IMAGE;
+  // Unpublished project has no public asset origin yet; do not tag a fabricated or private preview URL.
+  const image = i.image?.startsWith("https://") ? i.image : null;
   // AutoRental org JSON-LD is emitted once per page by the root route (addresses come from settings).
   const ld: object[] = [];
   if (i.crumbs?.length) ld.push(breadcrumbJsonLd([[i.homeLabel ?? "Home", `/${i.lang}`], ...i.crumbs.map(([n, p]) => [n, `/${i.lang}${p}`] as [string, string])]));
@@ -154,22 +159,22 @@ export function seoHead(i: SeoInput) {
       { property: "og:url", content: url },
       { property: "og:site_name", content: "Onic Car Rentals" },
       { property: "og:type", content: i.type ?? "website" },
-      { property: "og:image", content: image },
+      ...(image ? [{ property: "og:image", content: image },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: OG_IMAGE_ALT },
+      { property: "og:image:alt", content: OG_IMAGE_ALT }] : []),
       { property: "og:locale", content: OG_LOCALE[i.lang] },
       ...LANGS.filter((l) => l !== i.lang).map((l) => ({ property: "og:locale:alternate", content: OG_LOCALE[l] })),
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: i.title },
       { name: "twitter:description", content: description },
-      { name: "twitter:image", content: image },
-      { name: "twitter:image:alt", content: OG_IMAGE_ALT },
+      ...(image ? [{ name: "twitter:image", content: image },
+      { name: "twitter:image:alt", content: OG_IMAGE_ALT }] : []),
     ],
     links: [
       { rel: "canonical", href: url },
-      ...LANGS.flatMap((l) => i.equivalents && i.equivalents[l] == null ? [] : [{ rel: "alternate", hrefLang: l, href: abs(publicPath(l, i.equivalents?.[l] ?? i.path)) }]),
-      { rel: "alternate", hrefLang: "x-default", href: abs(publicPath("pt", i.path)) },
+      ...LANGS.flatMap((l) => i.equivalents && i.equivalents[l] == null ? [] : [{ rel: "alternate", hrefLang: l, href: publicPath(l, i.equivalents?.[l] ?? i.path) }]),
+      { rel: "alternate", hrefLang: "x-default", href: publicPath("pt", i.path) },
     ],
     scripts: ld.map((o) => ({ type: "application/ld+json", children: JSON.stringify(o) })),
   };

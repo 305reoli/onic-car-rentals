@@ -1,3 +1,4 @@
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { MeasureOneCard } from "@/components/site/MeasureOneCard";
 import { CheckoutValidation, ValidationField, focusCheckoutError } from "@/components/site/CheckoutValidation";
 import { modelScarcityQuery } from "@/lib/scarcityQuery";
@@ -10,7 +11,7 @@ import { decodeLegs, useDeliveryQuote } from "@/hooks/useDeliveryQuote";
 import { BookingNextSteps } from "@/components/site/BookingNextSteps";
 import { RentalTerms } from "@/components/site/RentalTerms";
 import { bookingBase, sameCityDeliveryOnly, type DeliveryLeg } from "@/lib/pricing";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { metaAllowed, metaCookies, metaReady, metaTrack } from "@/lib/metaPixel";
@@ -106,7 +107,7 @@ export const Route = createFileRoute("/$lang/checkout/$city/$slug")({
   head: () => ({ meta: [{ title: "Booking — Onic Car Rentals" }, { name: "description", content: "Complete your Onic Car Rentals booking with an itemized payment summary." }, { property: "og:title", content: "Booking — Onic Car Rentals" }, { property: "og:description", content: "Complete your Onic Car Rentals booking with an itemized payment summary." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
   component: CheckoutGate,
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Car not found")} />,
+  notFoundComponent: NotFoundPage,
 });
 
 type Driver = { firstName: string; lastName: string; email: string; phone: string; country: string; dateOfBirth: string; address: string; flightNumber: string; licenseNumber?: string; licenseExpiry?: string; passportNumber?: string };
@@ -117,6 +118,7 @@ const DOC_TYPES = ["image/jpeg", "image/png", "image/heic", "image/heif"];
 const extOf = (f: File) => { const t = f.type || ""; if (t === "application/pdf" || /\.pdf$/i.test(f.name)) return "pdf"; if (t.includes("png")) return "png"; if (t.includes("heic") || /\.heic$/i.test(f.name)) return "heic"; if (t.includes("heif") || /\.heif$/i.test(f.name)) return "heif"; return "jpg"; };
 
 function Checkout() {
+  const navigate = useNavigate();
   const { city, slug } = Route.useParams();
   const search = Route.useSearch();
   const { lang, tr } = useLang();
@@ -432,6 +434,7 @@ function Checkout() {
       trackFunnel("pre_reservation_submitted", { ...funnelParams, flow: "request", due_today: res.amount }, funnelKey);
       setPurchase(finalized.purchase);
       setDone(true);
+      await navigate({ to: "/$lang/thank-you/$token", params: { lang, token: res.token } });
     }
     catch (e) { toast.error(errMsg(e)); } finally { setBusy(false); }
   };

@@ -6,6 +6,9 @@ import { Header, TopBar } from "@/components/site/Header";
 import { Footer, WhatsAppFab } from "@/components/site/Footer";
 import { CheckoutHeader, CheckoutFooter } from "@/components/site/CheckoutChrome";
 import { HomeSearchProvider } from "@/hooks/use-home-search";
+import { PageTrail } from "@/components/site/PageTrail";
+import { NotFoundPage } from "@/components/site/NotFoundPage";
+import { PageError } from "@/components/site/Sections";
 
 export const Route = createFileRoute("/$lang")({
   beforeLoad: ({ params }) => {
@@ -13,6 +16,8 @@ export const Route = createFileRoute("/$lang")({
   },
   loader: ({ context }) => context.queryClient.ensureQueryData(citiesQuery()),
   component: LangLayout,
+  errorComponent: PageError,
+  notFoundComponent: NotFoundPage,
 });
 
 function LangLayout() {
@@ -29,7 +34,7 @@ function LangLayout() {
     <HomeSearchProvider>
     <div className={checkout ? "checkout-shell mobile-touch flex min-h-screen flex-col" : `mobile-touch flex min-h-screen flex-col${carDetail ? " car-detail-shell" : ""}`}>
       {checkout ? <CheckoutHeader /> : <><TopBar /><Header /></>}
-      <main className="flex-1"><Outlet /></main>
+      <main className="flex-1">{!checkout && <PageTrail />}<Outlet /></main>
       {checkout ? <CheckoutFooter /> : <><Footer /><WhatsAppFab /></>}
     </div>
     </HomeSearchProvider>

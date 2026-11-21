@@ -4,3 +4,4 @@
 - Site wordmarks use the shared Logo component backed by public/logo.png; email seals remain separate so site branding never changes notification assets.
 - Fleet CRUD writes directly to vehicles; availability uses local blocked dates and booking overlaps only, so rental and admin flows do not require an external sync service.
 - Keep the historical manually-processed booking lock local to payment finalization to prevent duplicate processing after retiring integrations.
+- Launch page trails use the matched route metadata; thank-you pages read submitted booking status and reuse the shared purchase deduplication, so navigation never fabricates a conversion or changes payment settlement.

@@ -3,7 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ownerText, CALL_PHONE, CALL_PHONE_DISPLAY, t, waLink, waMessage, type Lang } from "@/lib/i18n";
 import { useLang } from "@/hooks/use-lang";
 import { settingsQuery } from "@/lib/queries";
-import { Container } from "@/components/site/Sections";
+import { Container, PageError } from "@/components/site/Sections";
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { useCompany } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/$lang/legal")({
@@ -15,6 +16,8 @@ export const Route = createFileRoute("/$lang/legal")({
     return seoHead({ lang, path: "/legal", homeLabel: tr.seo.home, title: `${title} | Onic Car Rentals`, description: tr.legal.legalDesc, crumbs: [[title, "/legal"]] });
   },
   component: LegalInfo,
+  errorComponent: PageError,
+  notFoundComponent: NotFoundPage,
 });
 
 function LegalInfo() {

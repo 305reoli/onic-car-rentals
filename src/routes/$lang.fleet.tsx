@@ -1,3 +1,4 @@
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { vehiclesQuery } from "@/lib/queries";
@@ -14,5 +15,5 @@ export const Route = createFileRoute("/$lang/fleet")({
     return <Container className="py-16 md:py-24"><FleetGrid h1 vehicles={data} /></Container>;
   },
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Not found")} />,
+  notFoundComponent: NotFoundPage,
 });

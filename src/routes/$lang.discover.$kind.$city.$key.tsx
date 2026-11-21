@@ -1,3 +1,4 @@
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { discoveryPageQuery, discoveryHead } from "@/lib/discoveryPage";
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/$lang/discover/$kind/$city/$key")({
   head: ({ loaderData, params }) => discoveryHead(loaderData, `discover/${params.kind}/${params.city}/${params.key}`),
   component: DiscoveryRoute,
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Página não encontrada")} />,
+  notFoundComponent: NotFoundPage,
 });
 function DiscoveryRoute() {
   const { city, key } = Route.useParams();

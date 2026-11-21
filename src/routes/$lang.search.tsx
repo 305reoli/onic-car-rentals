@@ -11,6 +11,7 @@ import { useLang } from "@/hooks/use-lang";
 import { CarCard } from "@/components/site/CarCard";
 import { Container, PageError } from "@/components/site/Sections";
 import { ResultsPriceNote } from "@/components/site/Conversion";
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 
 type S = { q?: string | undefined; city?: string | undefined; pickup?: string | undefined; ret?: string | undefined; loc?: string | undefined };
 const str = (v: unknown) => (typeof v === "string" && v ? v.slice(0, 80) : undefined);
@@ -35,6 +36,7 @@ export const Route = createFileRoute("/$lang/search")({
   },
   component: SearchPage,
   errorComponent: PageError,
+  notFoundComponent: NotFoundPage,
 });
 
 function SearchPage() {

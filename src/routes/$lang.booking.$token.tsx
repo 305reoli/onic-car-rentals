@@ -1,5 +1,7 @@
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { DeliveryLegSummary, type LegResult } from "@/components/site/DeliveryLegs";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { submittedBooking, launchText } from "@/lib/launch";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { confirmSubstituteDifference, getBooking, respondSubstitute, startSubstituteDifferencePayment } from "@/services/booking.functions";
 import { interCityLabel } from "@/lib/deliveryText";
@@ -29,7 +31,7 @@ export const Route = createFileRoute("/$lang/booking/$token")({
   head: () => ({ meta: [{ title: "My booking — Onic Car Rentals" }, { name: "description", content: "Booking status." }, { property: "og:title", content: "My booking — Onic Car Rentals" }, { property: "og:description", content: "Booking status." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
   component: BookingStatus,
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Not found")} />,
+  notFoundComponent: NotFoundPage,
 });
 
 /** Purchase for outside-page payments: once per booking (browser guard + server guard), event id shared with the server event. */
@@ -65,6 +67,7 @@ function BookingStatus() {
       <div className="eyebrow mb-3">{tr.booking.title}</div>
       <h1 className="font-display mb-6 text-4xl md:text-5xl">{status === "substitute_offered" ? b.original_vehicle_name ?? b.vehicle_name : b.vehicle_name}</h1>
       <span className={cn("inline-block rounded-full px-4 py-2 text-sm font-semibold", tone)}>{tr.booking.status[status] ?? status}</span>
+      {submittedBooking(status) && <p className="mt-4"><Link to="/$lang/thank-you/$token" params={{ lang, token }} className="text-primary hover:underline">{launchText[lang].thankYou} →</Link></p>}
       {status === "pending_approval" && <BookingNextSteps lang={lang} />}
       <dl className="surface mt-8 grid gap-4 p-6 text-sm sm:grid-cols-2">
         <Item k={tr.booking.ref} v={b.ref} />
@@ -159,6 +162,7 @@ function InstantBooking({ token, b }: { token: string; b: B }) {
       <div className="mb-2 text-muted-foreground">{b.vehicle_name}</div>
       <h1 className="font-display mb-3 text-4xl md:text-5xl" data-testid="instant-status" data-status={status}>{head}</h1>
       {sub && <p className="mb-6 text-muted-foreground">{sub}</p>}
+      {status === "confirmed" && <p className="mb-6"><Link to="/$lang/thank-you/$token" params={{ lang, token }} className="text-primary hover:underline">{launchText[lang].thankYou} →</Link></p>}
       <dl className="surface mt-6 grid gap-4 p-6 text-sm sm:grid-cols-2">
         <Item k={tr.booking.ref} v={b.ref} />
         <Item k={tr.car.pickup} v={new Date(b.pickup_at).toLocaleString(lang)} />

@@ -1,4 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { NotFoundPage } from "@/components/site/NotFoundPage";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { launchText } from "@/lib/launch";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { citiesQuery, vehiclesQuery } from "@/lib/queries";
 import { pickFeatured } from "@/lib/vehicles";
@@ -44,7 +47,7 @@ export const Route = createFileRoute("/$lang/")({
   },
   component: Home,
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Not found")} />,
+  notFoundComponent: NotFoundPage,
 });
 
 function Home() {
@@ -58,7 +61,7 @@ function Home() {
         <div data-parallax className="absolute inset-0 will-change-transform">
         <picture className="absolute inset-0 block">
           <source media="(max-width: 767px)" srcSet={HERO_MOBILE_SET} sizes="100vw" width={900} height={1350} />
-          <img src={`${heroDesktop.url}?w=1280&q=75`} srcSet={HERO_DESKTOP_SET} sizes="100vw" alt="Ferrari Portofino" width={1920} height={1282} loading="eager" fetchPriority="high" decoding="async" className="absolute inset-0 size-full object-cover" />
+          <img src={`${heroDesktop.url}?w=1280&q=75`} srcSet={HERO_DESKTOP_SET} sizes="100vw" alt="Ferrari Portofino — Onic Car Rentals, Miami" width={1920} height={1282} loading="eager" fetchPriority="high" decoding="async" className="absolute inset-0 size-full object-cover" />
         </picture>
         <HeroVideo />
         </div>
@@ -67,6 +70,8 @@ function Home() {
           <h1 className="font-display max-w-4xl text-3xl leading-[1.1] md:text-8xl">{tr.hero.title}</h1>
           <p className="mb-3 mt-3 max-w-2xl text-sm text-muted-foreground md:mb-4 md:mt-6 md:text-lg">{tr.hero.sub}</p>
           <GoogleRatingBadge className="mb-4 md:mb-8" />
+          <Button asChild size="lg" className="mb-4"><Link to="/$lang/search" params={{ lang }}>{tr.search.show}</Link></Button>
+          <p className="mb-4 max-w-2xl text-xs text-muted-foreground">{launchText[lang].response}</p>
           <SearchBox />
         </Container>
         <PromoTicker />

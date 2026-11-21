@@ -4,6 +4,8 @@ import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query
 import { routeTree } from "./routeTree.gen";
 import { publicUrlRewrite } from "@/lib/publicRoutes";
 import { RoutePending } from "@/components/site/RoutePending";
+import { PageError } from "@/components/site/Sections";
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 
 /** After a new build, an open tab may request page files that no longer exist; reload once to pick up the new version. */
 let reloadStale: () => void = () => {};
@@ -36,6 +38,8 @@ export const getRouter = () => {
     defaultPreload: "intent",
     // Slow loads show a page skeleton instead of leaving the old page on screen under the new URL.
     defaultPendingComponent: RoutePending,
+    defaultErrorComponent: PageError,
+    defaultNotFoundComponent: NotFoundPage,
     defaultPendingMs: 400,
     defaultPendingMinMs: 250,
     // No view transitions: they freeze the painted page while data loads and can stall in Safari.

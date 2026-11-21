@@ -11,7 +11,7 @@ const CITY_PREFIX = "aluguel-de-carros-de-luxo-em-";
 export const PT_CATEGORY_SLUGS: Record<string, string> = { suv: "suv", sedan: "sedans", luxury: "premium", convertible: "conversiveis", sports: "esportivos", exotics: "exoticos" };
 export const slugify = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 export const discoveryKey = (kind: "brand" | "model", city: string, key: string) => `discover/${kind}/${city}/${key}`;
-const TRANSACTIONS = /^(checkout|booking|my-booking|payment|payments|callback|return)(\/|$)/;
+const TRANSACTIONS = /^(checkout|booking|thank-you|my-booking|payment|payments|callback|return)(\/|$)/;
 const RESERVED = /^(admin|auth|api)(\/|$)|^[^/]+\.[^/]+$/;
 
 export function publicPath(lang: Lang, page: string = ""): string {

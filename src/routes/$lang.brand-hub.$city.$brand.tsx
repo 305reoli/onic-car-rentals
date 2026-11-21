@@ -4,7 +4,8 @@ import { brandHubs, brandHubKey, editorialMeta } from "@/lib/aeo";
 import { aeoUi, fmt, t, type Lang } from "@/lib/i18n";
 import { seoHead, itemListJsonLd } from "@/lib/seo";
 import { photoUrl } from "@/lib/vehicles";
-import { Container } from "@/components/site/Sections";
+import { Container, PageError } from "@/components/site/Sections";
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { CarCard } from "@/components/site/CarCard";
 import { useLang } from "@/hooks/use-lang";
 
@@ -22,6 +23,8 @@ export const Route = createFileRoute("/$lang/brand-hub/$city/$brand")({
     return seoHead({ lang, path, title: `${title} | Onic Car Rentals`, description: editorialMeta(fmt(ui.listingMeta, { category: h.brand, city: h.city.name }), lang), homeLabel: t(lang).seo.home, crumbs: [[h.city.name, `/${h.city.slug}`], [h.brand, `/${path}`]], jsonLd: [itemListJsonLd(title, h.cars.map(v => ({ name: v.name, path: `/${lang}/cars/${v.city}/${v.slug}`, image: photoUrl(v.photos[0]) })))] });
   },
   component: BrandHub,
+  errorComponent: PageError,
+  notFoundComponent: NotFoundPage,
 });
 function BrandHub() {
   const h = Route.useLoaderData(), { lang, tr } = useLang(), ui = aeoUi[lang];

@@ -1,3 +1,4 @@
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { upsellConfig, upsellPricing, visibleAddonKeys } from "@/lib/checkoutExtras";
 import { PriceOnRequestPanel, PricelessWhatsApp } from "@/components/site/PriceOnRequest";
 import { useDeliveryQuote, encodeLegs } from "@/hooks/useDeliveryQuote";
@@ -92,7 +93,7 @@ export const Route = createFileRoute("/$lang/cars/$city/$slug")({
   },
   component: CarPage,
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Car not found")} />,
+  notFoundComponent: NotFoundPage,
 });
 
 const addDaysLocal = (v: string, n: number) => { const d = new Date(v); d.setDate(d.getDate() + n); return toLocalInput(d); };

@@ -1,3 +1,4 @@
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Share2 } from "lucide-react";
@@ -39,7 +40,7 @@ export const Route = createFileRoute("/$lang/catalog/$city")({
   },
   component: Catalog,
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Not found")} />,
+  notFoundComponent: NotFoundPage,
 });
 
 async function share(url: string, title: string, copied: string) {

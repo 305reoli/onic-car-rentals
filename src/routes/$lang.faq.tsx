@@ -3,7 +3,8 @@ import { type Lang } from "@/lib/i18n";
 import { faqJsonLd, pageHead } from "@/lib/seo";
 import { citiesQuery, settingsQuery, vehiclesQuery } from "@/lib/queries";
 import { allMain, mainFaq, toPairs } from "@/lib/faqContent";
-import { Faq, FinalCta } from "@/components/site/Sections";
+import { Faq, FinalCta, PageError } from "@/components/site/Sections";
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 
 export const Route = createFileRoute("/$lang/faq")({
   loader: async ({ context }) => {
@@ -18,4 +19,6 @@ export const Route = createFileRoute("/$lang/faq")({
     return pageHead(lang, "faq", "/faq", { jsonLd: [faqJsonLd(faq)] });
   },
   component: () => (<><Faq h1 /><FinalCta /></>),
+  errorComponent: PageError,
+  notFoundComponent: NotFoundPage,
 });

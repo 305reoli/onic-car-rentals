@@ -16,6 +16,6 @@ export function CheckoutHeader() {
 }
 
 export function CheckoutFooter() {
-  const { tr } = useLang();
-  return <footer className="border-t border-border px-5 py-5 text-center text-xs text-muted-foreground" data-testid="checkout-footer">{tr.footer.operated} · {tr.footer.rights}</footer>;
+  const { tr, lang } = useLang();
+  return <footer className="border-t border-border px-5 py-5 text-center text-xs text-muted-foreground" data-testid="checkout-footer">{tr.footer.operated} · {tr.footer.rights} · <Link to="/$lang/privacy" params={{ lang }} className="text-primary hover:underline">{tr.footer.privacyPolicy}</Link></footer>;
 }

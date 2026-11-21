@@ -19,28 +19,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { useMotion } from "@/components/site/Motion";
 import { META_PIXEL_HEAD, metaTrack } from "@/lib/metaPixel";
-
-function NotFoundComponent() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
@@ -115,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   shellComponent: RootShell,
   component: RootComponent,
-  notFoundComponent: NotFoundComponent,
+  notFoundComponent: NotFoundPage,
   errorComponent: ErrorComponent,
 });
 
@@ -129,17 +108,6 @@ function RootShell({ children }: { children: ReactNode }) {
         {import.meta.env.DEV && <script dangerouslySetInnerHTML={{ __html: "window.$RefreshReg$=window.$RefreshReg$||function(){};window.$RefreshSig$=window.$RefreshSig$||function(){return function(t){return t}};" }} />}
         <HeadContent />
         <script async src="https://app.promptado.com/v1/analytics.js?key=pk_749d7c48574781f89431ea74ec212b03"></script>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-`,
-          }}
-        />
         {/* Meta Pixel (base code + PageView), loaded only outside consent regions */}
         <script dangerouslySetInnerHTML={{ __html: META_PIXEL_HEAD }} />
       </head>

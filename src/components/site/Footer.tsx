@@ -6,6 +6,7 @@ import { useLang } from "@/hooks/use-lang";
 import { CALL_PHONE, CALL_PHONE_DISPLAY, ownerText, waLink, waMessage, aeoUi } from "@/lib/i18n";
 import { useCurrentWa } from "@/lib/waContext";
 import { Logo } from "@/components/brand/Logo";
+import { directionsUrl, launchText } from "@/lib/launch";
 
 /** Operator line; ZIP and support email come from admin Company info and are omitted until filled. */
 export function useCompany() {
@@ -28,6 +29,11 @@ export function Footer() {
         </div>
         <nav className="flex flex-col gap-3 text-sm text-muted-foreground [&_a:hover]:text-primary">
           <Link to="/$lang/fleet" params={{ lang }}>{tr.nav.fleet}</Link>
+          <Link to="/$lang" params={{ lang }}>{tr.seo.home}</Link>
+          <Link to="/$lang/$city" params={{ lang, city: "miami" }}>Miami</Link>
+          <Link to="/$lang/$city" params={{ lang, city: "orlando" }}>Orlando</Link>
+          <Link to="/$lang/faq" params={{ lang }}>{tr.faq.title}</Link>
+          <Link to="/$lang/guides" params={{ lang: "pt" }}>{lang === "pt" ? "Guias" : lang === "es" ? "Guías" : "Guides"}</Link>
           <Link to="/$lang/blog" params={{ lang }}>{tr.nav.blog}</Link>
           <Link to="/$lang/about" params={{ lang }}>{aeoUi[lang].about}</Link>
           <Link to="/$lang/reviews" params={{ lang }}>{aeoUi[lang].reviews}</Link>
@@ -42,6 +48,8 @@ export function Footer() {
           <a href={`tel:${CALL_PHONE}`}>{ownerText[lang].call} {CALL_PHONE_DISPLAY}</a>
           <p>{ownerText[lang].hours}</p>
           <a href="https://instagram.com/oniccarrentals" target="_blank" rel="noreferrer">Instagram @oniccarrentals</a>
+          <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
+          {["1000 Lincoln Rd, Miami Beach, FL 33139", "5461 Hazeltine National Dr, Orlando, FL 32812"].map(address => <a key={address} href={directionsUrl(address)} target="_blank" rel="noreferrer" className="leading-relaxed">{address}<span className="block text-primary">{launchText[lang].directions} ↗</span></a>)}
         </div>
       </div>
       <div className="border-t border-border px-5 py-6 text-center text-xs text-muted-foreground"><p>{legalLine}</p><p className="mt-2">{tr.footer.rights}</p></div>

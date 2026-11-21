@@ -40,6 +40,7 @@ import { Route as LangCatalogIndexRouteImport } from './routes/$lang.catalog.ind
 import { Route as LangCatalogCityRouteImport } from './routes/$lang.catalog.$city'
 import { Route as LangGuidesIndexRouteImport } from './routes/$lang.guides.index'
 import { Route as LangGuidesSlugRouteImport } from './routes/$lang.guides.$slug'
+import { Route as LangThankYouTokenRouteImport } from './routes/$lang.thank-you.$token'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAbandonedRouteImport } from './routes/_authenticated/admin.abandoned'
 import { Route as AuthenticatedAdminCitiesRouteImport } from './routes/_authenticated/admin.cities'
@@ -215,6 +216,11 @@ const LangGuidesSlugRoute = LangGuidesSlugRouteImport.update({
   path: '/guides/$slug',
   getParentRoute: () => LangRoute,
 } as any)
+const LangThankYouTokenRoute = LangThankYouTokenRouteImport.update({
+  id: '/thank-you/$token',
+  path: '/thank-you/$token',
+  getParentRoute: () => LangRoute,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -354,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/$lang/booking/$token': typeof LangBookingTokenRoute
   '/$lang/catalog/$city': typeof LangCatalogCityRoute
   '/$lang/guides/$slug': typeof LangGuidesSlugRoute
+  '/$lang/thank-you/$token': typeof LangThankYouTokenRoute
   '/admin/abandoned': typeof AuthenticatedAdminAbandonedRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -404,6 +411,7 @@ export interface FileRoutesByTo {
   '/$lang/booking/$token': typeof LangBookingTokenRoute
   '/$lang/catalog/$city': typeof LangCatalogCityRoute
   '/$lang/guides/$slug': typeof LangGuidesSlugRoute
+  '/$lang/thank-you/$token': typeof LangThankYouTokenRoute
   '/admin/abandoned': typeof AuthenticatedAdminAbandonedRoute
   '/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -458,6 +466,7 @@ export interface FileRoutesById {
   '/$lang/booking/$token': typeof LangBookingTokenRoute
   '/$lang/catalog/$city': typeof LangCatalogCityRoute
   '/$lang/guides/$slug': typeof LangGuidesSlugRoute
+  '/$lang/thank-you/$token': typeof LangThankYouTokenRoute
   '/_authenticated/admin/abandoned': typeof AuthenticatedAdminAbandonedRoute
   '/_authenticated/admin/cities': typeof AuthenticatedAdminCitiesRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -512,6 +521,7 @@ export interface FileRouteTypes {
     | '/$lang/booking/$token'
     | '/$lang/catalog/$city'
     | '/$lang/guides/$slug'
+    | '/$lang/thank-you/$token'
     | '/admin/abandoned'
     | '/admin/cities'
     | '/admin/payments'
@@ -562,6 +572,7 @@ export interface FileRouteTypes {
     | '/$lang/booking/$token'
     | '/$lang/catalog/$city'
     | '/$lang/guides/$slug'
+    | '/$lang/thank-you/$token'
     | '/admin/abandoned'
     | '/admin/cities'
     | '/admin/payments'
@@ -615,6 +626,7 @@ export interface FileRouteTypes {
     | '/$lang/booking/$token'
     | '/$lang/catalog/$city'
     | '/$lang/guides/$slug'
+    | '/$lang/thank-you/$token'
     | '/_authenticated/admin/abandoned'
     | '/_authenticated/admin/cities'
     | '/_authenticated/admin/payments'
@@ -877,6 +889,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangGuidesSlugRouteImport
       parentRoute: typeof LangRoute
     }
+    '/$lang/thank-you/$token': {
+      id: '/$lang/thank-you/$token'
+      path: '/thank-you/$token'
+      fullPath: '/$lang/thank-you/$token'
+      preLoaderRoute: typeof LangThankYouTokenRouteImport
+      parentRoute: typeof LangRoute
+    }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
       path: '/'
@@ -1077,6 +1096,7 @@ interface LangRouteChildren {
   LangBookingTokenRoute: typeof LangBookingTokenRoute
   LangCatalogCityRoute: typeof LangCatalogCityRoute
   LangGuidesSlugRoute: typeof LangGuidesSlugRoute
+  LangThankYouTokenRoute: typeof LangThankYouTokenRoute
   LangBlogIndexRoute: typeof LangBlogIndexRoute
   LangBookingIndexRoute: typeof LangBookingIndexRoute
   LangCatalogIndexRoute: typeof LangCatalogIndexRoute
@@ -1107,6 +1127,7 @@ const LangRouteChildren: LangRouteChildren = {
   LangBookingTokenRoute: LangBookingTokenRoute,
   LangCatalogCityRoute: LangCatalogCityRoute,
   LangGuidesSlugRoute: LangGuidesSlugRoute,
+  LangThankYouTokenRoute: LangThankYouTokenRoute,
   LangBlogIndexRoute: LangBlogIndexRoute,
   LangBookingIndexRoute: LangBookingIndexRoute,
   LangCatalogIndexRoute: LangCatalogIndexRoute,

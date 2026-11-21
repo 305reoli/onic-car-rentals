@@ -1,3 +1,4 @@
+import { NotFoundPage } from "@/components/site/NotFoundPage";
 import { seoHead, itemListJsonLd } from "@/lib/seo";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { citiesQuery, unavailableQuery, vehiclesQuery } from "@/lib/queries";
@@ -44,7 +45,7 @@ export const Route = createFileRoute("/$lang/$city_/$category")({
   },
   component: CategoryRoute,
   errorComponent: PageError,
-  notFoundComponent: () => <PageError error={new Error("Not found")} />,
+  notFoundComponent: NotFoundPage,
 });
 
 function CategoryRoute() {
