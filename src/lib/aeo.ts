@@ -1,5 +1,5 @@
 import { aeoUi, fmt, type Lang } from "./i18n";
-import { publicPath, slugify } from "./publicRoutes";
+import { publicPath, slugify, internalPath } from "./publicRoutes";
 import type { Vehicle, CityRow } from "./vehicles";
 
 export const brandHubKey = (city: string, brand: string) => `brand-hub/${city}/${slugify(brand)}`;
@@ -38,4 +38,13 @@ export function legacyCarTarget(url: URL, cars: Pick<Vehicle, "active" | "slug" 
   const matches = cars.filter(v => v.active && v.slug === marker[1]);
   const car = matches.find(v => v.city === base) ?? (!requested ? matches[0] : undefined);
   return car ? publicPath(lang, `cars/${car.city}/${car.slug}`) : publicPath(lang, city.slug);
+}
+/** Known old URLs never redirect into a retired unit or empty historical brand hub. */
+export function activeLegacyTarget(target: string, cars: Pick<Vehicle, "active" | "slug" | "city" | "brand">[]): string {
+  const internal = internalPath(target);
+  const car = /^\/(en|pt|es)\/cars\/([^/]+)\/([^/]+)$/.exec(internal);
+  const hub = /^\/(en|pt|es)\/brand-hub\/([^/]+)\/([^/]+)$/.exec(internal);
+  if (car && !cars.some(v => v.active && v.city === car[2] && v.slug === car[3])) return publicPath(car[1] as Lang, "fleet");
+  if (hub && !cars.some(v => v.active && v.city === hub[2] && slugify(v.brand) === hub[3])) return publicPath(hub[1] as Lang, "fleet");
+  return target;
 }

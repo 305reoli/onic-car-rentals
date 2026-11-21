@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { attributionSchema } from "@/lib/attribution";
 import { storedDocsComplete } from "@/lib/identity";
 import { luggageLogisticsSchema, hotelLogisticsSchema, childSeatsSchema } from "@/lib/checkoutExtras";
 
@@ -25,6 +26,7 @@ export const additionalDriverSchema = z.object({
 });
 export type AdditionalDriver = z.infer<typeof additionalDriverSchema>;
 export const createSchema = z.object({
+  attribution: attributionSchema.optional(),
   captureToken: z.string().uuid().optional(),
   vehicleSlug: z.string(), city: z.string(), serviceCity: z.string().optional(),
   pickupAt: z.string(), returnAt: z.string(),

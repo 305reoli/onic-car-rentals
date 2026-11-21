@@ -27,10 +27,11 @@ Disallow: /admin
 Disallow: /auth
 Disallow: /reset-password
 Disallow: /api/
+Allow: /api/public/photo/
 Disallow: /checkout/
 Disallow: /booking/
-Disallow: /*/checkout/
-Disallow: /*/booking/
+Disallow: /*/checkout
+Disallow: /*/booking
 Disallow: /*/thank-you/
 Disallow: /*/my-booking
 Disallow: /my-booking

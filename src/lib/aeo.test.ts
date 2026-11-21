@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { legacyCarTarget } from "./aeo";
+import { activeLegacyTarget, legacyCarTarget } from "./aeo";
 import { equivalentPath, internalPath, publicPath } from "./publicRoutes";
 
 const cars = [{ active: true, city: "orlando", slug: "porsche-macan" }, { active: true, city: "miami", slug: "porsche-macan" }];
@@ -29,4 +29,10 @@ describe("SEO/AEO clean URL rules", () => {
     expect(equivalentPath("/ferrari-em-orlando", "en")).toBe("/en/ferrari-in-orlando");
     expect(equivalentPath("/porsche-em-miami", "es")).toBe("/es/porsche-en-miami");
   });
+});
+describe("known legacy links after fleet changes", () => {
+  const current = [{ active: true, city: "miami", slug: "cadillac-escalade-esv", brand: "Cadillac" }];
+  it("sends a retired car target to the live fleet", () => expect(activeLegacyTarget("/en/cars/orlando/cadillac-escalade", current)).toBe("/en/fleet"));
+  it("preserves the actual current car URL", () => expect(activeLegacyTarget("/carros/miami/cadillac-escalade-esv", current)).toBe("/carros/miami/cadillac-escalade-esv"));
+  it("does not send old brand links into an empty Orlando hub", () => expect(activeLegacyTarget("/en/cadillac-in-orlando", current)).toBe("/en/fleet"));
 });

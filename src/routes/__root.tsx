@@ -20,6 +20,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { useMotion } from "@/components/site/Motion";
 import { META_PIXEL_HEAD, metaTrack } from "@/lib/metaPixel";
 import { NotFoundPage } from "@/components/site/NotFoundPage";
+import { captureAttribution } from "@/lib/attribution";
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
@@ -123,6 +124,21 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
   useMotion();
+  useEffect(() => {
+    captureAttribution(window.location.search);
+    const unsubscribe = router.subscribe("onResolved", () => captureAttribution(window.location.search));
+    // Actual link clicks only, without the personal WhatsApp message or destination URL.
+    const onClick = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target.closest("a[href]") : null;
+      if (!(target instanceof HTMLAnchorElement) || target.hostname !== "wa.me") return;
+      window.__lovableEvents?.track?.("project.whatsapp_click", {});
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+      if (gtag) gtag("event", "whatsapp_click", {});
+      else (window.dataLayer ??= []).push({ event: "whatsapp_click" });
+    };
+    document.addEventListener("click", onClick);
+    return () => { unsubscribe(); document.removeEventListener("click", onClick); };
+  }, [router]);
   useEffect(() => {
     // Auth client is loaded after hydration so public pages don't ship it in their first-paint JS.
     let unsub: (() => void) | undefined; let dead = false;

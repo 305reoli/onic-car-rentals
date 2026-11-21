@@ -39,8 +39,11 @@ export function postalFrom(address: string): Postal {
 }
 /** Public business addresses = the owner-editable fleet bases (Settings → Delivery & add-ons), Orlando first. */
 export function businessAddresses(bases: Record<string, { address: string }> | undefined | null): Postal[] {
-  const b = { ...DEFAULT_DELIVERY.bases, ...(bases ?? {}) };
-  return ["orlando", "miami"].filter((k) => b[k]?.address).map((k) => postalFrom(b[k]!.address));
+  return ["orlando", "miami"].flatMap(key => {
+    const supplied = bases?.[key]?.address;
+    const address = supplied && !/Sua Rua|Sua Avenida|Winter Garden|00000/i.test(supplied) ? supplied : DEFAULT_DELIVERY.bases[key]?.address;
+    return address ? [postalFrom(address)] : [];
+  });
 }
 
 export const KEYWORDS = "exotic car rental Florida, exotic car rental Orlando, exotic car rental Miami, exotic car rental Fort Lauderdale, exotic car rental Tampa, luxury car rental, rent Ferrari Orlando, rent Lamborghini Miami, aluguel de carros exóticos Florida, Onic Car Rentals";
@@ -61,6 +64,9 @@ export function orgJsonLd(_addresses: Postal[], _description?: string, _googleUr
     url: SITE,
     telephone: BUSINESS.telephone,
     email: BUSINESS.email,
+    foundingDate: BUSINESS.foundingDate,
+    description: "Onic Car Rentals, operated by Reoli LLC since 2014, provides VIP hand-delivery car rental and Portuguese-speaking service for Brazilian travelers in Florida.",
+    knowsLanguage: ["pt-BR", "en", "es"],
     address: { "@type": "PostalAddress", streetAddress: "1000 Lincoln Rd", addressLocality: "Miami Beach", addressRegion: "FL", postalCode: "33139", addressCountry: "US" },
     sameAs: ["https://www.instagram.com/oniccarrentals", "https://search.google.com/local/writereview?placeid=ChIJNyybg_oR00wRh4n0-LvkXoU"],
     areaServed: ["Orlando", "Miami", "Tampa", "Fort Lauderdale"].map((name) => ({ "@type": "City", name, addressRegion: "FL", addressCountry: "US" })),
@@ -96,6 +102,28 @@ export function productJsonLd(name: string, photos: string[], url: string, price
     ...(price != null && Number.isFinite(price) && price > 0 ? { offers: { "@type": "Offer", price, priceCurrency: "USD", availability: "https://schema.org/InStock" } } : {}),
     ...(agg ? { aggregateRating: agg } : {}),
     ...(reviews.length ? { review: reviews } : {}),
+  };
+}
+
+/** Database facts only; unknown specs and unpriced offers are omitted. A daily rate is not dated availability. */
+export function carJsonLd(car: { name: string; brand: string; model: string; photos: string[]; daily_price_usd: number | null; city: string; seats?: number | null; doors?: number | null; hp?: number | null; color?: string; transmission?: string }, url: string, cityName: string, description?: string) {
+  return {
+    "@context": "https://schema.org", "@type": "Car", name: car.name, model: car.model, url,
+    brand: { "@type": "Brand", name: car.brand },
+    ...(car.photos.length ? { image: car.photos.map(abs) } : {}),
+    ...(description ? { description } : {}),
+    ...(posNum(car.seats) ? { seatingCapacity: car.seats } : {}),
+    ...(posNum(car.doors) ? { numberOfDoors: car.doors } : {}),
+    ...(car.color?.trim() ? { color: car.color.trim() } : {}),
+    ...(car.transmission?.trim() ? { vehicleTransmission: car.transmission.trim() } : {}),
+    ...(posNum(car.hp) ? { vehicleEngine: { "@type": "EngineSpecification", enginePower: { "@type": "QuantitativeValue", value: car.hp, unitCode: "BHP" } } } : {}),
+    ...(posNum(car.daily_price_usd) ? { offers: {
+      "@type": "Offer", url, price: car.daily_price_usd, priceCurrency: "USD",
+      businessFunction: "http://purl.org/goodrelations/v1#LeaseOut",
+      priceSpecification: { "@type": "UnitPriceSpecification", price: car.daily_price_usd, priceCurrency: "USD", unitText: "DAY" },
+      availableAtOrFrom: { "@type": "Place", name: cityName },
+      seller: { "@type": "AutoRental", name: BUSINESS.name, url: SITE },
+    } } : {}),
   };
 }
 
@@ -141,6 +169,10 @@ export function seoHead(i: SeoInput) {
   const sourceDescription = /^\/?catalog\//.test(i.path) ? `${t(i.lang).seo.catalog}: ${i.description}` : /^\/?search$/.test(i.path) ? fmt(aeoUi[i.lang].listingMeta, { category: t(i.lang).fleet.all, city: "Florida" }) : i.description;
   const description = /^\/?(?:cars|checkout|booking|my-booking|terms|cancellation)(?:\/|$)/.test(i.path) || !sourceDescription ? sourceDescription : editorialMeta(sourceDescription, i.lang);
   const url = publicPath(i.lang, i.path);
+  const categoryPage = /^\/?(?:miami|orlando|tampa|fort-lauderdale)\/[^/]+$/.test(i.path);
+  const hubPage = /^\/?brand-hub\//.test(i.path);
+  const title = categoryPage ? `${t(i.lang).drill.chooseCategory}: ${i.title}` : hubPage ? `${aeoUi[i.lang].specs}: ${i.title}` : i.title;
+  const finalDescription = hubPage ? editorialMeta(`${aeoUi[i.lang].specs}: ${description}`, i.lang) : description;
   // One brand share image for every page and language (owner decision).
   // Unpublished project has no public asset origin yet; do not tag a fabricated or private preview URL.
   const image = i.image?.startsWith("https://") ? i.image : null;
@@ -150,12 +182,12 @@ export function seoHead(i: SeoInput) {
   ld.push(...(i.jsonLd ?? []));
   return {
     meta: [
-      { title: i.title },
-      { name: "description", content: description },
+      { title },
+      { name: "description", content: finalDescription },
       ...(i.keywords ? [{ name: "keywords", content: i.keywords }] : []),
       { name: "robots", content: i.noindex ? "noindex, follow" : "index, follow" },
-      { property: "og:title", content: i.title },
-      { property: "og:description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: finalDescription },
       { property: "og:url", content: url },
       { property: "og:site_name", content: "Onic Car Rentals" },
       { property: "og:type", content: i.type ?? "website" },
@@ -166,14 +198,14 @@ export function seoHead(i: SeoInput) {
       { property: "og:locale", content: OG_LOCALE[i.lang] },
       ...LANGS.filter((l) => l !== i.lang).map((l) => ({ property: "og:locale:alternate", content: OG_LOCALE[l] })),
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: i.title },
-      { name: "twitter:description", content: description },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: finalDescription },
       ...(image ? [{ name: "twitter:image", content: image },
       { name: "twitter:image:alt", content: OG_IMAGE_ALT }] : []),
     ],
     links: [
       { rel: "canonical", href: url },
-      ...LANGS.flatMap((l) => i.equivalents && i.equivalents[l] == null ? [] : [{ rel: "alternate", hrefLang: l, href: publicPath(l, i.equivalents?.[l] ?? i.path) }]),
+      ...LANGS.flatMap((l) => i.equivalents && i.equivalents[l] == null ? [] : [{ rel: "alternate", hrefLang: l === "pt" ? "pt-BR" : l, href: publicPath(l, i.equivalents?.[l] ?? i.path) }]),
       { rel: "alternate", hrefLang: "x-default", href: publicPath("pt", i.path) },
     ],
     scripts: ld.map((o) => ({ type: "application/ld+json", children: JSON.stringify(o) })),

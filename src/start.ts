@@ -4,7 +4,7 @@ import { renderErrorPage } from "./lib/error-page";
 import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
 import { cookieValue, detectLang } from "@/lib/langDetect";
 import { legacyOldSiteRedirect, legacyPtRedirect, publicPath } from "@/lib/publicRoutes";
-import { legacyCarTarget } from "@/lib/aeo";
+import { activeLegacyTarget, legacyCarTarget } from "@/lib/aeo";
 import { legacyCheckoutRedirect } from "@/lib/checkoutRecovery";
 
 const publicLanguageMiddleware = createMiddleware().server(async ({ next, request }) => {
@@ -20,7 +20,12 @@ const publicLanguageMiddleware = createMiddleware().server(async ({ next, reques
   const oldCheckout = legacyCheckoutRedirect(url.pathname, url.search);
   if (oldCheckout) return new Response(null, { status: 301, headers: { Location: oldCheckout } });
   const oldSite = legacyOldSiteRedirect(url.pathname);
-  if (oldSite) return new Response(null, { status: 301, headers: { Location: oldSite + url.search } });
+  if (oldSite) {
+    const needsFleet = /\/(?:cars|carros)\//.test(oldSite) || /-(?:em|in|en)-(?:orlando|miami)$/.test(oldSite);
+    const { readActivePublicCars } = await import("@/services/public-catalog.server");
+    const target = needsFleet ? activeLegacyTarget(oldSite, await readActivePublicCars()) : oldSite;
+    return new Response(null, { status: 301, headers: { Location: target + url.search } });
+  }
   const legacy = legacyPtRedirect(url.pathname);
   if (legacy) return new Response(null, { status: 301, headers: { Location: legacy + url.search } });
   if (url.pathname === "/") {

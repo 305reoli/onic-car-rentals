@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "events": {
+    "project.fleet_filter": {
+      "event_schema_version": 1,
+      "description": "A visitor changes fleet filters or submits a fleet search.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "project.quote_simulation": {
+      "event_schema_version": 1,
+      "description": "A visitor chooses valid rental dates on a car page.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    "project.whatsapp_click": {
+      "event_schema_version": 1,
+      "description": "A visitor clicks an Onic WhatsApp link.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  }
+}

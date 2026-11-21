@@ -46,6 +46,8 @@ export function StickySearch() {
   const submit = (e?: React.FormEvent) => {
     e?.preventDefault();
     setOpen(false);
+    window.__lovableEvents?.track?.("project.fleet_filter", {});
+    (window.dataLayer ??= []).push({ event: "fleet_filter" });
     const dates = { pickup: pickup || undefined, ret: ret || undefined, ...(shared ? { loc: shared.loc || undefined } : {}) };
     if (q.trim()) return void navigate({ to: "/$lang/search", params: { lang }, search: { q: q.trim(), city: city || undefined, ...dates } });
     if (city) return void navigate({ to: "/$lang/$city", params: { lang, city }, search: dates });

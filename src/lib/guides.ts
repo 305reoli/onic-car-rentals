@@ -5,7 +5,7 @@ import { fmt, globalPaysLabel, t } from "./i18n";
 import { allMain, mainFaq, minimumDaysSentence, toPairs, type FaqItem } from "./faqContent";
 import { discoveryGroups, lowestDaily, type CatalogCar } from "./discovery";
 import { crossConfig, deliveryConfig, payModes } from "./pricing";
-import { abs, faqJsonLd, seoHead, SITE } from "./seo";
+import { abs, faqJsonLd, seoHead, SITE, businessAddresses, addressLine } from "./seo";
 import { publicPath } from "./publicRoutes";
 
 export type GuideCar = CatalogCar & { seats: number | null; bags: number | null; min_days?: number | null };
@@ -39,7 +39,12 @@ export function buildGuide(slug: string, cars: GuideCar[], settings: GuideSettin
   const gp = fmt(guideUi.gp, { label: globalPaysLabel("pt", settings?.gp_interest_free_installments ?? 6) });
   const minimum = minimumDaysSentence("pt", scoped, settings, true);
   const airport = fmt(guideUi.airportFees, { one: money(dc.fixed_delivery.regular.ownCityAddress), a: money(dc.fixed_delivery.exotic.ownCityAddress) });
-  const bases = (slug.startsWith("miami-ou") ? ["orlando", "miami"] : ["orlando"]).flatMap((city) => dc.bases[city]?.address ? [fmt(guideUi.base, { city: cityName(city), address: dc.bases[city]?.address ?? "" })] : []);
+  const addresses = businessAddresses((settings?.delivery_config as { bases?: Record<string, { address: string }> } | null)?.bases);
+  const bases = (slug.startsWith("miami-ou") ? ["orlando", "miami"] : ["orlando"]).flatMap(city => {
+    const address = addresses[city === "orlando" ? 0 : 1];
+    if (!address) return [];
+    return [city === "orlando" ? `Ponto de entrega/retirada de Orlando: ${addressLine(address)}. ${t("pt").search.orlandoMin}` : fmt(guideUi.base, { city: cityName(city), address: addressLine(address) })];
+  });
   const priceRows = slug.startsWith("quanto-custa") ? guidePriceRows(active) : slug.startsWith("miami-ou") ? guidePriceRows(active, true) : [];
   const low = lowestDaily(active.filter((v) => v.city === "orlando" && v.body_category === "exotics"));
   const answer = (copy.answer ? fmt(copy.answer, { label: globalPaysLabel("pt", settings?.gp_interest_free_installments ?? 6) }) : "") || (low == null ? guideUi.priceUnavailable : fmt(guideUi.priceAnswer, { price: low }));

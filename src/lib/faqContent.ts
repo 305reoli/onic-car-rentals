@@ -14,7 +14,7 @@ type CarLite = { body_category: string; is_convertible: boolean; seats: number |
 type Settings = { delivery_config?: unknown; payment_modes?: unknown; min_days_by_category?: unknown; prereservation_min_usd?: number | string | null } | null | undefined;
 
 const CATS = ["suv", "sedan", "luxury", "convertible", "sports", "exotics"] as const;
-const PHONE = "+1 (954) 248-0903";
+const PHONE = "+55 (65) 98404-6666";
 
 const L = {
   en: {
@@ -23,7 +23,7 @@ const L = {
     whatA: "{pos}, operating since 2014 and run by Reoli LLC. We compete on service, not price: support in Portuguese, minimal bureaucracy, and your car guaranteed and delivered where you are.",
     citiesQ: "Which cities and airports do you serve?",
     citiesA: "{own}. {served} Airport delivery at {airports}. Our bases: {bases}.",
-    own: "Orlando and Miami", servedBy: "{city} is served by the {fleet} fleet.", and: "and", near: "near",
+    own: "Miami-based fleet serving Miami, Fort Lauderdale, Orlando and Tampa; Orlando is delivery/pickup only", servedBy: "{city} is served by the {fleet} fleet.", and: "and", near: "near",
     carsQ: "What kinds of cars do you have?",
     carsA: "Six categories — SUV, Sedan, Luxury, Convertible, Sports and Exotics: from family minivans (Pacifica, Carnival) and large SUVs (Suburban, Escalade, Expedition) to sports cars (Mustang convertible, Charger), exotics (Ferrari Portofino, Lamborghini Huracán, Porsche 911, Corvette C8) and luxury cars (Mercedes, BMW, Range Rover, Porsche Macan).",
     capQ: "How many people and suitcases fit?",
@@ -79,7 +79,7 @@ const L = {
     whatA: "{pos}, desde 2014, operado pela Reoli LLC. Competimos no atendimento, não no preço: atendimento em português, burocracia mínima e o carro garantido e entregue onde você estiver.",
     citiesQ: "Quais cidades e aeroportos vocês atendem?",
     citiesA: "{own}. {served} Entrega nos aeroportos {airports}. Nossas bases: {bases}.",
-    own: "Orlando e Miami", servedBy: "{city} é atendida pela frota de {fleet}.", and: "e", near: "perto do",
+    own: "Frota baseada em Miami, atendendo Miami, Fort Lauderdale, Orlando e Tampa; Orlando é somente entrega/retirada", servedBy: "{city} é atendida pela frota de {fleet}.", and: "e", near: "perto do",
     carsQ: "Que tipos de carro vocês têm?",
     carsA: "Seis categorias — SUV, Sedã, Luxo, Conversível, Esportivo e Exótico: de minivans para a família (Pacifica, Carnival) e SUVs grandes (Suburban, Escalade, Expedition) a esportivos (Mustang conversível, Charger), exóticos (Ferrari Portofino, Lamborghini Huracán, Porsche 911, Corvette C8) e carros de luxo (Mercedes, BMW, Range Rover, Porsche Macan).",
     capQ: "Quantas pessoas e malas cabem?",
@@ -134,7 +134,7 @@ const L = {
     whatA: "{pos}, desde 2014, operado por Reoli LLC. Competimos en servicio, no en precio: atención en portugués, mínima burocracia y el auto garantizado y entregado donde usted esté.",
     citiesQ: "¿Qué ciudades y aeropuertos atienden?",
     citiesA: "{own}. {served} Entrega en los aeropuertos {airports}. Nuestras bases: {bases}.",
-    own: "Orlando y Miami", servedBy: "{city} se atiende con la flota de {fleet}.", and: "y", near: "cerca de",
+    own: "Flota con base en Miami para Miami, Fort Lauderdale, Orlando y Tampa; Orlando es solo entrega/recogida", servedBy: "{city} se atiende con la flota de {fleet}.", and: "y", near: "cerca de",
     carsQ: "¿Qué tipos de autos tienen?",
     carsA: "Seis categorías — SUV, Sedán, Lujo, Convertible, Deportivo y Exótico: desde minivans familiares (Pacifica, Carnival) y SUV grandes (Suburban, Escalade, Expedition) hasta deportivos (Mustang convertible, Charger), exóticos (Ferrari Portofino, Lamborghini Huracán, Porsche 911, Corvette C8) y autos de lujo (Mercedes, BMW, Range Rover, Porsche Macan).",
     capQ: "¿Cuántas personas y maletas caben?",
@@ -234,7 +234,7 @@ export function capacityList(lang: Lang, cars: CarLite[]) {
 export function mainFaq(lang: Lang, st: Settings, cities: CityLite[], cars: CarLite[]): { general: FaqItem[]; delivery: FaqItem[] } {
   const tx = L[lang], cfg = st?.delivery_config, dc = deliveryConfig(cfg), cat = t(lang).categories;
   const name = (s: string) => cities.find((c) => c.slug === s)?.name ?? s;
-  const served = cities.filter((c) => c.fleet_from_city && c.fleet_from_city !== c.slug).map((c) => fmt(tx.servedBy, { city: c.name, fleet: name(c.fleet_from_city!) })).join(" ");
+  const served = t(lang).search.orlandoMin;
   const codes = cities.map((c) => dc.airports[c.slug]?.code).filter(Boolean) as string[];
   const bases = (["orlando", "miami"] as const).map((k, i) => {
     const a = businessAddresses((cfg as { bases?: Record<string, { address: string }> } | null)?.bases)[i];

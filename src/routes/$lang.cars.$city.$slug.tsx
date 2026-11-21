@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { Check, ChevronLeft } from "lucide-react";
 import { bookedDaysQuery, settingsQuery, vehicleQuery } from "@/lib/queries";
 import { ownerText, fmt, minDaysMsg, minRentalLabel, t, waLink, type Lang } from "@/lib/i18n";
-import { abs, faqJsonLd, productJsonLd, seoHead } from "@/lib/seo";
+import { abs, faqJsonLd, carJsonLd, seoHead } from "@/lib/seo";
 import { carFaq, toPairs } from "@/lib/faqContent";
 import { useLang } from "@/hooks/use-lang";
 import { resolveServiceCity, description, highlightsFor, carMileageLine, hasDailyPrice, photoUrl, photoSrcSet, sizedPhoto, GALLERY_SIZES, GALLERY_WIDTHS } from "@/lib/vehicles";
@@ -70,7 +70,7 @@ export const Route = createFileRoute("/$lang/cars/$city/$slug")({
     const svcSlug = resolveServiceCity(cities, deps.svc, v.city)?.slug ?? v.city;
     const faqCell = crossCell(v.city, svcSlug, v, crossConfig((st as { delivery_config?: { cross?: unknown } }).delivery_config?.cross));
     const faq = carFaq(params.lang as Lang, v, st as never, faqCell, svcSlug, svcLabel ?? cityLabel);
-    return { modelPath: discoveryKey("model", v.city, modelKey(v)), modelName: modelLabel(v), faq, name: v.name, brand: v.brand, city: svcLabel ?? cityLabel, desc: description(v, params.lang as Lang), reviewData, photos: v.photos, photo: v.photos[0] ?? null, price, category: v.body_category, minDays: effectiveMinDays(v, (st as { min_days_by_category?: unknown }).min_days_by_category).n };
+    return { schemaCar: { name: v.name, brand: v.brand, model: v.model, city: v.city, photos: v.photos.map(photoUrl), daily_price_usd: price, seats: v.seats, doors: v.doors, hp: v.hp, color: v.color, transmission: v.transmission }, modelPath: discoveryKey("model", v.city, modelKey(v)), modelName: modelLabel(v), faq, name: v.name, brand: v.brand, city: svcLabel ?? cityLabel, desc: description(v, params.lang as Lang), reviewData, photos: v.photos, photo: v.photos[0] ?? null, price, category: v.body_category, minDays: effectiveMinDays(v, (st as { min_days_by_category?: unknown }).min_days_by_category).n };
   },
   head: ({ params, loaderData }) => {
     const lang = params.lang as Lang;
@@ -86,7 +86,7 @@ export const Route = createFileRoute("/$lang/cars/$city/$slug")({
       title: `${title} | Onic Car Rentals`,
       description: carMeta(lang, d.name, d.city, d.price),
       crumbs: [[d.city, `/${params.city}`], [tr.categories[d.category as keyof typeof tr.categories] ?? d.category, `/${params.city}/${d.category}`], ...(lang === "pt" ? [[d.modelName, `/${d.modelPath}`] as [string, string]] : []), [d.name, path]],
-      jsonLd: [productJsonLd(d.name, d.photos.map(photoUrl), abs(publicPath(lang, path)), d.price, { description: d.desc, brand: d.brand, reviews: d.reviewData }), faqJsonLd(toPairs(d.faq))],
+      jsonLd: [carJsonLd(d.schemaCar, abs(publicPath(lang, path)), d.city, d.desc), faqJsonLd(toPairs(d.faq))],
     });
     // First gallery photo is the LCP: preload the same responsive candidates the <img> uses.
     return lcpSet ? { ...sh, links: [...(sh.links ?? []), { rel: "preload", as: "image", href: sizedPhoto(d.photo, 828), imageSrcSet: lcpSet, imageSizes: GALLERY_SIZES, fetchPriority: "high" }] } : sh;
@@ -175,6 +175,10 @@ function CarPage() {
   const navigate = Route.useNavigate();
   // User-chosen dates go to the URL so the sticky search and checkout stay in sync.
   const setDates = (p: string, r: string) => {
+    if (p && r && new Date(r) > new Date(p)) {
+      window.__lovableEvents?.track?.("project.quote_simulation", {});
+      (window.dataLayer ??= []).push({ event: "quote_simulation" });
+    }
     setDatesPicked(true);
     setPickup(p); setRet(r);
     navigate({ search: (prev: Record<string, unknown>) => ({ ...prev, pickup: p || undefined, ret: r || undefined }), replace: true, resetScroll: false } as never);

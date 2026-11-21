@@ -63,7 +63,7 @@ export async function validateBooking(db: SupabaseClient<Database>, data: Bookin
   const { data: extracted } = data.documents ? await db.from("document_checks").select("results").eq("folder", data.documents.folder).maybeSingle() : { data: null };
   // Keep name-match verdict against the originally typed name, before auto-fill.
   if (extracted) bookingFields.document_ai = extracted.results;
-  const breakdown = { ...q, city: city.slug, base_city: v.city, currency: "USD", delivery: { ...delivery.label, status: delivery.status, fee: delivery.status === "priced" ? delivery.itemizedFee : null, cross: delivery.cross, legs: delivery.legs ?? null } };
+  const breakdown = { ...q, ...(data.attribution ? { attribution: data.attribution } : {}), city: city.slug, base_city: v.city, currency: "USD", delivery: { ...delivery.label, status: delivery.status, fee: delivery.status === "priced" ? delivery.itemizedFee : null, cross: delivery.cross, legs: delivery.legs ?? null } };
   return { v, s, city, pickup, ret, q, now, delivery, bookingFields, breakdown };
 }
 

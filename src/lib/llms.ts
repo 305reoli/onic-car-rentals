@@ -20,18 +20,18 @@ export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[]
   const lines = [
     "# Onic Car Rentals",
     "",
-    "> Specialist sports & exotic car rental service for Brazilians in the USA — Orlando and Miami (the Orlando fleet also serves Tampa, the Miami fleet also serves Fort Lauderdale). Since 2014. Operated by Reoli LLC. Service in Portuguese, English and Spanish.",
+    "> Specialist sports & exotic car rental service for Brazilians in the USA — Miami, Fort Lauderdale, Orlando and Tampa. Fleet based in Miami; Orlando is delivery/pickup only with a 7-day minimum. Since 2014. Operated by Reoli LLC. Service in Portuguese, English and Spanish.",
     "",
     "Onic Car Rentals rents exotic, luxury and premium cars (Ferrari, Lamborghini, Rolls-Royce, Mercedes-Benz G63, Cadillac Escalade, Porsche, luxury SUVs and convertibles) with concierge delivery.",
     "The multilingual Blog publishes sourced Ferrari, Lamborghini and Porsche news and model stories in Portuguese, English and Spanish.",
     "",
     `## ${faqText("en").whoTitle}`,
-    ...faqText("en").who.map((x) => `- ${x}`),
+    ...faqText("en").who.map((x) => x),
     "",
     "## Services",
     "- Exotic, luxury and premium car rental.",
     "- Delivery and collection at MCO, MIA, FLL and TPA airports, hotels or any address.",
-    "- Cross-city service (non-exotic cars).",
+    "- Cross-city service for eligible cars; options are checked before payment.",
     "- Multilingual support (EN/PT/ES).",
     "",
     "## The Onic experience (concierge, arranged on request via WhatsApp)",
@@ -43,7 +43,7 @@ export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[]
     "- On request: hotel escort and check-in help, a first grocery run for house stays in Orlando, and a WhatsApp city guide during the stay.",
     "",
     "## Cities and delivery",
-    ...cities.map((c) => `- ${c.name}: ${c.fleet_from_city && c.fleet_from_city !== c.slug ? `served by the ${cityName(c.fleet_from_city)} fleet` : "own fleet"} — ${SITE}${publicPath("en", c.slug)}`),
+    ...cities.map((c) => `- [${c.name}](${SITE}${publicPath("en", c.slug)}): ${c.slug === "miami" ? "fleet base" : c.slug === "orlando" ? "delivery/pickup only; minimum rental 7 days" : "delivery of eligible cars from Miami"}`),
     "- Delivery to airports MCO (Orlando), MIA (Miami), FLL (Fort Lauderdale) and TPA (Tampa), to hotels and resorts, or to any address.",
     "- Pricing: daily rate + basic insurance and toll coverage per day (non-exotic cars only) + delivery + add-ons + sales tax. Everything itemized before you pay — no hidden fees.",
     ...addresses.map((a) => `- Address: ${addressLine(a)}, USA`),
@@ -89,28 +89,20 @@ export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[]
       `- [Blog (${lang.toUpperCase()})](${SITE}${publicPath(lang, "blog")}): Sourced automotive news and model stories`,
       ...blogPosts.map(p => `- [${p.translations[lang].title}](${SITE}${publicPath(lang, blogPathKey(p.slug))}): ${p.translations[lang].excerpt}`),
     ]),
-    "",
-    "## Optional",
-    `- [Terms](${SITE}${publicPath("en", "terms")})`,
-    `- [Privacy](${SITE}${publicPath("en", "privacy")})`,
-    `- [Cancellation & refunds](${SITE}${publicPath("en", "cancellation")})`,
-    `- [Legal & company information](${SITE}${publicPath("en", "legal")})`,
-    `- [Full car list for AI](${SITE}/llms-full.txt)`,
   ];
   // FAQ: same strings as the visible accordion and the FAQPage JSON-LD.
   for (const lang of full ? LANGS : (["en"] as const)) {
     const f = allMain(mainFaq(lang, st as never, cities, allCars));
     lines.push("", `## FAQ (${lang.toUpperCase()}) — ${SITE}${publicPath(lang, "faq")}`);
-    for (const it of f) lines.push("", `### ${it.q}`, it.a + (it.href ? ` (${SITE}${it.href})` : ""));
+    for (const it of f) lines.push("", `Q: ${it.q}`, it.a + (it.href ? ` (${SITE}${it.href})` : ""));
   }
   if (cars) {
     lines.push("", "## Full fleet (base city · category · from-price per day, USD · minimum rental)");
     for (const base of [...new Set(cars.map((c) => c.city))]) {
-      const served = cities.filter((c) => (c.fleet_from_city || c.slug) === base).map((c) => c.name).join(", ");
-      lines.push("", `### ${cityName(base)} fleet (available in: ${served})`);
+      lines.push("", `${cityName(base)} fleet (service options verified per car)`);
       for (const c of cars.filter((x) => x.city === base)) {
         const cat = `${CAT[c.body_category] ?? c.body_category}${c.is_convertible ? " + Convertible" : ""}`;
-        lines.push(`- [${c.name}](${SITE}${publicPath("en", `cars/${c.city}/${c.slug}`)}) · ${cat} · ${c.daily_price_usd != null ? `from $${c.daily_price_usd}/day` : "price on request"} · ${minTxt(effectiveMinDays(c, st?.min_days_by_category).n)}`);
+        lines.push(`- [${c.name}](${SITE}${publicPath("en", `cars/${c.city}/${c.slug}`)}): ${cat} · ${c.daily_price_usd != null ? `from $${c.daily_price_usd}/day` : "price on request"} · ${minTxt(effectiveMinDays(c, st?.min_days_by_category).n)}`);
       }
     }
   }
@@ -122,7 +114,14 @@ export function llmsText(cities: City[], cars: Car[] | null, addresses: Postal[]
     const copy = post.translations[lang];
     lines.push("", `## Blog — ${SITE}${publicPath(lang, blogPathKey(post.slug))}`, `${copy.title}\n\nOnic Car Rentals · ${post.date}\n\n${copy.intro}\n\n${copy.sections.flatMap(s => [s.title, ...s.paragraphs]).join("\n\n")}\n\n${copy.cta}\n\nSources: ${post.sources.map(s => s.url ? `${s.name} (${s.url})` : s.name).join(" · ")}`);
   }
-  return lines.join("\n") + "\n";
+  lines.push("",
+    "## Optional",
+    `- [Terms](${SITE}${publicPath("en", "terms")})`,
+    `- [Privacy](${SITE}${publicPath("en", "privacy")})`,
+    `- [Cancellation & refunds](${SITE}${publicPath("en", "cancellation")})`,
+    `- [Legal & company information](${SITE}${publicPath("en", "legal")})`,
+    `- [Full car list for AI](${SITE}/llms-full.txt)`);
+  return lines.map(line => line.startsWith("- ") && !line.startsWith("- [") ? line.slice(2) : line).join("\n") + "\n";
 }
 
 const minTxt = (n: number) => (n === 1 ? "minimum rental 1 day" : `minimum rental ${n} days`);

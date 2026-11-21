@@ -37,6 +37,8 @@ export function SearchBox({ initialCity }: { initialCity?: string }) {
     const pu = pickup || (e.currentTarget.elements.namedItem("pickup") as HTMLInputElement | null)?.value || "";
     const rt = ret || (e.currentTarget.elements.namedItem("ret") as HTMLInputElement | null)?.value || "";
     if (pu && rt && orlandoTooShort(city, new Date(pu), new Date(rt))) return;
+    window.__lovableEvents?.track?.("project.fleet_filter", { city, category: picked });
+    (window.dataLayer ??= []).push({ event: "fleet_filter", city, category: picked });
     navigate({ to: "/$lang/$city", params: { lang, city }, search: { loc, pickup: pu || undefined, ret: rt || undefined, type: picked } });
   };
 

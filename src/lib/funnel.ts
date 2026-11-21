@@ -3,6 +3,11 @@ import { metaTrack, metaTrackCustom } from "@/lib/metaPixel";
 
 export const FUNNEL_EVENTS = ["car_page_view", "checkout_started", "driver_info_completed", "documents_step_viewed", "payment_step_viewed", "pre_reservation_submitted"] as const;
 export type FunnelEvent = (typeof FUNNEL_EVENTS)[number];
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+  }
+}
 type Gtag = (...args: unknown[]) => void;
 const sent = new Set<string>();
 
@@ -15,6 +20,7 @@ export function trackFunnel(event: FunnelEvent, params: Record<string, string | 
   const clean = Object.fromEntries(Object.entries(params).filter(([, v]) => v != null && v !== ""));
   const gtag = (window as unknown as { gtag?: Gtag }).gtag;
   if (typeof gtag === "function") gtag("event", event, clean);
+  else (window.dataLayer ??= []).push({ event, ...clean });
   metaTrackCustom(event, clean);
   return true;
 }

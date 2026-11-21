@@ -8,7 +8,7 @@ export const Route = createFileRoute("/$lang/privacy")({
   head: ({ params }) => {
     const lang = params.lang as Lang;
     const tr = t(lang);
-    const title = "Privacy Policy";
+    const title = tr.footer.privacyPolicy;
     return seoHead({ lang, path: "/privacy", homeLabel: tr.seo.home, title: `${title} | Onic Car Rentals`, description: editorialMeta(aeoUi[lang].privacyMeta, lang), crumbs: [[title, "/privacy"]] });
   },
   component: () => <PrivacyPolicy />,

@@ -6,6 +6,7 @@ import { discoveryGroups } from "@/lib/discovery";
 import { guideSlugs, guidePath } from "@/lib/guides";
 import { blogPosts, blogPathKey } from "@/data/blog";
 import { brandHubKey } from "@/lib/aeo";
+import { crossConfig, servesCity } from "@/lib/pricing";
 
 const LANGS = ["en", "pt", "es"] as const;
 
@@ -16,38 +17,40 @@ export const Route = createFileRoute("/sitemap.xml")({
         const { publicClient } = await import("@/services/public-client.server");
         const { readActivePublicCars } = await import("@/services/public-catalog.server");
         const db = publicClient();
-        const [catalog, { data: cities, error: e2 }] = await Promise.all([
+        const [catalog, { data: cities, error: e2 }, { data: settings, error: e3 }] = await Promise.all([
           readActivePublicCars().then((cars) => ({ cars, error: false })).catch(() => ({ cars: [], error: true })),
           db.from("cities").select("slug, fleet_from_city").eq("active", true).order("sort_order"),
+          db.from("settings").select("delivery_config").eq("id", 1).maybeSingle(),
         ]);
-        if (catalog.error || e2) return new Response("Sitemap temporarily unavailable", { status: 503 });
+        if (catalog.error || e2 || e3) return new Response("Sitemap temporarily unavailable", { status: 503 });
         const cars = catalog.cars;
-        // lastmod only where we have a real per-page change time (car rows); omitted elsewhere.
+        // Only authored article dates are authoritative content timestamps; generic vehicle updated_at can reflect operational changes.
         const entries: { path: string; lastmod?: string }[] = [
           { path: "/blog" }, ...blogPosts.map(p => ({ path: `/${blogPathKey(p.slug)}`, lastmod: p.date })),
           ...["", "/fleet", "/how-it-works", "/faq", "/catalog", "/search", "/terms", "/privacy", "/cancellation", "/legal", "/about", "/reviews"].map((path) => ({ path })),
           ...(cities ?? []).filter(c => !c.fleet_from_city || c.fleet_from_city === c.slug).flatMap(c => [...new Set(cars.filter(v => v.city === c.slug).map(v => v.brand))].filter(Boolean).map(brand => ({ path: brandHubKey(c.slug, brand) }))),
           ...(cities ?? []).flatMap((c) => {
-            const fleet = (cars ?? []).filter((v) => v.city === (c.fleet_from_city || c.slug));
+            const cfg = crossConfig((settings?.delivery_config as { cross?: unknown } | null)?.cross);
+            const fleet = cars.filter(v => servesCity(v.city, c.slug, v, cfg));
             const cats = PUBLIC_CATEGORIES.filter((cat) => fleet.some((v) => inCategory(v, cat)));
             return [`/${c.slug}`, `/catalog/${c.slug}`, ...cats.flatMap((cat) => [`/${c.slug}/${cat}`, `/catalog/${c.slug}/${cat}`])].map((path) => ({ path }));
           }),
-          ...(cars ?? []).map((c) => ({ path: `/cars/${c.city}/${c.slug}`, lastmod: c.updated_at.slice(0, 10) })),
+          ...(cars ?? []).map((c) => ({ path: `/cars/${c.city}/${c.slug}` })),
         ];
         const alt = (path: string) =>
-          LANGS.map((l) => `<xhtml:link rel="alternate" hreflang="${l}" href="${SITE}${publicPath(l, path)}"/>`).join("") +
+          LANGS.map((l) => `<xhtml:link rel="alternate" hreflang="${l === "pt" ? "pt-BR" : l}" href="${SITE}${publicPath(l, path)}"/>`).join("") +
           `<xhtml:link rel="alternate" hreflang="x-default" href="${SITE}${publicPath("pt", path)}"/>`;
         const urls = LANGS.flatMap((l) => entries.map((e) => `<url><loc>${SITE}${publicPath(l, e.path)}</loc>${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ""}${alt(e.path)}</url>`));
         for (const group of discoveryGroups(cars ?? []).filter((g) => g.kind !== "category")) {
           const url = `${SITE}${publicPath("pt", group.path)}`;
-          urls.push(`<url><loc>${url}</loc><xhtml:link rel="alternate" hreflang="pt" href="${url}"/><xhtml:link rel="alternate" hreflang="x-default" href="${url}"/></url>`);
+          urls.push(`<url><loc>${url}</loc><xhtml:link rel="alternate" hreflang="pt-BR" href="${url}"/><xhtml:link rel="alternate" hreflang="x-default" href="${url}"/></url>`);
         }
         for (const path of [guidePath(), ...guideSlugs.map((slug) => guidePath(slug))]) {
           const url = `${SITE}${path}`;
-          urls.push(`<url><loc>${url}</loc><xhtml:link rel="alternate" hreflang="pt" href="${url}"/><xhtml:link rel="alternate" hreflang="x-default" href="${url}"/></url>`);
+          urls.push(`<url><loc>${url}</loc><xhtml:link rel="alternate" hreflang="pt-BR" href="${url}"/><xhtml:link rel="alternate" hreflang="x-default" href="${url}"/></url>`);
         }
         return new Response(
-          `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${urls.join("")}</urlset>`,
+          `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${[...new Map(urls.map(xml => [xml.match(/<loc>(.*?)<\/loc>/)?.[1] ?? xml, xml])).values()].join("")}</urlset>`,
           { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" } },
         );
       },

@@ -16,6 +16,7 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { metaAllowed, metaCookies, metaReady, metaTrack } from "@/lib/metaPixel";
 import { trackFunnel, trackPurchase, type Purchase } from "@/lib/funnel";
+import { storedAttribution } from "@/lib/attribution";
 import { useEffect, useRef, useState } from "react";
 import { CardForm, PaymentTestModeBanner } from "@/components/pay/CardForm";
 import { Check, ChevronDown, Upload, ShieldCheck, AlertTriangle } from "lucide-react";
@@ -356,7 +357,7 @@ function Checkout() {
     setBusy(true);
     try {
       // Abandoned-checkout capture only (no payment, no stock hold).
-      const captured = await capture({ data: payloadFor() as never });
+      const captured = await capture({ data: { ...payloadFor(), attribution: storedAttribution() } as never });
       setCaptureToken(captured.token);
       trackFunnel("driver_info_completed", funnelParams, funnelKey);
       setEditLegs(false); setStep(1);
@@ -380,7 +381,7 @@ function Checkout() {
     if ((res || inst) && preparedKey === payloadKey) return void setStep(3);
     setBusy(true);
     try {
-      const payload = payloadFor(captureToken);
+      const payload = { ...payloadFor(captureToken), attribution: storedAttribution() };
       let token: string;
       if (gpPath) { const r = await startGp({ data: payload as never }); setInst(r); setRes(null); token = r.token; }
       else if (instant) { const r = await startInstant({ data: payload as never }); setInst(r); setRes(null); token = r.token; }
@@ -415,7 +416,7 @@ function Checkout() {
     if (!out) return void toast.error(c.docsRequired);
     setBusy(true);
     try {
-      const r = await startGp({ data: payloadFor(captureToken) as never });
+      const r = await startGp({ data: { ...payloadFor(captureToken), attribution: storedAttribution() } as never });
       await attach({ data: { token: r.token, ...(out.documents && uploadSession ? { capability: uploadSession.capability, documents: out.documents } : {}), ...(out.identity ? { identity: out.identity } : {}), ...(insuranceChoice ? { insuranceChoice } : {}), ...(mode === "stripe_us" ? { usInsurance: {} } : {}), driverDocs: { licenseNumber: driver.licenseNumber || undefined, licenseExpiry: driver.licenseExpiry || undefined, passportNumber: driver.passportNumber || undefined } } });
       trackFunnel("pre_reservation_submitted", { ...funnelParams, flow: "global_pays", due_today: r.amount }, funnelKey);
       const { url } = await pay({ data: { token: r.token, accepted: true } });

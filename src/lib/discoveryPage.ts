@@ -1,11 +1,11 @@
 import { queryOptions } from "@tanstack/react-query";
 import { getCities, getPublicSettings, getVehicles } from "@/services/catalog.functions";
-import { discoveryGroups, landingFleet, lowestDaily } from "./discovery";
+import { discoveryGroups, lowestDaily } from "./discovery";
 import { aeoUi, fmt, ptDiscoveryText, t } from "./i18n";
 import { landingFaq, toPairs } from "./faqContent";
 import { abs, faqJsonLd, itemListJsonLd, seoHead } from "./seo";
 import { publicPath } from "./publicRoutes";
-import { photoUrl, type Vehicle } from "./vehicles";
+import { photoUrl, inCategory, type Vehicle } from "./vehicles";
 
 export const discoveryPageQuery = (citySlug: string, key?: string, category = false) => queryOptions({
   queryKey: ["pt-discovery", citySlug, key ?? "city", category],
@@ -15,10 +15,15 @@ export const discoveryPageQuery = (citySlug: string, key?: string, category = fa
     const city = cities.find((c) => c.slug === citySlug);
     if (!city) return null;
     const groups = discoveryGroups(allCars);
-    const group = key ? groups.find((g) => g.city === citySlug && g.key === key && (category ? g.kind === "category" : g.kind === "brand")) ?? (category ? undefined : groups.find((g) => g.city === citySlug && g.key === key && g.kind === "model")) : undefined;
+    let group = key ? groups.find((g) => g.city === citySlug && g.key === key && (category ? g.kind === "category" : g.kind === "brand")) ?? (category ? undefined : groups.find((g) => g.city === citySlug && g.key === key && g.kind === "model")) : undefined;
+    let servedCars: Vehicle[] | undefined;
+    if (key && !group && category) {
+      servedCars = (await getVehicles({ data: { city: city.slug } })).filter(v => inCategory(v, key));
+      if (servedCars.length) group = { kind: "category", city: citySlug, key, label: key, path: `${citySlug}/${key}`, ids: servedCars.map(v => v.id) };
+    }
     if (key && !group) return null;
-    const cars = group ? allCars.filter((v) => group.ids.includes(v.id)) : landingFleet(allCars, city, settings.delivery_config);
-    if (!cars.length) return null;
+    const cars = servedCars ?? (group ? allCars.filter((v) => group.ids.includes(v.id)) : await getVehicles({ data: { city: city.slug } }));
+    if (group && !cars.length) return null;
     const label = group ? group.kind === "category" ? ptDiscoveryText.categoryNames[group.key] ?? group.label : group.label : "carros de luxo";
     const h1 = group ? fmt(ptDiscoveryText.title, { name: label, city: city.name }) : fmt(ptDiscoveryText.cityTitle, { city: city.name });
     const models = [...new Set(cars.map((v) => v.name))].slice(0, 3).join(", ");
