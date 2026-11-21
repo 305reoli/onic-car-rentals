@@ -5,9 +5,8 @@ import type { Lang } from "@/lib/i18n";
 import { blockingFilter, sameSubstituteCategory, substituteExpired, computeQuote, effectiveMinDays, crossConfig, DEFAULT_SETTINGS, deliveryConfig, deliveryTier, matchingFees, servesCity, substituteCapture, substituteDeadline, substitutePrice, substituteDiffLabel, rentalDays, type Addons } from "@/lib/pricing";
 import { cancelIntent, captureIntent, refundIntent, retrieveIntent, stripeConnected } from "./stripe.server";
 import { notify, SITE_URL, customerMessage } from "./notify.server";
-import { releaseHold } from "./sistemagestao-adapter.server";
 import { carIsFree } from "./booking-core.server";
-import { syncHoldFromSession, syncSistemaGestao } from "./holds.server";
+import { syncHoldFromSession } from "./holds.server";
 import { upsellConfig, upsellPricing } from "@/lib/checkoutExtras";
 
 type Admin = SupabaseClient<Database>;
@@ -190,9 +189,8 @@ export async function acceptSubstitute(db: Admin, id: string, actor: "client") {
   if (!upd?.length) throw new Error("Offer was already answered");
   await audit(db, id, status, actor, { captured: amount, hold_released: round(released), refund_due: round(refundDue), balance_due: split.balance, original_total: origTotal, new_total: newTotal });
   await notify("owner_approved", "", "en", { id, car: r.vehicle_name, detail: `Substitute accepted by client — ${r.original_vehicle_name ?? ""} → ${r.vehicle_name}, $${origTotal} → $${newTotal} (${substituteDiffLabel(round(newTotal - origTotal))}); captured $${amount}${released > 0 ? `, $${released.toFixed(2)} of hold not captured` : ""}${refundDue > 0 ? `, refund of US$ ${refundDue.toFixed(2)} due to the client (process manually)` : ""}${split.balance > 0 ? `, $${split.balance.toFixed(2)} to be paid on-site` : ""}` });
-  const link = await syncSistemaGestao(db, id);
   const acceptedRow = upd[0];
-  if (acceptedRow) await customerMessage("approved", { ...acceptedRow, sistemagestao_link: link });
+  if (acceptedRow) await customerMessage("approved", acceptedRow);
   return { ok: true, status, captured: amount, refunded: round(refunded), balance: split.balance };
 }
 const round = (n: number) => Math.round(n * 100) / 100;
@@ -231,7 +229,6 @@ export async function declineSubstitute(db: Admin, id: string, actor: string, re
   }).eq("id", id).eq("status", "substitute_offered").select("id");
   if (!upd?.length) throw new Error("Offer was already answered");
   await (await import("./instant.server")).gpRefundTask(db, r, `substitute declined — ${reason}`);
-  await releaseHold(id);
   await audit(db, id, "substitute_declined", actor, { reason, stripe_status });
   await notify("owner_declined", "", "en", { id, car: r.vehicle_name, detail: `Substitute declined (${reason}) — full refund/release, booking cancelled, dates released` });
   await sendCustomer(db, r, "customer_substitute_declined", T.declined[langOf(r)]);

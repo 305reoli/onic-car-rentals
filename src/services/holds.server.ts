@@ -4,8 +4,6 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { cancelIntent, captureIntent, refundIntent, retrieveIntent, retrieveSession, stripeConnected } from "./stripe.server";
 import { customerMessage, notify } from "./notify.server";
-import { releaseHold, sendConfirmed } from "./sistemagestao-adapter.server";
-import { BLOCKED_BOOKING_ID } from "./sistemagestao-payload";
 
 type Admin = SupabaseClient<Database>;
 type Row = Database["public"]["Tables"]["prereservations"]["Row"];
@@ -86,7 +84,6 @@ export async function expireDue(db: Admin) {
     if (upd?.length) {
       n++;
       await (await import("./instant.server")).gpRefundTask(db, r, "request expired");
-      await releaseHold(r.id);
       await notify("owner_expired", "", "en", { car: r.vehicle_name, link: "/admin/reservations", detail: `${r.first_name} ${r.last_name}` });
       if (stripe_status === "cancel_failed") await notify("owner_hold_failed", "", "en", { car: r.vehicle_name, detail: "Payment refund or historical authorization cancellation failed on expiry" });
       if (r.status === "pending_approval") await customerMessage("expired", r);
@@ -125,8 +122,7 @@ export async function approve(db: Admin, id: string) {
     .eq("id", id).eq("status", "pending_approval").select("id");
   if (!upd?.length) throw new Error("Request was already processed");
   await notify("owner_approved", "", "en", { id, car: r.vehicle_name, link: "/admin" });
-  const link = await syncSistemaGestao(db, id);
-  await customerMessage("approved", { ...r, sistemagestao_link: link });
+  await customerMessage("approved", r);
   return { ok: true };
 }
 
@@ -140,29 +136,8 @@ export async function decline(db: Admin, id: string) {
     .eq("id", id).eq("status", r.status).select("id");
   if (!upd?.length) throw new Error("Request was already processed");
   await (await import("./instant.server")).gpRefundTask(db, r, "declined by owner");
-  await releaseHold(id);
   await notify("owner_declined", "", "en", { car: r.vehicle_name, link: "/admin/reservations" });
   await customerMessage("declined", r);
   return { ok: true };
 }
 
-/** SistemaGestao hand-off. Disabled or failing → "pending" + owner alert; admin can retry ("Send to SistemaGestao"). Returns the contract link if any. */
-export async function syncSistemaGestao(db: Admin, id: string, previewTest = false): Promise<string | null> {
-  // Manually processed in SistemaGestao: never send and never touch its stored sync fields.
-  if (id === BLOCKED_BOOKING_ID) throw new Error("blocked: booking already processed manually in SistemaGestao");
-  const { data: r } = await db.from("prereservations").select("id, status, vehicle_name").eq("id", id).maybeSingle();
-  if (!r || !["approved", "confirmed"].includes(r.status)) throw new Error("Only approved/confirmed bookings can be sent to SistemaGestao");
-  let error: string | null = null, link: string | null = null, rentalId: string | null = null, rentalNumber: string | null = null;
-  try {
-    const res = await sendConfirmed(id, previewTest);
-    const substatus = res.ok ? res.data.substatus : res.substatus;
-    const { error: logError } = await db.from("booking_audit").insert({ prereservation_id: id, actor: "site-sistemagestao", action: "sistemagestao_send", detail: { ok: res.ok, ...(res.ok ? { duplicate: res.data.duplicate, rental_id: res.data.rental_id } : { error: res.error }), ...(substatus ?? {}), sent_document_kinds: res.sentDocumentKinds ?? [], site_build: "doc-kinds-snake-v2" } as never });
-    if (logError) throw new Error("SistemaGestao reply could not be saved to the private send log");
-    if (res.ok) { link = res.data.link; rentalId = res.data.rental_id; rentalNumber = res.data.rental_number; } else error = res.error;
-  } catch (e) { error = e instanceof Error ? e.message : String(e); }
-  await db.from("prereservations").update(error
-    ? { sistemagestao_status: "pending", sistemagestao_error: error }
-    : { sistemagestao_status: "synced", sistemagestao_error: null, sistemagestao_link: link, sistemagestao_rental_id: rentalId, sistemagestao_rental_number: rentalNumber, sistemagestao_synced_at: new Date().toISOString() }).eq("id", id);
-  if (error && !previewTest) await notify("owner_sistemagestao_pending", "", "en", { id, car: r.vehicle_name, detail: `Pending SistemaGestao sync: ${error}` });
-  return link;
-}

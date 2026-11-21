@@ -16,7 +16,7 @@ export const deliverySchema = z.object({
 }).strict();
 export type DeliveryChoice = z.infer<typeof deliverySchema>;
 
-/** First additional driver is free (no price line). Files are JPEG/PNG only (SistemaGestao contract). */
+/** First additional driver is free (no price line). Files are JPEG/PNG only (site document policy). */
 export const additionalDriverSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
   licenseFront: z.string().regex(/^uploads\/[0-9a-f-]{36}\/addLicenseFront\.(jpg|jpeg|png)$/),

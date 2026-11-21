@@ -13,8 +13,6 @@ import { fieldCls } from "@/components/site/SearchBox";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/hooks/use-lang";
 import { deliveryAdminText } from "@/lib/i18n";
-import { useServerFn } from "@tanstack/react-start";
-import { flushVehicleFleetSync } from "@/services/fleet-sync.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/cars/$id")({ head: () => ({ meta: [{ title: "Edit car — Onic Car Rentals admin" }, { name: "description", content: "Owner vehicle details and fixed delivery prices." }, { property: "og:title", content: "Edit car — Onic Car Rentals admin" }, { property: "og:description", content: "Owner vehicle details and fixed delivery prices." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: CarEditor });
 
@@ -28,7 +26,6 @@ const EMPTY: Form = {
 const slugify = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 function CarEditor() {
-  const flushFleet = useServerFn(flushVehicleFleetSync);
   const { id } = Route.useParams();
   const { lang } = useLang();
   const dt = deliveryAdminText[lang];
@@ -79,8 +76,6 @@ function CarEditor() {
       const name = f.owner_type === "partner" ? partnerName.trim() : "";
       if (name) await supabase.from("vehicle_partners").upsert({ vehicle_id: saved.id, partner_name: name, updated_at: new Date().toISOString() });
       else await supabase.from("vehicle_partners").delete().eq("vehicle_id", saved.id);
-      // Durable queue is created by the vehicle-write trigger, even if this browser closes.
-      void flushFleet({ data: { id: saved.id } }).catch(() => console.info("Fleet sync queued for retry"));
     }
     setSaving(false);
     if (error) return void toast.error(error.message.includes("vehicles_internal_label") ? "That internal code is already used by another car" : error.message.includes("duplicate") ? "That URL name (slug) is already used" : error.message);

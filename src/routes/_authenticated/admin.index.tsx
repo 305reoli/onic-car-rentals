@@ -4,11 +4,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { adminStatus, approvePrereservation, declinePrereservation, documentLinks, listPrereservations, markRefunded, markGpRefunded, retrySistemaGestao, reviewDocuments, setDeliveryFee, substituteOptionsFn, offerSubstituteFn, bookingAuditFn } from "@/services/admin.functions";
-import { globalPaysLabel, sistemagestaoSendText } from "@/lib/i18n";
-import { SistemaGestaoSendDetails } from "@/components/admin/SistemaGestaoSendDetails";
-import { Checkbox } from "@/components/ui/checkbox";
-import { BLOCKED_BOOKING_ID } from "@/services/sistemagestao-payload";
+import { adminStatus, approvePrereservation, declinePrereservation, documentLinks, listPrereservations, markRefunded, markGpRefunded, reviewDocuments, setDeliveryFee, substituteOptionsFn, offerSubstituteFn, bookingAuditFn } from "@/services/admin.functions";
+import { globalPaysLabel } from "@/lib/i18n";
 import { usd, usd2, substituteDiffLabel } from "@/lib/pricing";
 import { SITE } from "@/lib/seo";
 import { substituteWaText, type Lang } from "@/lib/i18n";
@@ -90,12 +87,10 @@ function RequestCard({ r }: { r: Row }) {
   const decline = useServerFn(declinePrereservation);
   const docs = useServerFn(documentLinks);
   const reviewFn = useServerFn(reviewDocuments);
-  const retry = useServerFn(retrySistemaGestao);
   const refund = useServerFn(markRefunded);
   const gpDone = useServerFn(markGpRefunded);
   const [refundNote, setRefundNote] = useState("");
   const [busy, setBusy] = useState(false);
-  const [previewTest, setPreviewTest] = useState(false);
   const [links, setLinks] = useState<Record<string, string> | null>(null);
   const [docStatus, setDocStatus] = useState<string | null>((r as Row & { documents_status?: string | null }).documents_status ?? null);
   const pb = r.price_breakdown as { days?: number; dailyRate?: number | null; decemberDays?: number; nonDecemberDays?: number; discountedDaily?: number | null; listedDaily?: number | null; rateGroups?: { rate: number; days: number }[]; durationPct?: number; durationDiscount?: number; promoDiscounts?: { pct: number; days: number; amount: number }[]; base?: number | null; addonsTotal?: number; total?: number | null; basicInsurance?: number; tolls?: number; solidWaste?: number; subtotal?: number | null; tax?: number | null; taxRate?: number; insurance?: number; customFees?: { id: string; name_en: string; type: string; rate: number; amount: number; taxable: boolean }[] };
@@ -208,20 +203,6 @@ function RequestCard({ r }: { r: Row }) {
         </div>
         {r.original_vehicle_name && <div className="mt-3 rounded-2xl border border-primary/50 p-3 text-sm">Substitute: <b>{r.original_vehicle_name}</b> → <b>{r.vehicle_name}</b> · {r.substitute_status}{r.substitute_deadline && r.status === "substitute_offered" && <> · answer by {new Date(r.substitute_deadline).toLocaleString()}{r.substitute_explicit ? " (explicit acceptance required — pick-up first)" : " (expires with automatic full refund)"}</>}<SubstituteCompare info={r.substitute_info} orig={r.original_vehicle_name} sub={r.vehicle_name} />{r.status === "substitute_offered" && <SubstituteWhatsApp r={r} />}</div>}
         <AuditLog id={r.id} />
-      {(r.status === "approved" || (r.flow === "instant" && r.status === "confirmed")) && (
-        <div className={cn("mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-3 text-sm", r.sistemagestao_status === "synced" ? "border-border" : "border-destructive text-destructive")}>
-          <span>{r.sistemagestao_status === "synced"
-            ? <>Sent to SistemaGestao{r.sistemagestao_rental_number ? ` — rental ${r.sistemagestao_rental_number}` : ""}{r.sistemagestao_link && <> · <a className="underline" href={r.sistemagestao_link} target="_blank" rel="noreferrer">Open in SistemaGestao</a></>}</>
-            : r.sistemagestao_status === "pending" && r.sistemagestao_error ? `SistemaGestao send failed — ${r.sistemagestao_error}` : "Not sent to SistemaGestao yet"}</span>
-          {r.is_test && <label className="flex items-center gap-2"><Checkbox checked={previewTest} onCheckedChange={x => setPreviewTest(x === true)} />{sistemagestaoSendText[lang].preview}</label>}
-          <Button size="sm" variant="outline" disabled={busy || r.id === BLOCKED_BOOKING_ID} onClick={async () => {
-            setBusy(true);
-            try { const x = await retry({ data: { id: r.id, previewTest } }); x.status === "synced" ? toast.success(`Sent to SistemaGestao${x.rentalNumber ? ` — rental ${x.rentalNumber}` : ""}`) : toast.error(x.error ?? "Still pending"); await qc.invalidateQueries({ queryKey: ["admin-requests"] }); }
-            catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); } finally { setBusy(false); }
-          }}>{r.sistemagestao_status === "synced" ? "Resend to SistemaGestao" : "Send to SistemaGestao"}</Button>
-          <SistemaGestaoSendDetails sends={r.sistemagestao_sends} lang={lang} />
-        </div>
-      )}
       {r.flow === "instant" && ["confirmed", "paid_conflict", "amount_review"].includes(r.status) && (
         <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
           <input value={refundNote} onChange={(e) => setRefundNote(e.target.value)} placeholder="Refund note (done in the Global Pays portal)" className="h-9 min-w-60 flex-1 rounded-full border border-border bg-background px-3" />

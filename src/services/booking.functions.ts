@@ -59,7 +59,6 @@ export const createPrereservation = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin: db } = await import("@/integrations/supabase/client.server");
     const { createCardSession, stripeConnected, stripeMode } = await import("./stripe.server");
-    const { createHold } = await import("./sistemagestao-adapter.server");
     const { validateBooking } = await import("./booking-core.server");
 
     // No payment possible while Stripe is off: only the signed-in owner may create TEST requests.
@@ -99,7 +98,6 @@ export const createPrereservation = createServerFn({ method: "POST" })
       await db.from("prereservations").update({ stripe_session_id: cs.id, payment_provider: "stripe", stripe_status: "requires_payment_method" }).eq("id", row.id);
       clientSecret = cs.client_secret;
     }
-    await createHold(row.id);
     return { token: row.token, amount: due.amount, mode: due.mode, clientSecret, stripeConnected: stripeConnected(), stripeMode: stripeMode() };
   });
 
@@ -143,7 +141,7 @@ export const getBooking = createServerFn({ method: "GET" })
     const { data: pre } = await db.from("prereservations").select("id, status, stripe_session_id").eq("token", data.token).maybeSingle();
     if (pre?.status === "draft" && pre.stripe_session_id) await (await import("./finalize.server")).finalizePaidBooking(db, pre.id, { source: "booking_page" }).catch((e) => console.error("[getBooking] finalize failed", e));
     const { data: r } = await db.from("prereservations")
-      .select("id, status, flow, vehicle_name, vehicle_id, is_test, settled_at, first_name, pickup_at, return_at, pickup_location, return_location, price_breakdown, prereservation_amount_usd, expires_at, created_at, sistemagestao_link, balance_amount_usd, balance_paid_at, paid_amount_usd, captured_at, refunded_at, payment_provider, service_city, base_city, payment_mode, original_vehicle_name, substitute_status, substitute_deadline, substitute_explicit, substitute_refund_usd, substitute_info, insurance_us_flow, insurance_choice")
+      .select("id, status, flow, vehicle_name, vehicle_id, is_test, settled_at, first_name, pickup_at, return_at, pickup_location, return_location, price_breakdown, prereservation_amount_usd, expires_at, created_at, balance_amount_usd, balance_paid_at, paid_amount_usd, captured_at, refunded_at, payment_provider, service_city, base_city, payment_mode, original_vehicle_name, substitute_status, substitute_deadline, substitute_explicit, substitute_refund_usd, substitute_info, insurance_us_flow, insurance_choice")
       .eq("token", data.token).maybeSingle();
     if (!r) return null;
     const { data: st } = await db.from("settings").select("gp_interest_free_installments, rentalcover_affiliate_link, measureone_static_link").eq("id", 1).maybeSingle();

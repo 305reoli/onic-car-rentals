@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { docMode, documentsComplete, identityAdminState, identityFromReport, identityPayload, requiredUploads, storedDocsComplete } from "./identity";
+import { docMode, documentsComplete, identityAdminState, identityFromReport, requiredUploads, storedDocsComplete } from "./identity";
 import { checkoutInvalidFields } from "./checkoutValidation";
-import { buildIntakePayload } from "@/services/sistemagestao-payload";
 
 const base = { driver: {}, pickup: { city: "miami", type: "pickup" }, ret: { city: "miami", type: "pickup" }, same: true, pickupAt: new Date(), minAge: 21, askClient: false, clientType: null, babySeat: false, hotelCheckin: false, hotel: { hotelName: "", hotelAddress: "", arrivalTime: "" }, luggageCar: false, luggage: { pickupPoint: "MCO", pickupAddress: "", deliveryAddress: "", pickupTime: "" }, paymentReady: false, docBusy: {}, accepted: false } as never as Parameters<typeof checkoutInvalidFields>[1];
 const all = { licenseFront: "a", licenseBack: "b", passport: "c" };
@@ -68,23 +67,3 @@ describe("(c) gating to Terms/Payment", () => {
   });
 });
 
-describe("(d) SistemaGestao payload", () => {
-  const booking = {
-    id: "11111111-1111-4111-8111-111111111111", first_name: "A", last_name: "B", email: "a@b.co", phone: "+1 555", vehicle_name: "Car", service_city: "miami", base_city: "miami",
-    pickup_at: "2026-11-20T15:00:00.000Z", return_at: "2026-11-24T15:00:00.000Z", payment_provider: "stripe",
-    price_breakdown: { base: 100, dailyRate: 25, days: 4, subtotal: 100, tax: 6.5, total: 106.5, taxRate: 6.5, customFees: [] },
-  };
-  const idv = identityFromReport({ sessionId: "vs_abcdefgh123", licenseCountry: "Portugal", verifiedAt: "2026-11-14T15:00:00.000Z", report: { document: { first_name: "Ana", last_name: "Silva", number: "PT123", issuing_country: "PT", dob: { day: 2, month: 3, year: 1990 }, expiration_date: { day: 1, month: 12, year: 2030 } } } });
-  it("verified payload carries exactly the identity_verification fields", () => {
-    const p = buildIntakePayload({ ...booking, identity_verification: idv }, null) as Record<string, unknown>;
-    expect(p["identity_verification"]).toEqual({ provider: "stripe", session_id: "vs_abcdefgh123", status: "verified", verified_at: "2026-11-14T15:00:00.000Z", document_country: "PT", document_number: "PT123", document_expiry: "2030-12-01", dob: "1990-03-02", first_name: "Ana", last_name: "Silva" });
-    expect(identityPayload(idv)).toEqual(p["identity_verification"]);
-  });
-  it("Brazil payload has no identity_verification and totals are unchanged", () => {
-    const br = buildIntakePayload(booking, null) as Record<string, unknown>;
-    const ver = buildIntakePayload({ ...booking, identity_verification: idv }, null) as Record<string, unknown>;
-    expect("identity_verification" in br).toBe(false);
-    const { identity_verification: _x, ...rest } = ver;
-    expect(rest).toEqual(br);
-  });
-});

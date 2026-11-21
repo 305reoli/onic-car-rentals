@@ -197,7 +197,7 @@ function CarPage() {
   const onContinue = () => {
     if (priceless) return;
     if (issue) { toast.error(issue.msg); return; }
-    if (!bookedReady) return; // availability (site + SistemaGestao blocks) not loaded yet
+    if (!bookedReady) return; // local booking availability not loaded yet
     navigate({ to: "/$lang/checkout/$city/$slug", params: { lang, city, slug }, search: { city: serviceCity, pickup, ret, loc: search.loc, hotel: addons.hotelCheckin, lug: addons.luggageCar, seat: addons.babySeat, fuel: addons.prepaidFuel, vip: addons.vipDelivery, dl: encodeLegs(dlv.pickupLeg, dlv.returnLeg, dlv.sameReturn), ...(chosenFees.length ? { fees: chosenFees.join(",") } : {}) } });
   };
 

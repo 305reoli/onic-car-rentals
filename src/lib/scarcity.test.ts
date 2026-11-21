@@ -10,10 +10,6 @@ describe("truthful model scarcity", () => {
     expect(availableModelUnits(fleet, [], car, p, r, now)).toBe(2);
     expect(availableModelUnits(fleet, [{ vehicle_id: "b", status: "approved", pickup_at: p, return_at: r }], car, p, r, now)).toBe(1);
   });
-  it("excludes units SistemaGestao reports as blocked", () => {
-    expect(availableModelUnits([car, { ...car, id: "b" }], [], car, p, r, now, new Set(["b"]))).toBe(1);
-    expect(availableModelUnits([car], [], car, p, r, now, new Set(["a"]))).toBe(0);
-  });
   it("ignores drafts and expired holds but counts active checkout holds", () => {
     const booking = { vehicle_id: "a", status: "draft", pickup_at: p, return_at: r };
     expect(availableModelUnits([car], [booking], car, p, r, now)).toBe(1);

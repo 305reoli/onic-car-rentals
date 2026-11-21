@@ -1,12 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-import { Blob as ServerBlob } from "node:buffer";
 import { insuranceText } from "./i18n";
 import { checkoutInvalidFields, type CheckoutValidationInput } from "./checkoutValidation";
 import { composeInsuranceDenialEmail, initialInsurance, insuranceClass, insuranceTransition } from "./insurance";
-import { readIntakeDocuments } from "@/services/sistemagestao-documents.server";
 import { createSchema, docsRow } from "@/services/booking-schema";
 import { setInsuranceStatus, type InsuranceDeps } from "@/services/insurance.server";
-const Blob = ServerBlob as unknown as typeof globalThis.Blob;
 const folder = "uploads/11111111-1111-4111-8111-111111111111";
 
 const keys = (o: unknown, p = ""): string[] => typeof o === "object" && o && !Array.isArray(o) ? Object.entries(o).flatMap(([k, v]) => keys(v, `${p}${k}.`)) : Array.isArray(o) ? o.map((_, i) => `${p}${i}`) : [p];
@@ -41,28 +38,6 @@ describe("checkout validation never requires insurance", () => {
     expect(shape.safeParse({ ...d, insurancePolicy: `${folder}/insurancePolicy.pdf` }).success).toBe(true);
     expect(shape.safeParse({ ...d, insurancePolicy: `${folder}/insurancePolicy.exe` }).success).toBe(false);
     expect(docsRow({ ...d, insurancePolicy: `${folder}/insurancePolicy.pdf` })).toMatchObject({ insurancePolicy: `${folder}/insurancePolicy.pdf` });
-  });
-});
-
-describe("SistemaGestao intake: insurance_policy", () => {
-  it("maps a PDF to insurance_policy / application/pdf", async () => {
-    const [doc] = await readIntakeDocuments({ insurancePolicy: `${folder}/insurancePolicy.pdf` }, async () => new Blob(["%PDF"], { type: "application/pdf" }));
-    expect(doc).toMatchObject({ kind: "insurance_policy", filename: "insurance-policy.pdf", content_type: "application/pdf", size_bytes: 4 });
-  });
-  it("maps a photo to insurance_policy / image/jpeg", async () => {
-    const [doc] = await readIntakeDocuments({ insurancePolicy: `${folder}/insurancePolicy.jpg` }, async () => new Blob(["abc"], { type: "image/jpeg" }));
-    expect(doc).toMatchObject({ kind: "insurance_policy", filename: "insurance-policy.jpg", content_type: "image/jpeg" });
-  });
-  it("rejects unsupported kinds/paths and PDFs for identity slots", async () => {
-    const dl = vi.fn();
-    await expect(readIntakeDocuments({ insurancePolicy: `${folder}/insurancePolicy.docx` }, dl)).rejects.toThrow("Invalid private document path");
-    await expect(readIntakeDocuments({ passport: `${folder}/passport.pdf` }, dl)).rejects.toThrow("Invalid private document path");
-    await expect(readIntakeDocuments({ insurancePolicy: `${folder}/passport.pdf` }, dl)).rejects.toThrow();
-    await expect(readIntakeDocuments({ carInsurance: `${folder}/carInsurance.pdf` }, dl)).rejects.toThrow("Unsupported checkout document field");
-    expect(dl).not.toHaveBeenCalled();
-  });
-  it("keeps the 10 MB per-file limit for insurance", async () => {
-    await expect(readIntakeDocuments({ insurancePolicy: `${folder}/insurancePolicy.pdf` }, async () => new Blob([new Uint8Array(10 * 1024 * 1024 + 1)], { type: "application/pdf" }))).rejects.toThrow("exceeds 10 MB");
   });
 });
 

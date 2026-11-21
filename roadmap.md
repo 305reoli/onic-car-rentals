@@ -1,4 +1,5 @@
 # Onic follow-up
+- [ ] Disconnect the former partner integration from booking, documents, admin and fleet sync; disable its database queues and verify direct-database catalog, checkout and admin flows.
 - [x] Verify main phone and WhatsApp throughout the site and emails; corrected privacy WhatsApp and added shared email contacts.
 - [x] Apply CSV prices to the 59 car models, based in Miami; exclude the 5 boats and 2 motorhomes as confirmed.
 - [x] Renamed the two real Escalade ESV Sport generations (2024 $399/day, 2026 $499/day); deleted the two confirmed unpriced template samples. Five live-data regression checks pass; both car pages show the exact names and prices. Final fleet: 59 cars, two Escalades, no boats or motorhomes.

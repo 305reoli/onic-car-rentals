@@ -6,7 +6,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { DEFAULT_SETTINGS, holdExpiresAt, stripeBookingReady } from "@/lib/pricing";
-import { BLOCKED_BOOKING_ID } from "./sistemagestao-payload";
+// Preserve the historical manually-processed booking lock to prevent duplicate payment finalization.
+const BLOCKED_BOOKING_ID = "237535b1-1d03-40e6-b106-4142a743bfa9";
 
 type Admin = SupabaseClient<Database>;
 type Row = Database["public"]["Tables"]["prereservations"]["Row"];

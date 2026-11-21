@@ -18,11 +18,7 @@ export const listPrereservations = createServerFn({ method: "GET" })
     await expireInstantHolds(db);
     const { data, error } = await context.supabase.from("prereservations").select("*, vehicle:vehicles(name,color,city,internal_label,photos,body_category,category)").not("status", "in", "(draft,checkout_hold)").order("created_at", { ascending: false }).limit(200);
     if (error) throw new Error(error.message);
-    const rows = data ?? [];
-    if (!rows.length) return [];
-    const { data: sends, error: sendError } = await context.supabase.from("booking_audit").select("prereservation_id,created_at,detail").eq("action", "sistemagestao_send").in("prereservation_id", rows.map(r => r.id)).order("created_at", { ascending: false });
-    if (sendError) throw new Error("Could not read SistemaGestao send details");
-    return rows.map(r => ({ ...r, sistemagestao_sends: (sends ?? []).filter(s => s.prereservation_id === r.id) }));
+    return data ?? [];
   });
 
 export const documentLinks = createServerFn({ method: "POST" })
@@ -140,18 +136,6 @@ export const testBookingEmail = createServerFn({ method: "POST" })
       await logNotification(db, { ...base, status: "failed", detail: reason });
       return { sent: false as const, reason };
     }
-  });
-
-export const retrySistemaGestao = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: { id: string; previewTest?: boolean }) => z.object({ id: z.string().uuid(), previewTest: z.boolean().optional() }).parse(d))
-  .handler(async ({ data, context }) => {
-    await assertAdmin(context);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { syncSistemaGestao } = await import("./holds.server");
-    const link = await syncSistemaGestao(supabaseAdmin, data.id, data.previewTest);
-    const { data: r } = await supabaseAdmin.from("prereservations").select("sistemagestao_status, sistemagestao_error, sistemagestao_rental_number").eq("id", data.id).single();
-    return { link, status: r?.sistemagestao_status ?? null, error: r?.sistemagestao_error ?? null, rentalNumber: r?.sistemagestao_rental_number ?? null };
   });
 
 /** Refunds are made in the Global Pays portal; this records it here (note required). */

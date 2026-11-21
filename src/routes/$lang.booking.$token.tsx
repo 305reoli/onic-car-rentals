@@ -94,9 +94,7 @@ function BookingStatus() {
       {["approved", "confirmed"].includes(status) && (
         <div className="surface mt-6 flex flex-col gap-3 border-primary/50 p-6 text-sm">
           <div className="font-display text-xl text-primary">{tr.booking.completeTitle}</div>
-          {b.sistemagestao_link
-            ? <Button asChild size="lg"><a href={b.sistemagestao_link} target="_blank" rel="noreferrer">{b.payment_mode === "full" ? tr.booking.agreement : tr.booking.completeBtn}</a></Button>
-            : <p className="text-muted-foreground">{b.payment_mode === "full" ? tr.booking.approvedNoteFull : tr.booking.approvedNote}</p>}
+          <p className="text-muted-foreground">{b.payment_mode === "full" ? tr.booking.approvedNoteFull : tr.booking.approvedNote}</p>
         </div>
       )}
       <MeasureOneCard lang={lang} link={b.measureone_static_link} booking={b} />

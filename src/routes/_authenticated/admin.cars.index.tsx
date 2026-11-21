@@ -10,8 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { fieldCls } from "@/components/site/SearchBox";
-import { useServerFn } from "@tanstack/react-start";
-import { flushVehicleFleetSync } from "@/services/fleet-sync.functions";
 
 import { inCategory, PUBLIC_CATEGORIES } from "@/lib/vehicles";
 const CAT_LABEL = { suv: "SUV", sedan: "Sedan", luxury: "Luxury", convertible: "Convertible", sports: "Sports", exotics: "Exotics" } as const;
@@ -19,8 +17,6 @@ const CAT_LABEL = { suv: "SUV", sedan: "Sedan", luxury: "Luxury", convertible: "
 export const Route = createFileRoute("/_authenticated/admin/cars/")({ head: () => ({ meta: [{ title: "Fleet — Onic Car Rentals admin" }, { name: "description", content: "Manage vehicle listings and internal fleet codes." }, { property: "og:title", content: "Fleet — Onic Car Rentals admin" }, { property: "og:description", content: "Manage vehicle listings and internal fleet codes." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: CarsPage });
 
 function CarsPage() {
-  const flushFleet = useServerFn(flushVehicleFleetSync);
-  const dispatchFleet = (id?: string) => { void flushFleet({ data: id ? { id } : {} }).catch(() => console.info("Fleet sync queued for retry")); };
   const qc = useQueryClient();
   const { data: cars = [] } = useQuery({ queryKey: ["admin-cars"], queryFn: async () => (await supabase.from("vehicles").select("*").order("city").order("sort_order")).data ?? [] });
   const { data: cities = [] } = useQuery({ queryKey: ["admin-cities"], queryFn: async () => (await supabase.from("cities").select("*").order("sort_order")).data ?? [] });
@@ -39,26 +35,25 @@ function CarsPage() {
   const bulkInstant = async (on: boolean) => {
     if (!sel.size) return;
     const { error } = await supabase.from("vehicles").update({ instant_full_booking: on, updated_at: new Date().toISOString() }).in("id", [...sel]);
-    if (error) toast.error(error.message); else { dispatchFleet(); toast.success(`${sel.size} car(s) updated`); setSel(new Set()); refresh(); }
+    if (error) toast.error(error.message); else { toast.success(`${sel.size} car(s) updated`); setSel(new Set()); refresh(); }
   };
   const list = cars.filter((v) => (!missing || needs(v)) && (city === "all" || v.city === city) && (cat === "all" || inCategory(v, cat)) && (owner === "all" || (owner === "unset" ? v.owner_type == null : v.owner_type === owner)) && [v.name, v.internal_label, v.color, v.city].join(" ").toLowerCase().includes(q.toLowerCase()));
   const refresh = () => { qc.invalidateQueries({ queryKey: ["admin-cars"] }); qc.invalidateQueries({ queryKey: ["vehicles"] }); qc.invalidateQueries({ queryKey: ["vehicle"] }); };
 
   const patch = async (id: string, p: Partial<Vehicle>) => {
     const { error } = await supabase.from("vehicles").update({ ...p, updated_at: new Date().toISOString() }).eq("id", id);
-    if (error) toast.error(error.message); else { dispatchFleet(id); toast.success("Saved"); refresh(); }
+    if (error) toast.error(error.message); else { toast.success("Saved"); refresh(); }
   };
   const duplicate = async (v: Vehicle) => {
     const { id: _id, created_at: _c, updated_at: _u, ...rest } = v;
-    const { data: created, error } = await supabase.from("vehicles").insert({ ...rest, internal_label: "", name: `${v.name} (copy)`, slug: `${v.slug}-copy-${Date.now().toString(36)}`, active: false, is_sample: false }).select("id").single();
-    if (error) toast.error(error.message); else { if (created) dispatchFleet(created.id); toast.success("Duplicated (hidden)"); refresh(); }
+    const { error } = await supabase.from("vehicles").insert({ ...rest, internal_label: "", name: `${v.name} (copy)`, slug: `${v.slug}-copy-${Date.now().toString(36)}`, active: false, is_sample: false }).select("id").single();
+    if (error) toast.error(error.message); else { toast.success("Duplicated (hidden)"); refresh(); }
   };
   const remove = async (id: string) => {
-    // Sync is dispatched only after the delete is confirmed to have removed the row.
     const { data, error } = await supabase.from("vehicles").delete().eq("id", id).select("id");
     if (error) return void toast.error(error.message);
     if (!data?.length) return void toast.error("Car was not deleted (not permitted or already removed).");
-    dispatchFleet(id); toast.success("Deleted"); refresh();
+    toast.success("Deleted"); refresh();
   };
 
   return (

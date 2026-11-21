@@ -38,11 +38,6 @@ export function storedDocsComplete(docs: unknown, idv: unknown): boolean {
   if (identityAttached(idv)) return idv.license_country === "United States" || has("passport");
   return has("licenseFront") && has("licenseBack") && has("passport");
 }
-/** SistemaGestao identity_verification object (verified clients only; undefined otherwise). */
-export function identityPayload(idv: unknown) {
-  if (!identityVerified(idv)) return undefined;
-  return { provider: "stripe" as const, session_id: idv.session_id, status: "verified" as const, verified_at: idv.verified_at, document_country: idv.document_country, document_number: idv.document_number, document_expiry: idv.document_expiry, dob: idv.dob, first_name: idv.first_name, last_name: idv.last_name };
-}
 const ymd = (x?: { day: number; month: number; year: number } | null) => x?.year ? `${x.year}-${String(x.month).padStart(2, "0")}-${String(x.day).padStart(2, "0")}` : null;
 /** Maps Stripe's verification report to the stored record. */
 export function identityFromReport(o: { sessionId: string; licenseCountry: string; verifiedAt: string; report: { document?: { first_name?: string | null; last_name?: string | null; number?: string | null; issuing_country?: string | null; dob?: { day: number; month: number; year: number } | null; expiration_date?: { day: number; month: number; year: number } | null } } }): StoredIdentity {

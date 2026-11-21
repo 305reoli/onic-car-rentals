@@ -1,0 +1,13 @@
+ALTER TABLE public.vehicles DISABLE TRIGGER site_fleet_outbox;
+ALTER TABLE public.vehicles DISABLE TRIGGER site_fleet_outbox_delete;
+ALTER TABLE public.prereservations DISABLE TRIGGER site_booking_availability;
+REVOKE EXECUTE ON FUNCTION public.apply_sistemagestao_fleet_event(jsonb,jsonb,jsonb) FROM PUBLIC, anon, authenticated, service_role;
+REVOKE EXECUTE ON FUNCTION public.apply_sistemagestao_fleet_v2(jsonb,text,jsonb,jsonb) FROM PUBLIC, anon, authenticated, service_role;
+REVOKE EXECUTE ON FUNCTION public.claim_site_fleet_events(uuid) FROM PUBLIC, anon, authenticated, service_role;
+REVOKE EXECUTE ON FUNCTION public.queue_site_availability(uuid) FROM PUBLIC, anon, authenticated, service_role;
+COMMENT ON TABLE public.fleet_sync_outbox IS 'DEPRECATED: disconnected partner integration; no sender or queue triggers remain active.';
+COMMENT ON TABLE public.fleet_sync_links IS 'DEPRECATED: historical partner fleet mappings; not used by local fleet management.';
+COMMENT ON TABLE public.fleet_sync_events IS 'DEPRECATED: historical partner events; no inbound integration remains.';
+COMMENT ON TABLE public.fleet_sync_remote_availability IS 'DEPRECATED: remote availability is ignored; use local vehicles and bookings.';
+COMMENT ON TABLE public.sistemagestao_outbox IS 'DEPRECATED: historical partner jobs; no application sender remains.';
+COMMENT ON COLUMN public.settings.sistemagestao_integration_enabled IS 'DEPRECATED: permanently disconnected; no application switch remains.';

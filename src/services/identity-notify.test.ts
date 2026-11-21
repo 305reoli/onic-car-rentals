@@ -54,7 +54,7 @@ describe("identity.verification_session.verified → owner email", () => {
     expect(m.to).toBe("info@oniccarrentals.com");
     expect(m.subject).toBe("Identity verification completed — Ana Exemplo — booking TESTE001");
     for (const s of ["Ana Exemplo", BOOKING.id, "Cadillac Escalade", "Orlando base", "ANA", "EXEMPLO", "1990-03-02", "Passport", "FX123456", "PT", "2031-01-01", SID, new Date(1794700000 * 1000).toISOString()]) expect(m.html).toContain(s);
-    // Stored for admin badge + SistemaGestao payload, flag set.
+    // Stored for stored identity + admin badge, flag set.
     expect(tables["prereservations"]![0]!.identity_verification).toMatchObject({ status: "verified", session_id: SID, document_number: "FX123456" });
     expect(tables["identity_verifications"]![0]!.owner_notified_at).toBeTruthy();
     expect(tables["identity_verifications"]![0]!.booking_id).toBe(BOOKING.id);

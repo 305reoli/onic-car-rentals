@@ -81,7 +81,7 @@ export async function handleIdentityVerified(deps: IdentityNotifyDeps, eventObj:
   if (row) await db.from("identity_verifications").update({ status: "verified", verified_at: verifiedAt, outputs, updated_at: now, ...(booking ? { booking_id: booking.id } : {}) }).eq("id", row.id);
   else await db.from("identity_verifications").insert({ session_id: sid, license_country: licenseCountry, mode: deps.mode, status: "verified", verified_at: verifiedAt, outputs, booking_id: booking?.id ?? null });
   if (!booking) { console.error(`[identity] verified session ${sid} has no resolvable booking — owner email NOT sent`); return "identity:verified_unresolved"; }
-  // Keep admin badge + SistemaGestao payload consistent; never overwrite a different session's data.
+  // Keep stored identity + admin badge consistent; never overwrite a different session's data.
   await db.from("prereservations").update({ identity_verification: outputs }).eq("id", booking.id).or(`identity_verification.is.null,identity_verification->>session_id.eq.${sid},identity_verification->>status.neq.verified`);
   // Atomic claim: only one delivery can flip owner_notified_at from NULL.
   const { data: claimed } = await db.from("identity_verifications").update({ owner_notified_at: now }).eq("session_id", sid).is("owner_notified_at", null).select("id");

@@ -5,14 +5,13 @@ import { usd2 } from "@/lib/pricing";
 import { bookingNotificationEmail, ownerBookingSubject } from "@/lib/bookingEmail";
 import { emailConfigured, OWNER_EMAIL, sendResendEmail } from "./resend-email.server";
 
-type Kind = "owner_new" | "owner_approved" | "owner_declined" | "owner_expired" | "owner_hold_failed" | "owner_sistemagestao_pending" | "customer_received" | "customer_approved" | "customer_declined" | "customer_expired" | "customer_link" | "owner_confirmed" | "owner_paid_conflict" | "owner_amount_review" | "owner_refunded" | "customer_confirmed" | "owner_delivery_quote" | "customer_substitute" | "customer_substitute_reminder" | "customer_substitute_declined";
+type Kind = "owner_new" | "owner_approved" | "owner_declined" | "owner_expired" | "owner_hold_failed" | "customer_received" | "customer_approved" | "customer_declined" | "customer_expired" | "customer_link" | "owner_confirmed" | "owner_paid_conflict" | "owner_amount_review" | "owner_refunded" | "customer_confirmed" | "owner_delivery_quote" | "customer_substitute" | "customer_substitute_reminder" | "customer_substitute_declined";
 
 const SUBJECTS: Record<Kind, Record<Lang, string>> = {
   owner_approved: { en: "Approved — {car}", pt: "Aprovada — {car}", es: "Aprobada — {car}" },
   owner_declined: { en: "Declined — {car}", pt: "Recusada — {car}", es: "Rechazada — {car}" },
   owner_expired: { en: "Expired / auto-cancelled — {car}", pt: "Expirada / cancelada automaticamente — {car}", es: "Expirada / cancelada automáticamente — {car}" },
   owner_hold_failed: { en: "Stripe payment problem — {car}", pt: "Problema no pagamento Stripe — {car}", es: "Problema con el pago Stripe — {car}" },
-  owner_sistemagestao_pending: { en: "Pending SistemaGestao sync — {car}", pt: "Sincronização SistemaGestao pendente — {car}", es: "Sincronización SistemaGestao pendiente — {car}" },
   owner_new: { en: "New pre-reservation — {car}", pt: "Nova pré-reserva — {car}", es: "Nueva pre-reserva — {car}" },
   customer_received: { en: "We received your request — {car}", pt: "Recebemos seu pedido — {car}", es: "Recibimos tu solicitud — {car}" },
   customer_approved: { en: "Your booking is approved — {car}", pt: "Sua reserva foi aprovada — {car}", es: "Tu reserva fue aprobada — {car}" },
@@ -101,7 +100,7 @@ export async function notify(kind: Kind, to: string, lang: Lang, vars: Record<st
 export const SITE_URL = () => (process.env["SITE_URL"] || "https://oniccarrentals.com").replace(/\/$/, "");
 
 type Pre = { id: string; token: string; email: string; phone: string; language: string; vehicle_name: string; pickup_at: string; return_at: string;
-  service_city: string | null; base_city: string | null; price_breakdown: unknown; prereservation_amount_usd: number | string; whatsapp_opt_in: boolean; sistemagestao_link?: string | null };
+  service_city: string | null; base_city: string | null; price_breakdown: unknown; prereservation_amount_usd: number | string; whatsapp_opt_in: boolean };
 
 /** Standard customer message (approved/declined/expired) from Settings → Messages, by email and (if opted in) WhatsApp. */
 export async function customerMessage(kind: "approved" | "declined" | "expired" | "confirmed", r: Pre) {
@@ -122,7 +121,7 @@ export async function customerMessage(kind: "approved" | "declined" | "expired" 
     code: r.id.slice(0, 8).toUpperCase(), car: r.vehicle_name, city: city?.name ?? r.service_city ?? "",
     pickup: fmtDateTime(pickup, lang), return: fmtDateTime(new Date(r.return_at), lang),
     balance: "0",
-    link: kind === "approved" ? (r.sistemagestao_link || myBooking) : kind === "declined" ? `${SITE_URL()}/${lang}` : myBooking,
+    link: kind === "declined" ? `${SITE_URL()}/${lang}` : myBooking,
     deadline: "",
   });
   // Mandatory lifecycle facts override stale owner templates that may mention contacting us for a refund.
@@ -136,7 +135,7 @@ export async function customerMessage(kind: "approved" | "declined" | "expired" 
   const paidFinal = current && fullyPaidConfirmed(current);
   if (kind === "confirmed" && !paidFinal) return text;
   const finalKind = kind === "approved" && paidFinal ? "confirmed" : kind;
-  await notify(`customer_${finalKind}`, r.email, lang, { id: r.id, car: r.vehicle_name, message: text, link: kind === "approved" ? (r.sistemagestao_link || myBooking) : myBooking });
+  await notify(`customer_${finalKind}`, r.email, lang, { id: r.id, car: r.vehicle_name, message: text, link: myBooking });
   if (paidFinal) {
     try { const m = await import("./measureone-email.server"); await m.sendMeasureOneEmail(await m.liveMeasureOneDeps(db), r.id); }
     catch (e) { console.error("[measureone-email] failed", e); }

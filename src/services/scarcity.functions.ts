@@ -22,16 +22,12 @@ export const getModelScarcity = createServerFn({ method: "GET" })
     if (!ids.length) return empty;
     // Private booking access is required to count overlaps; only the two aggregates leave this handler.
     const { supabaseAdmin: db } = await import("@/integrations/supabase/client.server");
-    const [overlaps, recent, remote] = await Promise.all([
+    const [overlaps, recent] = await Promise.all([
       db.from("prereservations").select("vehicle_id,pickup_at,return_at,status,hold_until,created_at").in("vehicle_id", ids).or(blockingFilter(now)).lt("pickup_at", r.toISOString()).gt("return_at", p.toISOString()).limit(1001),
       db.from("prereservations").select("is_test,status,created_at,paid_amount_usd").in("vehicle_id", ids).eq("is_test", false).in("status", ["approved", "confirmed", "pending_approval"]).gt("paid_amount_usd", 0).gte("created_at", new Date(now.getTime() - 7 * 86400000).toISOString()).limit(1001),
-      // SistemaGestao-reported blocks count as unavailable, exactly like search and booking checks.
-      db.from("fleet_sync_remote_availability").select("site_vehicle_id,available,ranges").in("site_vehicle_id", ids),
     ]);
-    const { remoteBlocks } = await import("./fleet-sync");
-    const remoteBlocked = new Set((remote.data ?? []).filter(x => remoteBlocks(x, p, r)).map(x => x.site_vehicle_id));
     return {
-      units: overlaps.error || !overlaps.data || overlaps.data.length >= 1000 || remote.error ? null : availableModelUnits(units, overlaps.data, target, data.pickup, data.ret, now, remoteBlocked),
+      units: overlaps.error || !overlaps.data || overlaps.data.length >= 1000 ? null : availableModelUnits(units, overlaps.data, target, data.pickup, data.ret, now),
       booked: recent.error || !recent.data || recent.data.length >= 1000 ? null : recentPaidCount(recent.data, now),
     };
   });

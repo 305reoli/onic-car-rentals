@@ -1,4 +1,4 @@
-// Instant full-payment bookings (Global Pays): settlement, hold expiry and SistemaGestao outbox.
+// Instant full-payment bookings (Global Pays): local settlement and hold expiry.
 // A booking is confirmed ONLY here, from a verified webhook or a server-side order consult.
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, Json } from "@/integrations/supabase/types";
@@ -8,9 +8,6 @@ import { customerMessage, notify } from "./notify.server";
 import { FAILED, REFUNDED, SUCCESS, type OrderStatus } from "./globalpays.server";
 
 type Admin = SupabaseClient<Database>;
-
-/** Disabled until the SistemaGestao side exists; jobs wait in the outbox as "pending". */
-export const SISTEMAGESTAO_OUTBOX_ENABLED = false;
 
 export async function logPaymentEvent(db: Admin, e: { booking_id?: string | null; provider_order_id?: string | null; status?: string; outcome: string; payload?: unknown }) {
   await db.from("payment_events").insert({ provider: "globalpays", booking_id: e.booking_id ?? null, provider_order_id: e.provider_order_id ?? null, status: e.status ?? "", outcome: e.outcome, payload: (e.payload ?? {}) as Json });
@@ -89,29 +86,10 @@ export async function settle(db: Admin, bookingId: string, p: OrderStatus): Prom
 
   // Same post-approval automation as the Stripe flow, worded for paid in full.
   await notify("owner_confirmed", "", "en", { id: r.id, car: r.vehicle_name, link: "/admin", detail: `Paid in full: ${p.amountUsd} USD (${p.method ?? "Global Pays"})` });
-  await enqueueSistemaGestao(db, r.id);
   await customerMessage("confirmed", r);
   return "confirmed";
 }
 
-/** Writes the SistemaGestao intake job (client + reservation + documents + contract). Sender is disabled for now. */
-export async function enqueueSistemaGestao(db: Admin, bookingId: string) {
-  const { data: r } = await db.from("prereservations").select("*").eq("id", bookingId).single();
-  if (!r) return;
-  const payload = {
-    booking_id: r.id, booking_number: r.id.slice(0, 8).toUpperCase(), source: "oniccarrentals.com", flow: "instant",
-    client: { first_name: r.first_name, last_name: r.last_name, email: r.email, phone: r.phone, country: r.country, date_of_birth: r.date_of_birth, address: r.address, language: r.language },
-    reservation: { vehicle_id: r.vehicle_id, vehicle_name: r.vehicle_name, base_city: r.base_city, service_city: r.service_city, pickup_at: r.pickup_at, return_at: r.return_at,
-      pickup_location: r.pickup_location, return_location: r.return_location, flight_number: r.flight_number, addons: r.addons, price_breakdown: r.price_breakdown,
-      payment: { provider: r.payment_provider, order_id: r.provider_order_id, paid_amount_usd: r.paid_amount_usd, gross_amount: r.gross_amount, gross_currency: r.gross_currency, fee: r.fee_amount, method: r.payment_method } },
-    documents: r.documents,
-    actions: ["create_client", "create_reservation", "attach_documents", "generate_contract"],
-  };
-  await db.from("sistemagestao_outbox").upsert({ booking_id: r.id, payload: payload as Json, status: "pending" }, { onConflict: "booking_id", ignoreDuplicates: true });
-  if (!SISTEMAGESTAO_OUTBOX_ENABLED) {
-    await db.from("prereservations").update({ sistemagestao_status: "pending", sistemagestao_error: "SistemaGestao integration disabled" }).eq("id", r.id);
-  }
-}
 
 /** Instant checkout holds past hold_until → payment_failed (car released, no messages). */
 export async function expireInstantHolds(db: Admin) {

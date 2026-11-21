@@ -8,7 +8,7 @@ const car = (daily: number) => ({ daily_price_usd: daily, prereservation_amount_
 const q = (daily: number, n: number, cat: string, delivery = 0, embedded = 0) =>
   computeQuote(car(daily), P, days(n), none, undefined, delivery, embedded, { exotic: deliveryTier({ body_category: cat }) === "exotic" });
 
-describe("checkout composition (SistemaGestao calcAmounts)", () => {
+describe("local checkout composition", () => {
   it("a) SUV $150×4, address ≤15mi $60", () => {
     const fee = deliveryPrice("standard", "address", null, 10);
     expect(fee).toEqual({ status: "priced", fee: 60 });

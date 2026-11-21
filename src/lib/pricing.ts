@@ -119,7 +119,7 @@ export interface Quote {
   prereservation: number;
 }
 
-/** Owner checkout fees (SistemaGestao calcAmounts mirror). Basic insurance + toll apply to non-exotic cars only. */
+/** Owner checkout fees (local rental totals). Basic insurance + toll apply to non-exotic cars only. */
 export interface FeesConfig { tax_rate_pct: number; basic_insurance_per_day: number; toll_per_day: number }
 /** Solid Waste (FL 212.0606 mechanics): fixed per-day amount on the first N days of every rental, all cars. */
 export const SOLID_WASTE_PER_DAY = 2;

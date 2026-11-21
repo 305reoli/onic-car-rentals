@@ -14,9 +14,8 @@ Para achar o que trocar, procure no código por: `Onic Car Rentals`, `oniccarren
   (carros, cidades, reservas, pagamentos, cupons, checkout abandonado, avaliações etc.).
 - **Pagamentos**: checkout com Stripe e com Global Pays (Pix e cartão parcelado).
 - **Extras já estruturados**: verificação de identidade (Stripe Identity), verificação
-  de seguro (MeasureOne), e-mails transacionais (Resend), sincronização com um sistema
-  de gestão externo (no original era o sistema interno do dono — reconecte ao seu
-  sistema ou remova as chamadas em `src/services`, marcadas como `SistemaGestao`).
+  de seguro (MeasureOne) e e-mails transacionais (Resend). A frota é gerenciada
+  diretamente no banco pelo painel `/admin`, sem sincronização externa.
 - **Admin**: painel em `/admin` (frota, reservas, preços, configurações da empresa).
 
 A frota (carros, preços, fotos) **vive no banco de dados, não no código** — por isso o

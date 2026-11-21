@@ -1,7 +1,6 @@
 // Shared server-side checks for both booking flows (request/Stripe and instant/Global Pays).
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { remoteBlocks } from "./fleet-sync";
 import { blockingFilter, canBookOnline, computeQuote, effectiveMinDays, orlandoTooShort, locationMinDays, crossConfig, deliveryConfig, DEFAULT_SETTINGS, deliveryTier, insuranceOffered, matchingFees, servesCity } from "@/lib/pricing";
 import { getRequestHeader } from "@tanstack/react-start/server";
 import { REQUIRED_DOCS, docsInFolder, type BookingInput } from "./booking-schema";
@@ -76,9 +75,7 @@ export async function carIsFree(db: SupabaseClient<Database>, vehicleId: string,
   const { data: clash } = await q;
   const blocked = blockedDates.some((d) => { const x = new Date(`${d}T12:00:00Z`); return x >= new Date(pickup.toDateString()) && x <= ret; });
   if (clash?.length || blocked) return false;
-  // SistemaGestao-reported unavailability (stored by inbound fleet sync) also blocks the car.
-  const { data: remote } = await db.from("fleet_sync_remote_availability").select("available,ranges").eq("site_vehicle_id", vehicleId).maybeSingle();
-  return !remoteBlocks(remote, pickup, ret);
+  return true;
 }
 
 /** True only when the request carries a signed-in owner's token (role checked as that user, RLS-safe). */

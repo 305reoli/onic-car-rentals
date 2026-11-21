@@ -41,7 +41,7 @@ export const getCities = createServerFn({ method: "GET" }).handler(async () => {
 });
 
 /** Settings columns visitors may read; owner alert email and admin change-log email are not granted to anon. */
-const PUBLIC_SETTINGS_COLUMNS = "id,prereservation_min_usd,prereservation_days,addon_insurance_per_day,addon_hotel_checkin,addon_luggage_car,whatsapp_number,approval_window_hours,cutoff_hours_before_pickup,min_lead_time_hours,contact_email,terms_version,sistemagestao_integration_enabled,updated_at,company_zip,support_email,payment_company_address,legal_operator_en,legal_operator_pt,legal_operator_es,legal_payments_en,legal_payments_pt,legal_payments_es,balance_deadline_hours,whatsapp_provider,msg_approved_en,msg_approved_pt,msg_approved_es,msg_declined_en,msg_declined_pt,msg_declined_es,msg_expired_en,msg_expired_pt,msg_expired_es,wa_tpl_approved_en,wa_tpl_approved_pt,wa_tpl_approved_es,wa_tpl_declined_en,wa_tpl_declined_pt,wa_tpl_declined_es,wa_tpl_expired_en,wa_tpl_expired_pt,wa_tpl_expired_es,msg_confirmed_en,msg_confirmed_pt,msg_confirmed_es,wa_tpl_confirmed_en,wa_tpl_confirmed_pt,wa_tpl_confirmed_es,delivery_config,google_business_url,globalpays_live,globalpays_live_changed_at,payment_modes,substitute_window_hours,substitute_reminder_hours,gp_interest_free_installments,min_days_by_category,duration_tiers,measureone_static_link,rentalcover_affiliate_link";
+const PUBLIC_SETTINGS_COLUMNS = "id,prereservation_min_usd,prereservation_days,addon_insurance_per_day,addon_hotel_checkin,addon_luggage_car,whatsapp_number,approval_window_hours,cutoff_hours_before_pickup,min_lead_time_hours,contact_email,terms_version,updated_at,company_zip,support_email,payment_company_address,legal_operator_en,legal_operator_pt,legal_operator_es,legal_payments_en,legal_payments_pt,legal_payments_es,balance_deadline_hours,whatsapp_provider,msg_approved_en,msg_approved_pt,msg_approved_es,msg_declined_en,msg_declined_pt,msg_declined_es,msg_expired_en,msg_expired_pt,msg_expired_es,wa_tpl_approved_en,wa_tpl_approved_pt,wa_tpl_approved_es,wa_tpl_declined_en,wa_tpl_declined_pt,wa_tpl_declined_es,wa_tpl_expired_en,wa_tpl_expired_pt,wa_tpl_expired_es,msg_confirmed_en,msg_confirmed_pt,msg_confirmed_es,wa_tpl_confirmed_en,wa_tpl_confirmed_pt,wa_tpl_confirmed_es,delivery_config,google_business_url,globalpays_live,globalpays_live_changed_at,payment_modes,substitute_window_hours,substitute_reminder_hours,gp_interest_free_installments,min_days_by_category,duration_tiers,measureone_static_link,rentalcover_affiliate_link";
 
 export const getPublicSettings = createServerFn({ method: "GET" }).handler(async () => {
   const { publicClient } = await import("./public-client.server");
@@ -63,17 +63,12 @@ export const getBookedDays = createServerFn({ method: "GET" })
   .inputValidator((d: { vehicleId: string }) => z.object({ vehicleId: z.string().uuid() }).parse(d))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { checkAvailability } = await import("./sistemagestao-adapter.server");
-    await checkAvailability(data.vehicleId, new Date(), new Date()); // disabled placeholder
     const [{ data: v }, { data: rs }] = await Promise.all([
       supabaseAdmin.from("vehicles").select("blocked_dates").eq("id", data.vehicleId).maybeSingle(),
       supabaseAdmin.from("prereservations").select("pickup_at, return_at").eq("vehicle_id", data.vehicleId)
         .or(blockingFilter()).gte("return_at", new Date().toISOString()),
     ]);
     const days = new Set<string>(v?.blocked_dates ?? []);
-    const { data: remote } = await supabaseAdmin.from("fleet_sync_remote_availability").select("available,ranges").eq("site_vehicle_id", data.vehicleId).maybeSingle();
-    const { remoteDays } = await import("./fleet-sync");
-    for (const d of remoteDays(remote)) days.add(d);
     for (const r of rs ?? []) {
       const d = new Date(r.pickup_at); d.setUTCHours(0, 0, 0, 0);
       const end = new Date(r.return_at);
@@ -108,8 +103,5 @@ export const getUnavailableIds = createServerFn({ method: "GET" })
     const { data: rs } = await supabaseAdmin.from("prereservations").select("vehicle_id, pickup_at, return_at")
       .in("vehicle_id", ids).or(blockingFilter())
       .lt("pickup_at", r.toISOString()).gt("return_at", p.toISOString());
-    const { data: remote } = await supabaseAdmin.from("fleet_sync_remote_availability").select("site_vehicle_id,available,ranges").in("site_vehicle_id", ids);
-    const { remoteBlocks } = await import("./fleet-sync");
-    return (cars ?? []).filter((v) => isUnavailable(v.blocked_dates ?? [], (rs ?? []).filter((x) => x.vehicle_id === v.id), data.pickup, data.ret)
-      || remoteBlocks((remote ?? []).find((x) => x.site_vehicle_id === v.id), p, r)).map((v) => v.id);
+    return (cars ?? []).filter((v) => isUnavailable(v.blocked_dates ?? [], (rs ?? []).filter((x) => x.vehicle_id === v.id), data.pickup, data.ret)).map((v) => v.id);
   });

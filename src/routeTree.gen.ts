@@ -47,8 +47,6 @@ import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminPromotionsRouteImport } from './routes/_authenticated/admin.promotions'
 import { Route as AuthenticatedAdminReviewRouteImport } from './routes/_authenticated/admin.review'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
-import { Route as ApiPublicFleetSyncRouteImport } from './routes/api/public/fleet-sync'
-import { Route as ApiPublicFleetSyncCheckRouteImport } from './routes/api/public/fleet-sync-check'
 import { Route as ApiPublicGlobalpaysMockRouteImport } from './routes/api/public/globalpays-mock'
 import { Route as ApiPublicIdentityReturnRouteImport } from './routes/api/public/identity-return'
 import { Route as LangBrandHubCityBrandRouteImport } from './routes/$lang.brand-hub.$city.$brand'
@@ -57,9 +55,7 @@ import { Route as LangCatalogCityCategoryRouteImport } from './routes/$lang.cata
 import { Route as LangCheckoutCitySlugRouteImport } from './routes/$lang.checkout.$city.$slug'
 import { Route as AuthenticatedAdminCarsIndexRouteImport } from './routes/_authenticated/admin.cars.index'
 import { Route as AuthenticatedAdminCarsIdRouteImport } from './routes/_authenticated/admin.cars.$id'
-import { Route as ApiPublicFleetSyncCompareRouteImport } from './routes/api/public/fleet-sync.compare'
 import { Route as ApiPublicJobsExpireHoldsRouteImport } from './routes/api/public/jobs/expire-holds'
-import { Route as ApiPublicJobsFleetFlushRouteImport } from './routes/api/public/jobs/fleet-flush'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicPhotoSplatRouteImport } from './routes/api/public/photo.$'
 import { Route as ApiPublicWebhooksGlobalpaysRouteImport } from './routes/api/public/webhooks/globalpays'
@@ -260,16 +256,6 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const ApiPublicFleetSyncRoute = ApiPublicFleetSyncRouteImport.update({
-  id: '/api/public/fleet-sync',
-  path: '/api/public/fleet-sync',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicFleetSyncCheckRoute = ApiPublicFleetSyncCheckRouteImport.update({
-  id: '/api/public/fleet-sync-check',
-  path: '/api/public/fleet-sync-check',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicGlobalpaysMockRoute = ApiPublicGlobalpaysMockRouteImport.update({
   id: '/api/public/globalpays-mock',
   path: '/api/public/globalpays-mock',
@@ -312,23 +298,12 @@ const AuthenticatedAdminCarsIdRoute =
     path: '/cars/$id',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const ApiPublicFleetSyncCompareRoute =
-  ApiPublicFleetSyncCompareRouteImport.update({
-    id: '/compare',
-    path: '/compare',
-    getParentRoute: () => ApiPublicFleetSyncRoute,
-  } as any)
 const ApiPublicJobsExpireHoldsRoute =
   ApiPublicJobsExpireHoldsRouteImport.update({
     id: '/api/public/jobs/expire-holds',
     path: '/api/public/jobs/expire-holds',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiPublicJobsFleetFlushRoute = ApiPublicJobsFleetFlushRouteImport.update({
-  id: '/api/public/jobs/fleet-flush',
-  path: '/api/public/jobs/fleet-flush',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -385,8 +360,6 @@ export interface FileRoutesByFullPath {
   '/admin/promotions': typeof AuthenticatedAdminPromotionsRoute
   '/admin/review': typeof AuthenticatedAdminReviewRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/api/public/fleet-sync': typeof ApiPublicFleetSyncRouteWithChildren
-  '/api/public/fleet-sync-check': typeof ApiPublicFleetSyncCheckRoute
   '/api/public/globalpays-mock': typeof ApiPublicGlobalpaysMockRoute
   '/api/public/identity-return': typeof ApiPublicIdentityReturnRoute
   '/$lang/blog/': typeof LangBlogIndexRoute
@@ -399,9 +372,7 @@ export interface FileRoutesByFullPath {
   '/$lang/catalog/$city/$category': typeof LangCatalogCityCategoryRoute
   '/$lang/checkout/$city/$slug': typeof LangCheckoutCitySlugRoute
   '/admin/cars/$id': typeof AuthenticatedAdminCarsIdRoute
-  '/api/public/fleet-sync/compare': typeof ApiPublicFleetSyncCompareRoute
   '/api/public/jobs/expire-holds': typeof ApiPublicJobsExpireHoldsRoute
-  '/api/public/jobs/fleet-flush': typeof ApiPublicJobsFleetFlushRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
   '/api/public/webhooks/globalpays': typeof ApiPublicWebhooksGlobalpaysRoute
@@ -439,8 +410,6 @@ export interface FileRoutesByTo {
   '/admin/promotions': typeof AuthenticatedAdminPromotionsRoute
   '/admin/review': typeof AuthenticatedAdminReviewRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/api/public/fleet-sync': typeof ApiPublicFleetSyncRouteWithChildren
-  '/api/public/fleet-sync-check': typeof ApiPublicFleetSyncCheckRoute
   '/api/public/globalpays-mock': typeof ApiPublicGlobalpaysMockRoute
   '/api/public/identity-return': typeof ApiPublicIdentityReturnRoute
   '/$lang/blog': typeof LangBlogIndexRoute
@@ -453,9 +422,7 @@ export interface FileRoutesByTo {
   '/$lang/catalog/$city/$category': typeof LangCatalogCityCategoryRoute
   '/$lang/checkout/$city/$slug': typeof LangCheckoutCitySlugRoute
   '/admin/cars/$id': typeof AuthenticatedAdminCarsIdRoute
-  '/api/public/fleet-sync/compare': typeof ApiPublicFleetSyncCompareRoute
   '/api/public/jobs/expire-holds': typeof ApiPublicJobsExpireHoldsRoute
-  '/api/public/jobs/fleet-flush': typeof ApiPublicJobsFleetFlushRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
   '/api/public/webhooks/globalpays': typeof ApiPublicWebhooksGlobalpaysRoute
@@ -497,8 +464,6 @@ export interface FileRoutesById {
   '/_authenticated/admin/promotions': typeof AuthenticatedAdminPromotionsRoute
   '/_authenticated/admin/review': typeof AuthenticatedAdminReviewRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/api/public/fleet-sync': typeof ApiPublicFleetSyncRouteWithChildren
-  '/api/public/fleet-sync-check': typeof ApiPublicFleetSyncCheckRoute
   '/api/public/globalpays-mock': typeof ApiPublicGlobalpaysMockRoute
   '/api/public/identity-return': typeof ApiPublicIdentityReturnRoute
   '/$lang/blog/': typeof LangBlogIndexRoute
@@ -511,9 +476,7 @@ export interface FileRoutesById {
   '/$lang/catalog/$city_/$category': typeof LangCatalogCityCategoryRoute
   '/$lang/checkout/$city/$slug': typeof LangCheckoutCitySlugRoute
   '/_authenticated/admin/cars/$id': typeof AuthenticatedAdminCarsIdRoute
-  '/api/public/fleet-sync/compare': typeof ApiPublicFleetSyncCompareRoute
   '/api/public/jobs/expire-holds': typeof ApiPublicJobsExpireHoldsRoute
-  '/api/public/jobs/fleet-flush': typeof ApiPublicJobsFleetFlushRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
   '/api/public/webhooks/globalpays': typeof ApiPublicWebhooksGlobalpaysRoute
@@ -555,8 +518,6 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/review'
     | '/admin/settings'
-    | '/api/public/fleet-sync'
-    | '/api/public/fleet-sync-check'
     | '/api/public/globalpays-mock'
     | '/api/public/identity-return'
     | '/$lang/blog/'
@@ -569,9 +530,7 @@ export interface FileRouteTypes {
     | '/$lang/catalog/$city/$category'
     | '/$lang/checkout/$city/$slug'
     | '/admin/cars/$id'
-    | '/api/public/fleet-sync/compare'
     | '/api/public/jobs/expire-holds'
-    | '/api/public/jobs/fleet-flush'
     | '/api/public/payments/webhook'
     | '/api/public/photo/$'
     | '/api/public/webhooks/globalpays'
@@ -609,8 +568,6 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/review'
     | '/admin/settings'
-    | '/api/public/fleet-sync'
-    | '/api/public/fleet-sync-check'
     | '/api/public/globalpays-mock'
     | '/api/public/identity-return'
     | '/$lang/blog'
@@ -623,9 +580,7 @@ export interface FileRouteTypes {
     | '/$lang/catalog/$city/$category'
     | '/$lang/checkout/$city/$slug'
     | '/admin/cars/$id'
-    | '/api/public/fleet-sync/compare'
     | '/api/public/jobs/expire-holds'
-    | '/api/public/jobs/fleet-flush'
     | '/api/public/payments/webhook'
     | '/api/public/photo/$'
     | '/api/public/webhooks/globalpays'
@@ -666,8 +621,6 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/promotions'
     | '/_authenticated/admin/review'
     | '/_authenticated/admin/settings'
-    | '/api/public/fleet-sync'
-    | '/api/public/fleet-sync-check'
     | '/api/public/globalpays-mock'
     | '/api/public/identity-return'
     | '/$lang/blog/'
@@ -680,9 +633,7 @@ export interface FileRouteTypes {
     | '/$lang/catalog/$city_/$category'
     | '/$lang/checkout/$city/$slug'
     | '/_authenticated/admin/cars/$id'
-    | '/api/public/fleet-sync/compare'
     | '/api/public/jobs/expire-holds'
-    | '/api/public/jobs/fleet-flush'
     | '/api/public/payments/webhook'
     | '/api/public/photo/$'
     | '/api/public/webhooks/globalpays'
@@ -699,12 +650,9 @@ export interface RootRouteChildren {
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  ApiPublicFleetSyncRoute: typeof ApiPublicFleetSyncRouteWithChildren
-  ApiPublicFleetSyncCheckRoute: typeof ApiPublicFleetSyncCheckRoute
   ApiPublicGlobalpaysMockRoute: typeof ApiPublicGlobalpaysMockRoute
   ApiPublicIdentityReturnRoute: typeof ApiPublicIdentityReturnRoute
   ApiPublicJobsExpireHoldsRoute: typeof ApiPublicJobsExpireHoldsRoute
-  ApiPublicJobsFleetFlushRoute: typeof ApiPublicJobsFleetFlushRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   ApiPublicPhotoSplatRoute: typeof ApiPublicPhotoSplatRoute
   ApiPublicWebhooksGlobalpaysRoute: typeof ApiPublicWebhooksGlobalpaysRoute
@@ -978,20 +926,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/api/public/fleet-sync': {
-      id: '/api/public/fleet-sync'
-      path: '/api/public/fleet-sync'
-      fullPath: '/api/public/fleet-sync'
-      preLoaderRoute: typeof ApiPublicFleetSyncRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/fleet-sync-check': {
-      id: '/api/public/fleet-sync-check'
-      path: '/api/public/fleet-sync-check'
-      fullPath: '/api/public/fleet-sync-check'
-      preLoaderRoute: typeof ApiPublicFleetSyncCheckRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/globalpays-mock': {
       id: '/api/public/globalpays-mock'
       path: '/api/public/globalpays-mock'
@@ -1048,25 +982,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCarsIdRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/api/public/fleet-sync/compare': {
-      id: '/api/public/fleet-sync/compare'
-      path: '/compare'
-      fullPath: '/api/public/fleet-sync/compare'
-      preLoaderRoute: typeof ApiPublicFleetSyncCompareRouteImport
-      parentRoute: typeof ApiPublicFleetSyncRoute
-    }
     '/api/public/jobs/expire-holds': {
       id: '/api/public/jobs/expire-holds'
       path: '/api/public/jobs/expire-holds'
       fullPath: '/api/public/jobs/expire-holds'
       preLoaderRoute: typeof ApiPublicJobsExpireHoldsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/jobs/fleet-flush': {
-      id: '/api/public/jobs/fleet-flush'
-      path: '/api/public/jobs/fleet-flush'
-      fullPath: '/api/public/jobs/fleet-flush'
-      preLoaderRoute: typeof ApiPublicJobsFleetFlushRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/payments/webhook': {
@@ -1200,17 +1120,6 @@ const LangRouteChildren: LangRouteChildren = {
 
 const LangRouteWithChildren = LangRoute._addFileChildren(LangRouteChildren)
 
-interface ApiPublicFleetSyncRouteChildren {
-  ApiPublicFleetSyncCompareRoute: typeof ApiPublicFleetSyncCompareRoute
-}
-
-const ApiPublicFleetSyncRouteChildren: ApiPublicFleetSyncRouteChildren = {
-  ApiPublicFleetSyncCompareRoute: ApiPublicFleetSyncCompareRoute,
-}
-
-const ApiPublicFleetSyncRouteWithChildren =
-  ApiPublicFleetSyncRoute._addFileChildren(ApiPublicFleetSyncRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -1220,12 +1129,9 @@ const rootRouteChildren: RootRouteChildren = {
   LlmsDottxtRoute: LlmsDottxtRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  ApiPublicFleetSyncRoute: ApiPublicFleetSyncRouteWithChildren,
-  ApiPublicFleetSyncCheckRoute: ApiPublicFleetSyncCheckRoute,
   ApiPublicGlobalpaysMockRoute: ApiPublicGlobalpaysMockRoute,
   ApiPublicIdentityReturnRoute: ApiPublicIdentityReturnRoute,
   ApiPublicJobsExpireHoldsRoute: ApiPublicJobsExpireHoldsRoute,
-  ApiPublicJobsFleetFlushRoute: ApiPublicJobsFleetFlushRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   ApiPublicPhotoSplatRoute: ApiPublicPhotoSplatRoute,
   ApiPublicWebhooksGlobalpaysRoute: ApiPublicWebhooksGlobalpaysRoute,

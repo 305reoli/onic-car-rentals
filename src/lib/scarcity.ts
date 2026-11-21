@@ -4,12 +4,12 @@ import { fmt, scarcityText, type Lang } from "@/lib/i18n";
 
 export type StockUnit = { id: string; brand: string; model: string; city: string; active: boolean; blocked_dates: string[] };
 export type StockBooking = { vehicle_id: string | null; pickup_at: string; return_at: string; status: string; hold_until?: string | null; created_at?: string | null };
-export function availableModelUnits(units: StockUnit[] | null, bookings: StockBooking[] | null, target: StockUnit, pickup: string, ret: string, now = new Date(), remoteBlocked: ReadonlySet<string> = new Set()): number | null {
+export function availableModelUnits(units: StockUnit[] | null, bookings: StockBooking[] | null, target: StockUnit, pickup: string, ret: string, now = new Date()): number | null {
   const p = new Date(pickup), r = new Date(ret);
   if (!units || !bookings || !target.brand.trim() || !target.model.trim() || !Number.isFinite(p.getTime()) || !Number.isFinite(r.getTime()) || r <= p) return null;
   const matching = units.filter(v => v.active && v.city === target.city && modelKey(v) === modelKey(target));
   if (!matching.some(v => v.id === target.id)) return null;
-  return matching.filter(v => !remoteBlocked.has(v.id) && !isUnavailable(v.blocked_dates, bookings.filter(b => b.vehicle_id === v.id && rowBlocks(b, now)), pickup, ret)).length;
+  return matching.filter(v => !isUnavailable(v.blocked_dates, bookings.filter(b => b.vehicle_id === v.id && rowBlocks(b, now)), pickup, ret)).length;
 }
 export function unitsLeftLabel(n: number | null, lang: Lang) {
   return n == null || n < 1 ? null : n === 1 ? scarcityText[lang].last : fmt(scarcityText[lang].units, { n });

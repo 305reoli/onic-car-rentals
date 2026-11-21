@@ -126,7 +126,6 @@ function SettingsPage() {
             <input className={fieldCls} value={form[k] ?? ""} onChange={(e) => setForm((f) => ({ ...f, [k]: e.target.value }))} />
           </label>
         ))}
-        <p className="text-xs text-muted-foreground">SistemaGestao: approved bookings are sent automatically to SistemaGestao; failures can be resent from Requests.</p>
         <Button size="lg" onClick={save}>Save settings</Button>
       </div>
     </div>
