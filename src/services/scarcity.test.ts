@@ -30,13 +30,10 @@ describe("aggregate-only scarcity reads", () => {
     mocks.results.push(result(target), result([target, { ...target, id: "b" }]), result([{ vehicle_id: "b", status: "confirmed", pickup_at: data.pickup, return_at: data.ret }]), result([{ is_test: false, status: "confirmed", created_at: new Date().toISOString(), paid_amount_usd: 298.2 }]), result([]));
     expect(await callMetrics({ data })).toEqual({ units: 1, booked: 1 });
   });
-  it("counts a unit SistemaGestao reports as blocked as unavailable", async () => {
-    mocks.results.push(result(target), result([target, { ...target, id: "b" }]), result([]), result([]), result([{ site_vehicle_id: "b", available: false, ranges: [] }]));
-    expect((await callMetrics({ data })).units).toBe(1);
-  });
-  it("hides the count when SistemaGestao availability cannot be read", async () => {
-    mocks.results.push(result(target), result([target]), result([]), result([]), result(null, "query failed"));
-    expect((await callMetrics({ data })).units).toBeNull();
+  it("reads only local vehicles and bookings for availability", async () => {
+    mocks.results.push(result(target), result([target, { ...target, id: "b" }]), result([]), result([]));
+    expect((await callMetrics({ data })).units).toBe(2);
+    expect(mocks.tables).toEqual(["vehicles", "vehicles", "prereservations", "prereservations"]);
   });
   it("omits unavailable metrics on database errors instead of treating them as empty bookings", async () => {
     mocks.results.push(result(target), result([target]), result(null, "query failed"), result(null, "query failed"), result([]));

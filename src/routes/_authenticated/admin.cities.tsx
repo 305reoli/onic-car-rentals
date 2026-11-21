@@ -11,7 +11,10 @@ import { Switch } from "@/components/ui/switch";
 import { fieldCls } from "@/components/site/SearchBox";
 import { CITY_COVERS } from "@/lib/cityCovers";
 
-export const Route = createFileRoute("/_authenticated/admin/cities")({ component: CitiesPage });
+export const Route = createFileRoute("/_authenticated/admin/cities")({
+  head: () => ({ meta: [{ title: "Delivery cities — Onic Car Rentals admin" }, { name: "description", content: "Manage Onic delivery cities, locations and service coverage." }, { property: "og:title", content: "Delivery cities — Onic Car Rentals admin" }, { property: "og:description", content: "Manage Onic delivery cities, locations and service coverage." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
+  component: CitiesPage,
+});
 
 function CitiesPage() {
   const { data = [] } = useQuery({ queryKey: ["admin-cities"], queryFn: async () => (await supabase.from("cities").select("*").order("sort_order")).data ?? [] });

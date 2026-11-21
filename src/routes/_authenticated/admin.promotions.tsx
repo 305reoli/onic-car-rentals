@@ -10,7 +10,10 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { fieldCls } from "@/components/site/SearchBox";
 import { durationTiers, promoOverlaps, promoStatus } from "@/lib/pricing";
 
-export const Route = createFileRoute("/_authenticated/admin/promotions")({ component: PromotionsPage });
+export const Route = createFileRoute("/_authenticated/admin/promotions")({
+  head: () => ({ meta: [{ title: "Promotions — Onic Car Rentals admin" }, { name: "description", content: "Manage Onic vehicle promotions and rental duration discounts." }, { property: "og:title", content: "Promotions — Onic Car Rentals admin" }, { property: "og:description", content: "Manage Onic vehicle promotions and rental duration discounts." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
+  component: PromotionsPage,
+});
 
 type Promo = { id: string; vehicle_id: string; pct: number; starts_on: string; ends_on: string; active: boolean };
 const STATUS: Record<ReturnType<typeof promoStatus>, string> = { active: "Active", scheduled: "Scheduled", expired: "Expired", inactive: "Inactive" };
