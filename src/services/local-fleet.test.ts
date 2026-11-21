@@ -21,7 +21,7 @@ vi.mock("./public-client.server", () => ({ publicClient: db }));
 vi.mock("@/integrations/supabase/client.server", () => ({ get supabaseAdmin() { return db(); } }));
 import { getVehicles, getVehicle, getBookedDays } from "./catalog.functions";
 import { carIsFree } from "./booking-core.server";
-const vehicle = { id: "fc14f176-a78e-4f40-8d21-9c1009947d04", name: "Cadillac Escalade ESV Sport 2024", daily_price_usd: 399, security_deposit_usd: 300, city: "miami", slug: "cadillac-escalade-esv", active: true };
+const vehicle = { id: "fc14f176-a78e-4f40-8d21-9c1009947d04", name: "Cadillac Escalade ESV", daily_price_usd: 399, security_deposit_usd: 300, city: "miami", slug: "cadillac-escalade-esv", active: true };
 const pickup = new Date("2026-12-03T10:00:00Z"), ret = new Date("2026-12-10T10:00:00Z");
 beforeEach(() => { mocks.tables.length = 0; mocks.results.length = 0; });
 describe("database-owned fleet after partner retirement", () => {
